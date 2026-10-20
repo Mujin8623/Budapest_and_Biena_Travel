@@ -3,43 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>비엔나 & 부다페스트 날짜별 일정</title>
+<title>비엔나 & 부다페스트 일정 | Minecraft Style</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif; background: #f4f6f9; color: #333; line-height: 1.5; }
-  .container { max-width: 900px; margin: 0 auto; padding: 12px; }
-  header { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: white; padding: 28px 16px; text-align: center; border-radius: 12px; margin-bottom: 16px; }
-  header h1 { font-size: 1.6em; margin-bottom: 4px; }
-  header p { font-size: 0.95em; opacity: 0.9; }
-  nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; justify-content: center; }
-  nav a { padding: 10px 14px; background: white; border-radius: 20px; text-decoration: none; color: #1e40af; font-weight: 500; font-size: 0.9em; box-shadow: 0 1px 3px rgba(0,0,0,0.08); min-width: 60px; text-align: center; }
-  nav a:hover, nav a:active { background: #1e40af; color: white; }
-  .day { background: white; border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
-  .day h2 { color: #1e40af; margin-bottom: 10px; border-bottom: 2px solid #dbeafe; padding-bottom: 6px; font-size: 1.2em; }
-  .todo { background: #f8fafc; padding: 12px; border-radius: 8px; margin: 10px 0; }
-  .todo li { margin: 6px 0 6px 16px; }
-  .voucher { background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 14px; margin-top: 12px; }
-  .voucher h3 { color: #166534; margin-bottom: 8px; font-size: 1.05em; }
-  .voucher table { width: 100%; font-size: 0.92em; }
-  .voucher td { padding: 5px 0; vertical-align: top; }
-  .voucher .label { color: #4b5563; width: 90px; font-weight: 500; }
-  .pdf-link { display: inline-block; margin-top: 10px; padding: 10px 18px; background: #16a34a; color: white; text-decoration: none; border-radius: 8px; font-weight: 500; font-size: 0.95em; }
-  .pdf-link:hover, .pdf-link:active { background: #15803d; }
+  :root {
+    --dirt: #8B5A2B;
+    --grass: #5D9B3A;
+    --stone: #7A7A7A;
+    --wood: #C4A574;
+    --dark: #3D2914;
+    --sky: #87CEEB;
+    --gold: #FFD700;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; image-rendering: pixelated; }
+  body {
+    font-family: 'VT323', 'Malgun Gothic', monospace;
+    background: linear-gradient(#87CEEB 0%, #87CEEB 40%, #5D9B3A 40%, #8B5A2B 100%);
+    background-attachment: fixed;
+    color: #3D2914;
+    min-height: 100vh;
+  }
+  .container { max-width: 920px; margin: 0 auto; padding: 16px; }
+  header {
+    background: #8B5A2B;
+    border: 4px solid #3D2914;
+    border-bottom: 8px solid #5D9B3A;
+    padding: 28px 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 6px 6px 0 #3D2914;
+  }
+  header h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.1em;
+    color: #FFD700;
+    text-shadow: 3px 3px 0 #3D2914;
+    line-height: 1.6;
+  }
+  header p { font-size: 1.3em; color: #FFF8DC; margin-top: 8px; }
+  nav {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 20px; justify-content: center;
+  }
+  nav a {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.55em;
+    padding: 10px 12px;
+    background: #C4A574;
+    border: 3px solid #3D2914;
+    text-decoration: none;
+    color: #3D2914;
+    box-shadow: 3px 3px 0 #3D2914;
+  }
+  nav a:hover { background: #FFD700; transform: translate(-1px, -1px); }
+  .day {
+    background: #FFF8DC;
+    border: 4px solid #3D2914;
+    margin-bottom: 20px;
+    box-shadow: 5px 5px 0 #5D9B3A;
+  }
+  .day h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.75em;
+    background: #5D9B3A;
+    color: white;
+    padding: 12px 16px;
+    border-bottom: 4px solid #3D2914;
+  }
+  .todo {
+    background: #E8D5B7;
+    margin: 12px;
+    padding: 12px;
+    border: 3px dashed #8B5A2B;
+  }
+  .todo strong { font-family: 'Press Start 2P', monospace; font-size: 0.7em; color: #5D9B3A; }
+  .todo li { margin: 6px 0 6px 20px; font-size: 1.15em; }
+  .spot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 6px 0;
+    padding: 6px 8px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 4px;
+  }
+  .spot span { flex: 1; }
+  .map-btn {
+    flex-shrink: 0;
+    display: inline-block;
+    padding: 6px 10px;
+    background: #4285F4;
+    color: white;
+    text-decoration: none;
+    border: 2px solid #3D2914;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.45em;
+    box-shadow: 2px 2px 0 #3D2914;
+    white-space: nowrap;
+  }
+  .map-btn:hover { background: #34A853; }
+  .voucher {
+    background: #F5E6C8;
+    border: 3px solid #C4A574;
+    margin: 12px;
+    padding: 14px;
+  }
+  .voucher h3 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.65em;
+    color: #8B5A2B;
+    margin-bottom: 10px;
+  }
+  .voucher table { width: 100%; font-size: 1.05em; }
+  .voucher td { padding: 4px 0; vertical-align: top; }
+  .voucher .label { color: #5D9B3A; font-weight: bold; width: 100px; }
+  .pdf-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 14px;
+    background: #5D9B3A;
+    color: white;
+    text-decoration: none;
+    border: 3px solid #3D2914;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 0.5em;
+    box-shadow: 3px 3px 0 #3D2914;
+  }
+  .pdf-link:hover { background: #7BC67E; }
   @media (max-width: 600px) {
-    .container { padding: 10px; }
-    header { padding: 24px 12px; }
-    header h1 { font-size: 1.45em; }
-    nav a { padding: 8px 10px; font-size: 0.85em; }
-    .day { padding: 14px; }
-    .voucher .label { width: 80px; display: block; }
+    header h1 { font-size: 0.85em; }
+    nav a { font-size: 0.45em; padding: 8px 8px; }
+    .day h2 { font-size: 0.6em; }
+    .voucher .label { display: block; width: auto; }
     .voucher td { display: block; }
+    .spot { flex-direction: column; align-items: flex-start; }
+    .map-btn { margin-top: 4px; }
   }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <h1>비엔나 & 부다페스트 일정</h1>
+    <h1>비엔나 & 부다페스트<br>일정</h1>
     <p>2026.11.27 ~ 12.05</p>
   </header>
 
@@ -56,154 +162,140 @@
   </nav>
 
   <div class="day" id="d1127">
-    <h2>11월 27일 (금) · 출국</h2>
+    <h2>11월 27일 · 출국</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>인천공항(ICN) T1 출발</li>
-        <li>상하이(PVG) 경유 후 부다페스트(BUD) 도착</li>
+        <li><div class="spot"><span>인천공항(ICN) T1 출발</span><a class="map-btn" href="https://www.google.com/maps?q=37.4602,126.4407" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>상하이(PVG) 경유</span><a class="map-btn" href="https://www.google.com/maps?q=31.1443,121.8083" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>부다페스트(BUD) 도착</span><a class="map-btn" href="https://www.google.com/maps?q=47.4298,19.2611" target="_blank">맵</a></div></li>
       </ul>
     </div>
     <div class="voucher">
-      <h3>항공권 (China Eastern / Shanghai Airlines)</h3>
+      <h3>항공권</h3>
       <table>
         <tr><td class="label">예약번호</td><td>1400830545457406</td></tr>
-        <tr><td class="label">항공사 예약</td><td>PCETHJ</td></tr>
-        <tr><td class="label">출발</td><td>11/27 18:25 인천(ICN) T1 → 상하이(PVG) T1 19:50 (MU8604)</td></tr>
-        <tr><td class="label">환승</td><td>상하이 약 6시간 35분</td></tr>
-        <tr><td class="label">도착</td><td>11/28 07:05 부다페스트(BUD) T2B (MU8639)</td></tr>
-        <tr><td class="label">귀국</td><td>12/5 18:00 BUD → 시안 → 12/6 18:55 인천 도착</td></tr>
-        <tr><td class="label">수하물</td><td>위탁 23kg × 2 / 기내 8kg</td></tr>
+        <tr><td class="label">출발</td><td>11/27 18:25 인천 → 상하이</td></tr>
+        <tr><td class="label">도착</td><td>11/28 07:05 부다페스트</td></tr>
+        <tr><td class="label">귀국</td><td>12/5 18:00 BUD → 시안 → 인천</td></tr>
       </table>
-      <a class="pdf-link" href="versions/v2.0-20261020/항공권.pdf" target="_blank">원본 항공권 PDF 열기</a>
+      <a class="pdf-link" href="versions/v2.0-20261020/항공권.pdf" target="_blank">원본 PDF 열기</a>
     </div>
   </div>
 
   <div class="day" id="d1128">
-    <h2>11월 28일 (토) · 비엔나 도착</h2>
+    <h2>11월 28일 · 비엔나 도착</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>VIE 공항 도착 (06:00) → Wien Hbf 이동</li>
-        <li>호텔 짐 맡기기 / 체크인 (15:00)</li>
-        <li>Belvedere Palace 방문</li>
+        <li><div class="spot"><span>Adina Serviced Apartments (숙소)</span><a class="map-btn" href="https://www.google.com/maps?q=48.18612,16.37999" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>Wien Hbf</span><a class="map-btn" href="https://www.google.com/maps?q=48.1850,16.3780" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>Belvedere Palace</span><a class="map-btn" href="https://www.google.com/maps?q=48.1914,16.3808" target="_blank">맵</a></div></li>
       </ul>
     </div>
     <div class="voucher">
-      <h3>비엔나 숙소 바우처</h3>
+      <h3>비엔나 숙소</h3>
       <table>
         <tr><td class="label">호텔</td><td>Adina Serviced Apartments Vienna</td></tr>
-        <tr><td class="label">주소</td><td>Karl-Popper-Straße 6, Vienna</td></tr>
-        <tr><td class="label">숙박</td><td>2026-11-28 ~ 2026-12-01 (3박)</td></tr>
-        <tr><td class="label">객실</td><td>Studio / 성인 2인 / 조식 불포함</td></tr>
+        <tr><td class="label">숙박</td><td>11/28 ~ 12/01 (3박)</td></tr>
         <tr><td class="label">예약번호</td><td>HH2637214966</td></tr>
-        <tr><td class="label">Confirm No</td><td>EXP-2582621448</td></tr>
       </table>
-      <a class="pdf-link" href="versions/v2.0-20261020/비엔나 숙소 바우처.pdf" target="_blank">원본 바우처 PDF 열기</a>
+      <a class="pdf-link" href="versions/v2.0-20261020/비엔나 숙소 바우처.pdf" target="_blank">원본 PDF 열기</a>
     </div>
   </div>
 
   <div class="day" id="d1129">
-    <h2>11월 29일 (일) · 비엔나 시내</h2>
+    <h2>11월 29일 · 비엔나 시내</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>Stephansdom</li>
-        <li>Hofburg Palace</li>
-        <li>Rathausplatz 크리스마스 마켓</li>
+        <li><div class="spot"><span>Stephansdom</span><a class="map-btn" href="https://www.google.com/maps?q=48.2085,16.3731" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>Hofburg Palace</span><a class="map-btn" href="https://www.google.com/maps?q=48.2066,16.3655" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>Rathausplatz 크리스마스 마켓</span><a class="map-btn" href="https://www.google.com/maps?q=48.2100,16.3575" target="_blank">맵</a></div></li>
       </ul>
     </div>
   </div>
 
   <div class="day" id="d1130">
-    <h2>11월 30일 (월) · Schönbrunn</h2>
+    <h2>11월 30일 · Schönbrunn</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>Schönbrunn Palace + 크리스마스 마켓</li>
-        <li>Naschmarkt</li>
+        <li><div class="spot"><span>Schönbrunn Palace</span><a class="map-btn" href="https://www.google.com/maps?q=48.1848,16.3122" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>Naschmarkt</span><a class="map-btn" href="https://www.google.com/maps?q=48.1987,16.3636" target="_blank">맵</a></div></li>
       </ul>
     </div>
   </div>
 
   <div class="day" id="d1201">
-    <h2>12월 1일 (화) · 비엔나 → 부다페스트</h2>
+    <h2>12월 1일 · 비엔나 → 부다페스트</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>11:00 체크아웃</li>
-        <li>RJX 65 기차: Wien Hbf 15:40 → Budapest Keleti 18:29</li>
-        <li>저녁 크리스마스 마켓</li>
+        <li><div class="spot"><span>Wien Hbf (기차 출발)</span><a class="map-btn" href="https://www.google.com/maps?q=48.1850,16.3780" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>Budapest Keleti (기차 도착)</span><a class="map-btn" href="https://www.google.com/maps?q=47.5001,19.0839" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>St. Stephen's Basilica</span><a class="map-btn" href="https://www.google.com/maps?q=47.5009,19.0539" target="_blank">맵</a></div></li>
       </ul>
     </div>
     <div class="voucher">
-      <h3>기차표 (ÖBB RJX 65)</h3>
+      <h3>기차표</h3>
       <table>
-        <tr><td class="label">출발</td><td>Wien Hbf 15:40 (Bahnsteige 3-12)</td></tr>
-        <tr><td class="label">도착</td><td>Budapest-Keleti 18:29</td></tr>
-        <tr><td class="label">소요</td><td>2시간 49분</td></tr>
-        <tr><td class="label">열차</td><td>RJX 65 · 2등석</td></tr>
-        <tr><td class="label">요금</td><td>EUR 14.90 /인 (Sparschiene)</td></tr>
-        <tr><td class="label">좌석</td><td>Wagen 24 / Sitz 102 (창가), 108 (통로)</td></tr>
+        <tr><td class="label">출발</td><td>Wien Hbf 15:40</td></tr>
+        <tr><td class="label">도착</td><td>Budapest Keleti 18:29</td></tr>
+        <tr><td class="label">좌석</td><td>Wagen 24 / 102·108</td></tr>
       </table>
-      <a class="pdf-link" href="versions/v2.0-20261020/비엔나에서 부다 가는 기차표.pdf" target="_blank">원본 기차표 PDF 열기</a>
+      <a class="pdf-link" href="versions/v2.0-20261020/비엔나에서 부다 가는 기차표.pdf" target="_blank">원본 PDF 열기</a>
     </div>
     <div class="voucher">
-      <h3>부다페스트 숙소 바우처</h3>
+      <h3>부다페스트 숙소</h3>
       <table>
         <tr><td class="label">호텔</td><td>Adina Apartment Hotel Budapest</td></tr>
-        <tr><td class="label">주소</td><td>Hegedus Gyula Street 52-54, Budapest</td></tr>
-        <tr><td class="label">숙박</td><td>2026-12-01 ~ 2026-12-05 (4박)</td></tr>
-        <tr><td class="label">객실</td><td>Apartment, 1 Bedroom / 성인 2인 / 조식 불포함</td></tr>
+        <tr><td class="label">숙박</td><td>12/01 ~ 12/05 (4박)</td></tr>
         <tr><td class="label">예약번호</td><td>HH2637115910</td></tr>
-        <tr><td class="label">Confirm No</td><td>EXP-2579499720</td></tr>
-        <tr><td class="label">요청사항</td><td>Non-smoking, Honeymoon</td></tr>
       </table>
-      <a class="pdf-link" href="versions/v2.0-20261020/부다페스트 숙소 바우처.pdf" target="_blank">원본 바우처 PDF 열기</a>
+      <a class="pdf-link" href="versions/v2.0-20261020/부다페스트 숙소 바우처.pdf" target="_blank">원본 PDF 열기</a>
     </div>
   </div>
 
   <div class="day" id="d1202">
-    <h2>12월 2일 (수) · 부다 성 지역</h2>
+    <h2>12월 2일 · 부다 성</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>Buda Castle</li>
-        <li>Fisherman’s Bastion</li>
-        <li>다뉴브 야경</li>
+        <li><div class="spot"><span>Buda Castle</span><a class="map-btn" href="https://www.google.com/maps?q=47.4961,19.0396" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>Fisherman’s Bastion</span><a class="map-btn" href="https://www.google.com/maps?q=47.5022,19.0348" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>다뉴브 야경 포인트</span><a class="map-btn" href="https://www.google.com/maps?q=47.4980,19.0450" target="_blank">맵</a></div></li>
       </ul>
     </div>
   </div>
 
   <div class="day" id="d1203">
-    <h2>12월 3일 (목) · 온천 & 유대인 지구</h2>
+    <h2>12월 3일 · 온천</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>Széchenyi Thermal Bath</li>
-        <li>유대인 지구 산책</li>
+        <li><div class="spot"><span>Széchenyi Thermal Bath</span><a class="map-btn" href="https://www.google.com/maps?q=47.5186,19.0819" target="_blank">맵</a></div></li>
+        <li><div class="spot"><span>유대인 지구</span><a class="map-btn" href="https://www.google.com/maps?q=47.4975,19.0615" target="_blank">맵</a></div></li>
       </ul>
     </div>
   </div>
 
   <div class="day" id="d1204">
-    <h2>12월 4일 (금) · 국회의사당 & 여유</h2>
+    <h2>12월 4일 · 국회의사당</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>Hungarian Parliament Building</li>
-        <li>여유 시간 / 마켓 마무리</li>
+        <li><div class="spot"><span>Hungarian Parliament Building</span><a class="map-btn" href="https://www.google.com/maps?q=47.5071,19.0456" target="_blank">맵</a></div></li>
       </ul>
     </div>
   </div>
 
   <div class="day" id="d1205">
-    <h2>12월 5일 (토) · 출발</h2>
+    <h2>12월 5일 · 출발</h2>
     <div class="todo">
       <strong>할 일</strong>
       <ul>
-        <li>아침 여유</li>
-        <li>BUD 공항 18:00 출발 (시안 경유 → 12/6 인천 도착)</li>
+        <li><div class="spot"><span>BUD 공항</span><a class="map-btn" href="https://www.google.com/maps?q=47.4298,19.2611" target="_blank">맵</a></div></li>
       </ul>
     </div>
   </div>
