@@ -36,8 +36,8 @@ window.TRIP = {
     xiy: {
       name: "시안(XIY) T5",
       city: "시안",
-      lat: 34.4523,
-      lng: 108.7821,
+      lat: 34.4497,
+      lng: 108.774,
       station: "T5",
       lines: "",
       photo: "assets/img/xiy.webp",
@@ -326,8 +326,8 @@ window.TRIP = {
     pvg: {
       name: "상하이 푸동(PVG)",
       city: "상하이",
-      lat: 31.1492,
-      lng: 121.8024,
+      lat: 31.1513,
+      lng: 121.7977,
       station: "T1",
       lines: "",
       photo: "assets/img/pvg.webp",

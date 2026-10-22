@@ -60,8 +60,8 @@
     const seoul = seoulToday();
     const vienna = calendarDate("Europe/Vienna");
     const start = TRIP.days[0].date;
-    if (vienna >= start && vienna <= "2026-12-06") return vienna;
-    return seoul;
+    if (vienna >= start && vienna <= "2026-12-06") return { date: vienna, basis: "비엔나" };
+    return { date: seoul, basis: "서울" };
   }
 
   function daysBetween(from, to) {
@@ -85,7 +85,7 @@
   }
 
   function defaultDay() {
-    const today = tripToday();
+    const today = tripToday().date;
     return (TRIP.days.find((day) => day.date === today)
       || TRIP.days.find((day) => day.date > today)
       || TRIP.days[TRIP.days.length - 1]).date;
@@ -180,7 +180,7 @@
       return '<img class="sheet-photo" src="' + esc(place.photo) + '" alt="" decoding="async">';
     }
     const thumb = place.photo.replace("assets/img/", "assets/img/thumbs/");
-    return '<img class="thumb" src="' + esc(thumb) + '" srcset="' + esc(thumb) + " 160w, " + esc(place.photo)
+    return '<img class="thumb" src="' + esc(thumb) + '" srcset="' + esc(thumb) + " 240w, " + esc(place.photo)
       + ' 800w" sizes="72px" alt="" loading="lazy" decoding="async">';
   }
 
@@ -211,17 +211,19 @@
     return stops;
   }
 
-  function canDirect(fromItem, fromPlace, toPlace) {
+  function canDirect(fromItem, fromPlace, toPlace, mode) {
     if (!fromPlace || !toPlace || fromPlace.lat == null || toPlace.lat == null) return false;
     if (fromItem && fromItem.leg) return false;
-    if (km(fromPlace, toPlace) > 30) return false;
+    const distance = km(fromPlace, toPlace);
+    if (distance > 30) return false;
+    if ((mode || state.travel) === "walking" && distance > 5) return false;
     return true;
   }
 
   function combinedWalking(stops) {
     if (stops.length < 3 || stops.length - 2 > 9) return null;
     for (let i = 1; i < stops.length; i += 1) {
-      if (!canDirect(stops[i - 1].item, stops[i - 1].place, stops[i].place)) return null;
+      if (!canDirect(stops[i - 1].item, stops[i - 1].place, stops[i].place, "walking")) return null;
     }
     return dirUrl({
       origin: stops[0].place,
@@ -245,7 +247,8 @@
   }
 
   function renderHome() {
-    const today = tripToday();
+    const clock = tripToday();
+    const today = clock.date;
     const plan = planFor(today);
     let num = "다녀왔어요";
     let kicker = "여행";
@@ -259,7 +262,7 @@
     } else if (plan.kind === "during") {
       num = plan.dayIndex + "일차";
       kicker = "오늘";
-      sub = "비엔나 기준 · " + ko(today).long + " · " + dayCity(plan.day);
+      sub = clock.basis + " 기준 · " + ko(today).long + " · " + dayCity(plan.day);
       day = plan.day;
     } else if (plan.kind === "arrive") {
       num = "도착";
@@ -390,7 +393,7 @@
       + '<p><a href="https://www.wienerlinien.at/web/wl-en/network-maps" target="_blank" rel="noopener noreferrer">Wiener Linien 노선도</a><br>'
       + '<a href="https://bkk.hu/en/journey-planning/maps/" target="_blank" rel="noopener noreferrer">BKK 노선도</a></p>'
       + '<p class="fine">노선 데이터 © OpenStreetMap contributors, ODbL. 가까운 역은 장소 좌표로 고른 안내이며, 실제 경로는 길찾기에서 확인합니다. 시각은 그 장소의 현지 시각입니다. 출국 전 D-day는 서울 날짜이고, 여행 중 오늘은 비엔나(중부유럽) 날짜입니다.</p></section>'
-      + '<section class="group"><h2>사진</h2><p class="fine">Wikimedia Commons. 압축해 이 저장소에 두었습니다. 목록 썸네일은 160px입니다.</p>' + creditHtml + "</section>";
+      + '<section class="group"><h2>사진</h2><p class="fine">Wikimedia Commons. 압축해 이 저장소에 두었습니다. 목록 썸네일은 240px입니다.</p>' + creditHtml + "</section>";
   }
 
   function setPageInert(on) {
@@ -511,7 +514,7 @@
         const url = dirUrl({ origin: from.place, destination: to.place, mode: state.travel });
         legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names + "<br>" + extLink(url, "이 구간", true) + "</dd></div>");
       } else {
-        legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names + "<br><span class=\"fine\">항공·기차이거나 30km를 넘는 구간이라 길찾기를 두지 않습니다.</span></dd></div>");
+        legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names + "<br><span class=\"fine\">항공·기차이거나, 30km(도보는 5km)를 넘는 구간이라 길찾기를 두지 않습니다.</span></dd></div>");
       }
     }
     const walk = combinedWalking(stops);
@@ -519,7 +522,7 @@
       + esc(ko(day.date).long) + " · " + esc(day.title) + "</h2>"
       + modeSwitch()
       + (legs.length ? "<p>대중교통은 경유지를 무시하므로 구간마다 엽니다.</p><dl>" + legs.join("") + "</dl>" : "<p>이 날은 이어 열 장소가 하나뿐입니다.</p>")
-      + (walk ? extLink(walk, "도보로 한 번에", false).replace("class=\"btn\"", "class=\"btn btn-block\"") + '<p class="fine">경유지를 넣은 도보 경로입니다. 운전이 필요하면 구글 지도에서 바꿀 수 있습니다.</p>' : '<p class="fine">항공·기차이거나 30km를 넘는 구간은 구간 버튼을 만들지 않습니다.</p>');
+      + (walk ? extLink(walk, "도보로 한 번에", false).replace("class=\"btn\"", "class=\"btn btn-block\"") + '<p class="fine">경유지를 넣은 도보 경로입니다. 운전이 필요하면 구글 지도에서 바꿀 수 있습니다.</p>' : '<p class="fine">항공·기차이거나, 30km(도보는 5km)를 넘는 구간은 구간 버튼을 만들지 않습니다.</p>');
   }
 
   function loadLeaflet() {
@@ -667,7 +670,7 @@
     const card = $("map-card");
     const height = card ? card.offsetHeight : 0;
     document.querySelectorAll(".view-map .leaflet-bottom").forEach((el) => {
-      el.style.marginBottom = (height + 8) + "px";
+      el.style.marginBottom = (height + 16) + "px";
     });
   }
 
