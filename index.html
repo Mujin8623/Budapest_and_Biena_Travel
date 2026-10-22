@@ -1,291 +1,72 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>비엔나 & 부다페스트 일정 | Minecraft Style</title>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --dirt: #8B5A2B;
-    --grass: #5D9B3A;
-    --stone: #7A7A7A;
-    --wood: #C4A574;
-    --dark: #3D2914;
-    --sky: #87CEEB;
-    --gold: #FFD700;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; image-rendering: pixelated; }
-  body {
-    font-family: 'VT323', 'Malgun Gothic', monospace;
-    background: linear-gradient(#87CEEB 0%, #87CEEB 40%, #5D9B3A 40%, #8B5A2B 100%);
-    background-attachment: fixed;
-    color: #3D2914;
-    min-height: 100vh;
-  }
-  .container { max-width: 920px; margin: 0 auto; padding: 16px; }
-  header {
-    background: #8B5A2B;
-    border: 4px solid #3D2914;
-    border-bottom: 8px solid #5D9B3A;
-    padding: 28px 16px;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 6px 6px 0 #3D2914;
-  }
-  header h1 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 1.1em;
-    color: #FFD700;
-    text-shadow: 3px 3px 0 #3D2914;
-    line-height: 1.6;
-  }
-  header p { font-size: 1.3em; color: #FFF8DC; margin-top: 8px; }
-  nav {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin-bottom: 20px; justify-content: center;
-  }
-  nav a {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.55em;
-    padding: 10px 12px;
-    background: #C4A574;
-    border: 3px solid #3D2914;
-    text-decoration: none;
-    color: #3D2914;
-    box-shadow: 3px 3px 0 #3D2914;
-  }
-  nav a:hover { background: #FFD700; transform: translate(-1px, -1px); }
-  .day {
-    background: #FFF8DC;
-    border: 4px solid #3D2914;
-    margin-bottom: 20px;
-    box-shadow: 5px 5px 0 #5D9B3A;
-  }
-  .day h2 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.75em;
-    background: #5D9B3A;
-    color: white;
-    padding: 12px 16px;
-    border-bottom: 4px solid #3D2914;
-  }
-  .todo {
-    background: #E8D5B7;
-    margin: 12px;
-    padding: 12px;
-    border: 3px dashed #8B5A2B;
-  }
-  .todo strong { font-family: 'Press Start 2P', monospace; font-size: 0.7em; color: #5D9B3A; }
-  .todo li { margin: 6px 0 6px 20px; font-size: 1.15em; }
-  .spot {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin: 6px 0;
-    padding: 6px 8px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 4px;
-  }
-  .spot span { flex: 1; }
-  .map-btn {
-    flex-shrink: 0;
-    display: inline-block;
-    padding: 6px 10px;
-    background: #4285F4;
-    color: white;
-    text-decoration: none;
-    border: 2px solid #3D2914;
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.45em;
-    box-shadow: 2px 2px 0 #3D2914;
-    white-space: nowrap;
-  }
-  .map-btn:hover { background: #34A853; }
-  .voucher {
-    background: #F5E6C8;
-    border: 3px solid #C4A574;
-    margin: 12px;
-    padding: 14px;
-  }
-  .voucher h3 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 0.65em;
-    color: #8B5A2B;
-    margin-bottom: 10px;
-  }
-  .voucher table { width: 100%; font-size: 1.05em; }
-  .voucher td { padding: 4px 0; vertical-align: top; }
-  .voucher .label { color: #5D9B3A; font-weight: bold; width: 100px; }
-  @media (max-width: 600px) {
-    header h1 { font-size: 0.85em; }
-    nav a { font-size: 0.45em; padding: 8px 8px; }
-    .day h2 { font-size: 0.6em; }
-    .voucher .label { display: block; width: auto; }
-    .voucher td { display: block; }
-    .spot { flex-direction: column; align-items: flex-start; }
-    .map-btn { margin-top: 4px; }
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f4f7">
+  <meta name="description" content="2026년 11월 27일–12월 6일 비엔나, 부다페스트 개인 여행 일정">
+  <title>비엔나 · 부다페스트</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+  <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
-<div class="container">
-  <header>
-    <h1>비엔나 & 부다페스트<br>일정</h1>
-    <p>2026.11.27 ~ 12.06</p>
-  </header>
-
-  <nav>
-    <a href="#d1127">11/27</a>
-    <a href="#d1128">11/28</a>
-    <a href="#d1129">11/29</a>
-    <a href="#d1130">11/30</a>
-    <a href="#d1201">12/01</a>
-    <a href="#d1202">12/02</a>
-    <a href="#d1203">12/03</a>
-    <a href="#d1204">12/04</a>
-    <a href="#d1205">12/05</a>
+  <div class="app">
+    <header class="top">
+      <div>
+        <p class="eyebrow">2026.11.27 – 12.06</p>
+        <h1>비엔나 · 부다페스트</h1>
+      </div>
+      <button type="button" class="icon-btn" id="snow-btn" data-action="snow" aria-pressed="false">눈</button>
+    </header>
+    <main id="main">
+      <section id="view-home" class="view"></section>
+      <section id="view-schedule" class="view" hidden></section>
+      <section id="view-map" class="view view-map" hidden>
+        <div id="map" role="application" aria-label="여행 지도"></div>
+        <div id="map-skeleton" class="map-skeleton">지도를 준비하고 있습니다</div>
+        <div class="map-top">
+          <div id="map-mode"></div>
+          <div id="map-chips" class="chips"></div>
+        </div>
+        <div id="map-card" class="map-card"></div>
+        <p id="map-status" class="map-status" hidden></p>
+      </section>
+      <section id="view-info" class="view" hidden></section>
+    </main>
+  </div>
+  <nav class="tabbar" aria-label="주요 메뉴">
+    <a href="#/home" data-tab="home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1Z"></path></svg>
+      <span>홈</span>
+    </a>
+    <a href="#/schedule" data-tab="schedule">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3.5V7M16 3.5V7M4 10h16"></path></svg>
+      <span>일정</span>
+    </a>
+    <a href="#/map" data-tab="map">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z"></path><circle cx="12" cy="11" r="1.6" fill="currentColor" stroke="none"></circle></svg>
+      <span>지도</span>
+    </a>
+    <a href="#/info" data-tab="info">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle><path d="M12 11v5M12 8h.01"></path></svg>
+      <span>정보</span>
+    </a>
   </nav>
-
-  <div class="day" id="d1127">
-    <h2>11월 27일 · 출국</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>11/27 19:55 인천공항(ICN) T1 출발 · MU854</span><a class="map-btn" href="https://www.google.com/maps?q=37.4602,126.4407" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>22:30 시안(XIY) T5 도착 → 11/28 01:55 출발 · MU5063</span><a class="map-btn" href="https://www.google.com/maps?q=34.4471,108.7516" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>11/28 06:00 비엔나(VIE) T3 도착</span><a class="map-btn" href="https://www.google.com/maps?q=48.1103,16.5697" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-    <div class="voucher">
-      <h3>항공 일정</h3>
-      <table>
-        <tr><td class="label">인원</td><td>2명</td></tr>
-        <tr><td class="label">가는 편</td><td>11/27 19:55 인천(ICN) T1 → 22:30 시안(XIY) T5 (MU854)<br>11/28 01:55 시안(XIY) → 06:00 비엔나(VIE) T3 (MU5063)</td></tr>
-        <tr><td class="label">오는 편</td><td>12/5 11:30 부다페스트(BUD) T2A → 12/6 05:25 상하이 푸동(PVG) (MU8640 / FM870 공동운항)<br>12/6 08:40 푸동(PVG) → 11:55 인천(ICN) (MU5041)</td></tr>
-        <tr><td class="label">수하물</td><td>위탁 수하물 1인 2개, 각 세 변의 합 158cm 이내</td></tr>
-      </table>
-      <p>예약 확인서는 개인 보관</p>
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-action="close-sheet"></div>
+    <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-handle"></div>
+      <button type="button" class="sheet-close" data-action="close-sheet">닫기</button>
+      <div id="sheet-photo-slot"></div>
+      <div id="sheet-body" class="sheet-body"></div>
     </div>
   </div>
-
-  <div class="day" id="d1128">
-    <h2>11월 28일 · 비엔나 도착</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>Adina Serviced Apartments (숙소)</span><a class="map-btn" href="https://www.google.com/maps?q=48.18612,16.37999" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>Wien Hbf</span><a class="map-btn" href="https://www.google.com/maps?q=48.1850,16.3780" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>Belvedere Palace</span><a class="map-btn" href="https://www.google.com/maps?q=48.1914,16.3808" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-    <div class="voucher">
-      <h3>비엔나 숙소</h3>
-      <table>
-        <tr><td class="label">호텔</td><td>Adina Serviced Apartments Vienna</td></tr>
-        <tr><td class="label">숙박</td><td>11/28 ~ 12/01 (3박)</td></tr>
-      </table>
-      <p>예약 확인서는 개인 보관</p>
-    </div>
-  </div>
-
-  <div class="day" id="d1129">
-    <h2>11월 29일 · 비엔나 시내</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>Stephansdom</span><a class="map-btn" href="https://www.google.com/maps?q=48.2085,16.3731" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>Hofburg Palace</span><a class="map-btn" href="https://www.google.com/maps?q=48.2066,16.3655" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>Rathausplatz 크리스마스 마켓</span><a class="map-btn" href="https://www.google.com/maps?q=48.2100,16.3575" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="day" id="d1130">
-    <h2>11월 30일 · Schönbrunn</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>Schönbrunn Palace</span><a class="map-btn" href="https://www.google.com/maps?q=48.1848,16.3122" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>Naschmarkt</span><a class="map-btn" href="https://www.google.com/maps?q=48.1987,16.3636" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="day" id="d1201">
-    <h2>12월 1일 · 비엔나 → 부다페스트</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>Wien Hbf (기차 출발)</span><a class="map-btn" href="https://www.google.com/maps?q=48.1850,16.3780" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>Budapest Keleti (기차 도착)</span><a class="map-btn" href="https://www.google.com/maps?q=47.5001,19.0839" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>St. Stephen's Basilica</span><a class="map-btn" href="https://www.google.com/maps?q=47.5009,19.0539" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-    <div class="voucher">
-      <h3>기차표</h3>
-      <table>
-        <tr><td class="label">출발</td><td>Wien Hbf 15:40</td></tr>
-        <tr><td class="label">도착</td><td>Budapest Keleti 18:29</td></tr>
-        <tr><td class="label">좌석</td><td>Wagen 24 / 102·108</td></tr>
-      </table>
-      <p>예약 확인서는 개인 보관</p>
-    </div>
-    <div class="voucher">
-      <h3>부다페스트 숙소</h3>
-      <table>
-        <tr><td class="label">호텔</td><td>Adina Apartment Hotel Budapest</td></tr>
-        <tr><td class="label">숙박</td><td>12/01 ~ 12/05 (4박)</td></tr>
-      </table>
-      <p>예약 확인서는 개인 보관</p>
-    </div>
-  </div>
-
-  <div class="day" id="d1202">
-    <h2>12월 2일 · 부다 성</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>Buda Castle</span><a class="map-btn" href="https://www.google.com/maps?q=47.4961,19.0396" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>Fisherman’s Bastion</span><a class="map-btn" href="https://www.google.com/maps?q=47.5022,19.0348" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>다뉴브 야경 포인트</span><a class="map-btn" href="https://www.google.com/maps?q=47.4980,19.0450" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="day" id="d1203">
-    <h2>12월 3일 · 온천</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>Széchenyi Thermal Bath</span><a class="map-btn" href="https://www.google.com/maps?q=47.5186,19.0819" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>유대인 지구</span><a class="map-btn" href="https://www.google.com/maps?q=47.4975,19.0615" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="day" id="d1204">
-    <h2>12월 4일 · 국회의사당</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>Hungarian Parliament Building</span><a class="map-btn" href="https://www.google.com/maps?q=47.5071,19.0456" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="day" id="d1205">
-    <h2>12월 5일 · 출발</h2>
-    <div class="todo">
-      <strong>할 일</strong>
-      <ul>
-        <li><div class="spot"><span>12/5 11:30 부다페스트(BUD) T2A 출발 · MU8640 / FM870</span><a class="map-btn" href="https://www.google.com/maps?q=47.4298,19.2611" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>12/6 05:25 상하이 푸동(PVG) 도착 → 08:40 출발 · MU5041</span><a class="map-btn" href="https://www.google.com/maps?q=31.1443,121.8083" target="_blank">맵</a></div></li>
-        <li><div class="spot"><span>12/6 11:55 인천공항(ICN) 도착</span><a class="map-btn" href="https://www.google.com/maps?q=37.4602,126.4407" target="_blank">맵</a></div></li>
-      </ul>
-    </div>
-  </div>
-</div>
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <noscript>일정을 보려면 자바스크립트가 필요합니다. 데이터는 이 페이지 안의 스크립트로 들어 있습니다.</noscript>
+  <script src="data/trip.js"></script>
+  <script src="data/transit.js"></script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
