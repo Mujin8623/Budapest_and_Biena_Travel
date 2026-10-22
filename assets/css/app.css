@@ -247,7 +247,7 @@ main { padding-bottom: var(--nav-h); }
   height: var(--nav-h);
   padding-bottom: env(safe-area-inset-bottom);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   background: rgba(255, 255, 255, 0.96);
   border-top: 1px solid var(--line);
   backdrop-filter: blur(12px);
@@ -438,6 +438,61 @@ body[data-view="map"] .top { display: none; }
   body { background: #e6e8ee; }
   .app { box-shadow: 0 0 0 1px rgba(23, 24, 28, 0.04); }
 }
+.doc-row { padding: 0 16px 8px; }
+.doc-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.doc-row .doc-links { margin-top: 0; }
+.doc-missing { margin-top: 8px; }
+.vault-form, .vault-panel, .vault-card {
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+.vault-form, .vault-panel { padding: 16px; margin-top: 12px; }
+.vault-form h2, .vault-panel h2 { margin: 0; font-size: 22px; letter-spacing: -0.03em; }
+.field-label { display: block; margin: 14px 0 6px; font-weight: 750; }
+.vault-form input[type="password"] {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0 12px;
+  font: inherit;
+  background: #fff;
+}
+.vault-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0;
+  font-weight: 650;
+}
+.vault-check input { width: 20px; height: 20px; margin: 0; }
+.vault-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 16px;
+  margin-top: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+.vault-card strong { font-size: 16px; letter-spacing: -0.02em; }
+.vault-card span { color: var(--muted); font-size: 13px; }
+.vault-error { margin: 12px 0 0; color: var(--accent); font-weight: 750; }
+.vault-status { display: flex; align-items: center; gap: 10px; margin-top: 14px; color: var(--muted); }
+.spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite;
+  flex: 0 0 auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.vault-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.vault-actions .btn { flex: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;

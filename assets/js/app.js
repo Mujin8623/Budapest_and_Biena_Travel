@@ -112,6 +112,7 @@
       return { view: "map", mode: "transit", city: parts[1] === "budapest" ? "budapest" : "vienna" };
     }
     if (head === "info") return { view: "info" };
+    if (head === "docs") return { view: "docs", docId: parts[1] || null };
     return { view: "home" };
   }
 
@@ -246,6 +247,412 @@
     return { kind: "after" };
   }
 
+  const DOC_LABELS = {
+    "vienna-hotel": "문서 · 숙소",
+    "budapest-hotel": "문서 · 숙소",
+    "train-vie-bud": "문서 · 기차",
+    "flight-eticket": "문서 · 항공권"
+  };
+  const vaultState = {
+    booted: false,
+    mode: "",
+    key: null,
+    remembered: false,
+    busy: false,
+    error: "",
+    statusText: "",
+    itemError: "",
+    docId: "",
+    urls: [],
+    fileUrl: "",
+    prepared: "",
+    preparing: "",
+    prepareToken: null,
+    loading: null
+  };
+
+  function docChipLabel(id) {
+    return DOC_LABELS[id] || "문서";
+  }
+
+  function vaultHas(id) {
+    const items = window.TRIP_VAULT && window.TRIP_VAULT.items;
+    if (!items) return true;
+    return items.some((item) => item.id === id);
+  }
+
+  function docLinksHtml(date) {
+    const ids = (TRIP.docs && TRIP.docs[date]) || [];
+    if (!ids.length) return "";
+    const chips = [];
+    let missingFlight = false;
+    ids.forEach((id) => {
+      if (!vaultHas(id)) {
+        if (id === "flight-eticket") missingFlight = true;
+        return;
+      }
+      chips.push('<a class="chip doc-chip" href="#/docs/' + esc(id) + '">' + esc(docChipLabel(id)) + "</a>");
+    });
+    let html = "";
+    if (chips.length) html += '<div class="doc-links" aria-label="이 날의 문서">' + chips.join("") + "</div>";
+    if (missingFlight) html += '<p class="fine doc-missing">항공권은 아직 추가되지 않았어요</p>';
+    return html;
+  }
+
+  function b64ToBytes(value) {
+    const bin = atob(value);
+    const out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i += 1) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  function loadVaultData() {
+    if (window.TRIP_VAULT) return Promise.resolve(window.TRIP_VAULT);
+    if (vaultState.loading) return vaultState.loading;
+    vaultState.loading = new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "data/vault.js";
+      script.onload = () => {
+        if (window.TRIP_VAULT) resolve(window.TRIP_VAULT);
+        else reject(new Error("vault"));
+      };
+      script.onerror = () => reject(new Error("vault"));
+      document.body.appendChild(script);
+    });
+    return vaultState.loading;
+  }
+
+  function vaultDb() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open("trip-vault", 1);
+      req.onupgradeneeded = () => {
+        if (!req.result.objectStoreNames.contains("keys")) req.result.createObjectStore("keys");
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function saveVaultKey(key) {
+    const db = await vaultDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction("keys", "readwrite");
+      tx.objectStore("keys").put(key, "aes");
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  }
+
+  async function readVaultKey() {
+    const db = await vaultDb();
+    const key = await new Promise((resolve, reject) => {
+      const tx = db.transaction("keys", "readonly");
+      const req = tx.objectStore("keys").get("aes");
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => reject(req.error);
+    });
+    db.close();
+    return key;
+  }
+
+  async function deleteVaultKey() {
+    const db = await vaultDb();
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction("keys", "readwrite");
+      tx.objectStore("keys").delete("aes");
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    db.close();
+  }
+
+  async function deriveVaultKey(password) {
+    const vault = window.TRIP_VAULT;
+    const material = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(password),
+      "PBKDF2",
+      false,
+      ["deriveKey"]
+    );
+    return crypto.subtle.deriveKey(
+      {
+        name: "PBKDF2",
+        salt: b64ToBytes(vault.kdf.salt),
+        iterations: vault.kdf.iterations,
+        hash: "SHA-256"
+      },
+      material,
+      { name: "AES-GCM", length: 256 },
+      false,
+      ["decrypt"]
+    );
+  }
+
+  async function decryptVaultBytes(key, iv, ct) {
+    const plain = await crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: b64ToBytes(iv) },
+      key,
+      b64ToBytes(ct)
+    );
+    return new Uint8Array(plain);
+  }
+
+  async function vaultKeyMatches(key) {
+    const check = window.TRIP_VAULT.check;
+    const plain = await decryptVaultBytes(key, check.iv, check.ct);
+    return new TextDecoder().decode(plain) === "trip-vault-ok";
+  }
+
+  function revokeDocUrls() {
+    vaultState.urls.forEach((url) => URL.revokeObjectURL(url));
+    vaultState.urls = [];
+    vaultState.fileUrl = "";
+    vaultState.prepared = "";
+    vaultState.preparing = "";
+    vaultState.prepareToken = null;
+  }
+
+  function focusDocs(selector) {
+    const root = $("view-docs");
+    if (!root) return;
+    const target = (selector && root.querySelector(selector)) || root.querySelector("[data-autofocus]");
+    if (target && typeof target.focus === "function") target.focus();
+  }
+
+  function vaultStatusHtml() {
+    const text = vaultState.statusText || "확인하는 중";
+    return '<p class="vault-status" role="status"><span class="spinner" aria-hidden="true"></span>' + esc(text) + "</p>";
+  }
+
+  function paintDocs() {
+    const root = $("view-docs");
+    if (!root) return;
+    const vault = window.TRIP_VAULT;
+    let body = "";
+    if (vaultState.mode === "insecure") {
+      body = '<div class="vault-panel"><h2 id="docs-title" tabindex="-1" data-autofocus>문서함</h2>'
+        + '<p>이 페이지는 보안 연결이 아니라 문서를 열 수 없습니다. 주소가 https로 시작하는 페이지에서 다시 열어 주세요.</p></div>';
+    } else if (vaultState.mode === "fail") {
+      body = '<div class="vault-panel"><h2 id="docs-title" tabindex="-1" data-autofocus>문서함</h2>'
+        + '<p class="vault-error" role="alert">' + esc(vaultState.error || "문서 파일을 불러오지 못했습니다.") + "</p></div>";
+    } else if (vaultState.busy || vaultState.mode === "boot" || vaultState.mode === "busy") {
+      body = '<div class="vault-panel"><h2 id="docs-title" tabindex="-1">문서함</h2>' + vaultStatusHtml() + "</div>";
+    } else if (vaultState.mode === "open" && vault && vaultState.key) {
+      const cards = (vault.items || []).map((item) => {
+        const on = item.id === vaultState.docId ? ' aria-current="true"' : "";
+        return '<a class="vault-card" href="#/docs/' + esc(item.id) + '"' + on + "><strong>"
+          + esc(item.title) + "</strong><span>" + esc(item.subtitle || "") + "</span></a>";
+      }).join("");
+      let detail = "";
+      if (vaultState.docId) {
+        const item = (vault.items || []).find((entry) => entry.id === vaultState.docId);
+        if (!item) {
+          const missing = vaultState.docId === "flight-eticket"
+            ? "항공권은 아직 추가되지 않았어요"
+            : "문서를 찾지 못했습니다.";
+          detail = '<div class="vault-panel"><p class="vault-error" role="status">' + missing + '</p>'
+            + '<a class="btn" href="#/docs">목록</a></div>';
+        } else if (vaultState.preparing === item.id || vaultState.prepared !== item.id) {
+          detail = '<div class="vault-panel"><h2 id="docs-title" tabindex="-1">' + esc(item.title) + "</h2>"
+            + vaultStatusHtml() + "</div>";
+        } else {
+          detail = '<div class="vault-panel"><p class="kicker">' + esc(item.subtitle || "") + "</p>"
+            + '<h2 id="docs-title" tabindex="-1" data-autofocus>' + esc(item.title) + "</h2>"
+            + (vaultState.itemError ? '<p class="vault-error" role="alert">' + esc(vaultState.itemError) + "</p>" : "")
+            + '<div class="vault-actions"><a class="btn btn-primary" href="' + esc(vaultState.fileUrl)
+            + '" target="_blank" rel="noopener">열기</a><a class="btn" href="' + esc(vaultState.fileUrl)
+            + '" download="' + esc(item.id) + '.pdf">저장</a></div>'
+            + '<a class="btn btn-block" href="#/docs">목록</a></div>';
+        }
+      }
+      body = '<div class="vault-panel"><h2' + (vaultState.docId ? "" : ' id="docs-title" tabindex="-1" data-autofocus') + ">문서함</h2>"
+        + '<p class="fine">이 기기의 메모리에만 열려 있습니다. 비밀번호와 원본 파일은 저장하지 않습니다.</p>'
+        + '<div class="vault-actions"><button type="button" class="btn" data-action="vault-lock">잠그기</button>'
+        + '<button type="button" class="btn" data-action="vault-forget">이 기기에서 잊기</button></div></div>'
+        + (vaultState.docId ? detail : cards);
+    } else {
+      const alert = vaultState.error
+        ? '<p id="vault-error" class="vault-error" role="alert" tabindex="-1">' + esc(vaultState.error) + "</p>"
+        : "";
+      body = '<form id="vault-form" class="vault-form" autocomplete="off">'
+        + '<h2 id="docs-title" tabindex="-1">문서함</h2>'
+        + '<p class="fine">숙소 바우처와 기차표를 엽니다.</p>'
+        + '<label class="field-label" for="vault-password">비밀번호</label>'
+        + '<input id="vault-password" name="password" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false"'
+        + (vaultState.error ? ' aria-invalid="true" aria-describedby="vault-error"' : "")
+        + (vaultState.error ? "" : ' data-autofocus')
+        + ">"
+        + '<label class="vault-check"><input id="vault-remember" type="checkbox"><span>이 기기에서 기억</span></label>'
+        + '<button id="vault-open" class="btn btn-primary btn-block" type="submit">열기</button>'
+        + alert
+        + (vaultState.remembered ? '<div class="vault-actions"><button type="button" class="btn btn-block" data-action="vault-forget">이 기기에서 잊기</button></div>' : "")
+        + "</form>";
+    }
+    root.innerHTML = '<div class="pad">' + body + "</div>";
+    if (vaultState.error) focusDocs("#vault-error");
+    else focusDocs("");
+  }
+
+  function maybePrepareDoc() {
+    const id = vaultState.docId;
+    if (vaultState.mode !== "open" || !vaultState.key || !id || !window.TRIP_VAULT) return;
+    const item = (window.TRIP_VAULT.items || []).find((entry) => entry.id === id);
+    if (!item) return;
+    if (vaultState.prepared === id || vaultState.preparing === id) return;
+    prepareDoc(item);
+  }
+
+  async function prepareDoc(item) {
+    const token = {};
+    vaultState.prepareToken = token;
+    vaultState.preparing = item.id;
+    vaultState.itemError = "";
+    revokeDocUrls();
+    vaultState.preparing = item.id;
+    vaultState.prepareToken = token;
+    vaultState.statusText = "여는 중";
+    paintDocs();
+    try {
+      const bytes = await decryptVaultBytes(vaultState.key, item.iv, item.ct);
+      if (vaultState.prepareToken !== token) return;
+      const blob = new Blob([bytes], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      vaultState.urls.push(url);
+      vaultState.fileUrl = url;
+      vaultState.prepared = item.id;
+    } catch (err) {
+      if (vaultState.prepareToken !== token) return;
+      vaultState.itemError = "문서를 열지 못했습니다.";
+      vaultState.prepared = "";
+      vaultState.fileUrl = "";
+    }
+    vaultState.preparing = "";
+    vaultState.statusText = "";
+    paintDocs();
+  }
+
+  async function bootDocs() {
+    vaultState.mode = "boot";
+    vaultState.statusText = "문서를 준비하고 있습니다";
+    vaultState.error = "";
+    paintDocs();
+    if (!window.crypto || !crypto.subtle) {
+      vaultState.mode = "insecure";
+      paintDocs();
+      return;
+    }
+    try {
+      await loadVaultData();
+    } catch (err) {
+      vaultState.mode = "fail";
+      vaultState.error = "문서 파일을 불러오지 못했습니다.";
+      paintDocs();
+      return;
+    }
+    let saved = null;
+    try { saved = await readVaultKey(); } catch (err) { saved = null; }
+    if (saved) {
+      vaultState.mode = "busy";
+      vaultState.statusText = "확인하는 중";
+      paintDocs();
+      try {
+        if (await vaultKeyMatches(saved)) {
+          vaultState.key = saved;
+          vaultState.remembered = true;
+          vaultState.mode = "open";
+        } else {
+          await deleteVaultKey().catch(() => {});
+          vaultState.mode = "locked";
+        }
+      } catch (err) {
+        await deleteVaultKey().catch(() => {});
+        vaultState.mode = "locked";
+      }
+      paintDocs();
+      maybePrepareDoc();
+      return;
+    }
+    vaultState.mode = "locked";
+    paintDocs();
+  }
+
+  function ensureDocs(route) {
+    vaultState.docId = route.docId || "";
+    if (!vaultState.booted) {
+      vaultState.booted = true;
+      bootDocs();
+      return;
+    }
+    if (vaultState.mode === "open" && vaultState.docId && vaultState.prepared && vaultState.prepared !== vaultState.docId) {
+      revokeDocUrls();
+    }
+    paintDocs();
+    maybePrepareDoc();
+  }
+
+  async function submitVaultPassword(password, remember) {
+    if (vaultState.busy) return;
+    if (!password) {
+      vaultState.error = "비밀번호를 입력해 주세요";
+      vaultState.mode = "locked";
+      paintDocs();
+      return;
+    }
+    vaultState.busy = true;
+    vaultState.error = "";
+    vaultState.statusText = "확인하는 중";
+    paintDocs();
+    try {
+      const key = await deriveVaultKey(password);
+      const ok = await vaultKeyMatches(key);
+      if (!ok) throw new Error("mismatch");
+      vaultState.key = key;
+      vaultState.mode = "open";
+      vaultState.error = "";
+      if (remember) {
+        try {
+          await saveVaultKey(key);
+          vaultState.remembered = true;
+        } catch (err) {
+          vaultState.remembered = false;
+        }
+      }
+    } catch (err) {
+      vaultState.key = null;
+      vaultState.mode = "locked";
+      vaultState.error = "비밀번호가 맞지 않아요";
+    } finally {
+      vaultState.busy = false;
+      vaultState.statusText = "";
+    }
+    paintDocs();
+    if (vaultState.error && password) {
+      const input = $("vault-password");
+      if (input) input.value = password;
+    }
+    maybePrepareDoc();
+  }
+
+  async function forgetVault() {
+    await deleteVaultKey().catch(() => {});
+    vaultState.remembered = false;
+    vaultState.key = null;
+    vaultState.mode = "locked";
+    vaultState.error = "";
+    revokeDocUrls();
+    paintDocs();
+  }
+
+  function lockVault() {
+    vaultState.key = null;
+    vaultState.mode = "locked";
+    vaultState.error = "";
+    revokeDocUrls();
+    paintDocs();
+  }
+
   function renderHome() {
     const clock = tripToday();
     const today = clock.date;
@@ -281,6 +688,7 @@
       + '<div class="hero-body"><p class="kicker">' + (plan.kind === "before" ? "다음 일정" : (plan.kind === "during" ? "오늘 일정" : "귀국")) + "</p>"
       + "<h2>" + esc(ko(day.date).long) + " · " + esc(day.title) + "</h2>"
       + '<ul class="hero-list">' + rows + "</ul>"
+      + docLinksHtml(day.date)
       + '<div class="hero-actions"><a class="btn" href="#/schedule/' + day.date + '">일정 보기</a>'
       + (lead ? extLink(dirUrl({ destination: lead, mode: state.travel }), dirLabel(), true) : "")
       + "</div></div></article>"
@@ -288,6 +696,7 @@
       + '<a href="#/schedule/' + defaultDay() + '"><strong>일정</strong><span>날짜별 동선</span></a>'
       + '<a href="#/map"><strong>사전답사</strong><span>장소마다 지도 이동</span></a>'
       + '<a href="#/transit"><strong>교통</strong><span>지하철 · 트램</span></a>'
+      + '<a href="#/docs"><strong>문서함</strong><span>바우처 · 기차표</span></a>'
       + '<a href="#/info"><strong>정보</strong><span>항공 · 숙소 · 출처</span></a>'
       + "</nav></div>";
   }
@@ -325,10 +734,12 @@
       return '<section class="note"><h3>' + esc(note.title) + "</h3><dl>" + rows + "</dl>"
         + (note.foot ? '<p class="fine">' + esc(note.foot) + "</p>" : "") + "</section>";
     }).join("");
+    const docs = docLinksHtml(day.date);
     return '<div class="sticky-tools">' + modeSwitch() + '<div class="chips">' + chips + "</div></div>"
       + '<div class="day-head"><div><p>' + esc(day.city || "") + "</p><h2>" + esc(ko(day.date).long)
       + " · " + esc(day.title) + '</h2></div><a class="btn" href="#/route/' + day.date + '">오늘 동선</a></div>'
       + (day.blurb ? '<p class="blurb">' + esc(day.blurb) + "</p>" : "")
+      + (docs ? '<div class="doc-row">' + docs + "</div>" : "")
       + '<div class="timeline">' + stops + "</div>" + notes;
   }
 
@@ -337,7 +748,7 @@
     if (!route.day && !route.sheet && !route.routeSheet) {
       history.replaceState(null, "", "#/schedule/" + day.date);
     }
-    const key = day.date + "|" + state.travel;
+    const key = day.date + "|" + state.travel + "|" + (window.TRIP_VAULT ? "vault" : "");
     if (key === state.scheduleKey) return;
     const y = document.scrollingElement.scrollTop;
     const sameDay = state.lastScheduleDay === day.date;
@@ -814,16 +1225,20 @@
       if (link.dataset.tab === tab) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
     });
+    if (state.view === "docs" && route.view !== "docs") revokeDocUrls();
+    state.view = route.view;
     $("view-home").hidden = route.view !== "home";
     $("view-schedule").hidden = route.view !== "schedule";
     $("view-map").hidden = route.view !== "map";
     $("view-info").hidden = route.view !== "info";
-    const titles = { home: "홈", schedule: "일정", map: "지도", info: "정보" };
+    $("view-docs").hidden = route.view !== "docs";
+    const titles = { home: "홈", schedule: "일정", map: "지도", info: "정보", docs: "문서함" };
     document.title = (titles[route.view] || "여행") + " · 비엔나 & 부다페스트";
     if (route.view === "home") renderHome();
     if (route.view === "schedule") renderSchedule(route);
     if (route.view === "info") renderInfo();
     if (route.view === "map") showMap(route);
+    if (route.view === "docs") ensureDocs(route);
     renderSheet(route);
     const snowBtn = $("snow-btn");
     if (snowBtn) snowBtn.setAttribute("aria-pressed", snow.on ? "true" : "false");
@@ -897,6 +1312,14 @@
     if (action === "snow") {
       setSnow(!snow.on);
       $("snow-btn").setAttribute("aria-pressed", snow.on ? "true" : "false");
+      return;
+    }
+    if (action === "vault-lock") {
+      lockVault();
+      return;
+    }
+    if (action === "vault-forget") {
+      forgetVault();
       return;
     }
     if (action === "go" && el.dataset.hash) {
@@ -986,6 +1409,22 @@
     try {
       if (localStorage.getItem("trip-snow") === "1") setSnow(true);
     } catch (err) { /* ignore */ }
+  }
+
+  document.addEventListener("submit", (event) => {
+    const form = event.target;
+    if (!form || form.id !== "vault-form") return;
+    event.preventDefault();
+    const input = $("vault-password");
+    const remember = $("vault-remember");
+    const password = input ? input.value : "";
+    submitVaultPassword(password, !!(remember && remember.checked));
+  });
+
+  if (location.protocol === "https:" && navigator.serviceWorker) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
   }
 
   window.addEventListener("hashchange", render);
