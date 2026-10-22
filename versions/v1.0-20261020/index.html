@@ -1,4 +1,4 @@
-FULL_CONTENT_PLACEHOLDER<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -59,7 +59,7 @@ FULL_CONTENT_PLACEHOLDER<!DOCTYPE html>
 <div class="container">
   <header>
     <h1>비엔나 & 부다페스트</h1>
-    <p>2026.11.28 ~ 12.05 · 모바일 최적화</p>
+    <p>2026.11.28 ~ 12.05 · 12/6 인천 도착 · 모바일 최적화</p>
   </header>
 
   <div class="section">
@@ -87,13 +87,14 @@ FULL_CONTENT_PLACEHOLDER<!DOCTYPE html>
       <tr><td>11/29~30</td><td>비엔나 시내 + Schönbrunn + 마켓</td></tr>
       <tr><td>12/1 (화)</td><td><strong>RJX 65</strong> 15:40 Wien Hbf → 18:29 Keleti</td></tr>
       <tr><td>12/1~4</td><td>부다페스트 (성·온천·마켓)</td></tr>
-      <tr><td>12/5 (토)</td><td>BUD 11:30 출발 → 서울</td></tr>
+      <tr><td>12/5 (토)</td><td>BUD T2A 11:30 출발 → 상하이 경유 → 12/6 11:55 인천</td></tr>
     </table>
 
     <div class="flight-box">
       <strong>항공 일정 요약</strong><br>
-      • <strong>가는 편</strong>: 서울(ICN) → 시안(XIY) 경유 → 비엔나(VIE) 11/28 06:00 도착<br>
-      • <strong>오는 편</strong>: 부다페스트(BUD) 12/5 11:30 출발 → 상하이(PVG) 경유 → 서울(ICN)
+      • <strong>가는 편</strong>: 11/27 19:55 인천(ICN) T1 → 22:30 시안(XIY) T5 (MU854), 11/28 01:55 시안 → 06:00 비엔나(VIE) T3 (MU5063)<br>
+      • <strong>오는 편</strong>: 12/5 11:30 부다페스트(BUD) T2A → 12/6 05:25 상하이 푸동(PVG) (MU8640 / FM870 공동운항), 12/6 08:40 푸동 → 11:55 인천(ICN) (MU5041)<br>
+      • 승객 2명 · 위탁 수하물 1인 2개, 각 세 변의 합 158cm 이내
     </div>
 
     <div class="train-box">
@@ -116,7 +117,7 @@ FULL_CONTENT_PLACEHOLDER<!DOCTYPE html>
       <li>비엔나 시내: U1 / Schönbrunn: U4</li>
       <li>비엔나→부다페스트: RJX 65 (좌석 예약 완료)</li>
       <li>Keleti → 시내: M2 (약 5분)</li>
-      <li>부다페스트 공항(BUD) 출발: 11:30 (12/5)</li>
+      <li>부다페스트 공항(BUD) T2A 출발: 11:30 (12/5, MU8640 / FM870) → 12/6 11:55 인천 (MU5041)</li>
     </ul>
   </div>
 </div>
@@ -130,7 +131,7 @@ const maps = {
 };
 
 const points = [
-  { city: "비행기", day: "11/28", title: "비엔나 도착 (VIE 06:00)", map: "vienna", lat: 48.1103, lng: 16.5697, detail: "비엔나 국제공항 도착<br>Wien Hbf까지 기차로 약 15~20분" },
+  { city: "비행기", day: "11/28", title: "비엔나 도착 (VIE T3 06:00)", map: "vienna", lat: 48.1103, lng: 16.5697, detail: "MU5063 시안발 11/28 06:00 도착<br>Wien Hbf까지 기차로 약 15~20분" },
   { city: "비엔나", day: "11/28", title: "Adina Serviced Apartments (숙소)", map: "vienna", lat: 48.18612, lng: 16.37999, detail: "Karl-Popper-Straße 6<br>Wien Hbf 도보 3~5분 · 체크인 15:00" },
   { city: "비엔나", day: "11/28", title: "Wien Hauptbahnhof", map: "vienna", lat: 48.1850, lng: 16.3780, detail: "중앙역 · <strong>RJX 65 출발</strong> (15:40, Bahnsteige 3-12)" },
   { city: "비엔나", day: "11/28", title: "Belvedere Palace", map: "vienna", lat: 48.1914, lng: 16.3808, detail: "Klimt The Kiss · 호텔에서 도보 약 10분" },
@@ -146,7 +147,7 @@ const points = [
   { city: "부다페스트", day: "12/2", title: "Fisherman's Bastion", map: "budapest", lat: 47.5022, lng: 19.0348, detail: "어부의 요새 · 다뉴브 전망" },
   { city: "부다페스트", day: "12/3", title: "Széchenyi Thermal Bath", map: "budapest", lat: 47.5186, lng: 19.0819, detail: "야외 온천 · M1" },
   { city: "부다페스트", day: "12/4", title: "Hungarian Parliament Building", map: "budapest", lat: 47.5071, lng: 19.0456, detail: "국회의사당 · 야경 추천" },
-  { city: "비행기", day: "12/5", title: "부다페스트 출발 (BUD 11:30)", map: "budapest", lat: 47.4298, lng: 19.2611, detail: "부다페스트 공항 출발<br>상하이(PVG) 경유 후 서울 도착" },
+  { city: "비행기", day: "12/5", title: "부다페스트 출발 (BUD T2A 11:30)", map: "budapest", lat: 47.4298, lng: 19.2611, detail: "MU8640 / FM870 공동운항<br>12/6 05:25 상하이 푸동 도착 후 MU5041로 11:55 인천 도착" },
 ];
 
 const timelineEl = document.getElementById('timeline');

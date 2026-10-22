@@ -1,0 +1,3 @@
+# Tickets, vouchers, and shortcuts can contain personal information.
+*.pdf
+*.lnk
