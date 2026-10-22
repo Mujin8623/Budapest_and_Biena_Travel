@@ -408,6 +408,12 @@ window.TRIP = {
       items: [
         { time: "15:40", placeId: "wien-hbf", leg: true, text: "Wien Hbf (기차 출발)" },
         { time: "18:29", placeId: "keleti", text: "Budapest Keleti (기차 도착)" },
+        {
+          time: "도착 후",
+          placeId: "adina-bud",
+          text: "숙소 이동 · 체크인",
+          note: "Keleti에는 M3가 없습니다. M2로 Deák Ferenc tér, 또는 M4로 Kálvin tér에서 M3를 타고 Lehel tér. 택시는 약 10–15분."
+        },
         { placeId: "basilica", text: "St. Stephen's Basilica" }
       ],
       notes: [

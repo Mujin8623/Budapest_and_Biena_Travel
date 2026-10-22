@@ -311,6 +311,7 @@
         + "<div>" + (item.time ? '<p class="when">' + esc(item.time) + "</p>" : "")
         + "<h3>" + esc(item.text) + "</h3>"
         + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
+        + (item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
         + "</div></a><div class=\"stop-actions\">"
         + (place ? extLink(dirUrl({ destination: place, mode: state.travel }), dirLabel(), true) : "")
         + nextLink
@@ -489,6 +490,7 @@
       + "<h2 id=\"sheet-title\" tabindex=\"-1\">" + esc(item ? item.text : place.name) + "</h2>"
       + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
       + (place.address ? '<p class="station">' + esc(place.address) + "</p>" : "")
+      + (item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
       + (place.lines === "100E · 200E" ? '<p class="fine">터미널 안에 지하철역은 없습니다. 100E는 도심, 200E는 M3 Kőbánya-Kispest로 갑니다.</p>' : "")
       + modeSwitch()
       + '<div class="sheet-actions">' + extLink(mapUrl(place), "지도 열기", false)
