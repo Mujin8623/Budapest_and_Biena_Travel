@@ -1,6 +1,2 @@
-PDFs should be uploaded here for the v1.0 checkpoint.
-Files needed:
-- 전자항공권(영어 전용 버전).pdf
-- 비엔나 숙소 바우처.pdf
-- 부다페스트 숙소 바우처.pdf
-- 비엔나에서 부다 가는 기차표.pdf
+항공권, 숙소 바우처, 기차표 PDF는 이름·예약번호·QR이 포함될 수 있어 이 저장소에 올리지 않습니다.
+예약 확인서는 개인 보관하세요.
