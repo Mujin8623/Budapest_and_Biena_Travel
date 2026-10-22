@@ -2,8 +2,15 @@
    Before the trip, D-day uses Asia/Seoul. From 2026-11-27 through 2026-12-06, "today" uses Europe/Vienna.
    leg:true means "do not build directions from this stop to the next one" (flight hops, and the Wien Hbf train departure).
    A hop is also omitted when the straight line is over 30 km.
-   No booking references, passenger names, or ticket numbers. */
+   No booking references, passenger names, or ticket numbers.
+   docs maps a calendar date to document ids only. */
 window.TRIP = {
+  docs: {
+    "2026-11-27": ["flight-eticket"],
+    "2026-11-28": ["vienna-hotel"],
+    "2026-12-01": ["train-vie-bud", "budapest-hotel"],
+    "2026-12-05": ["flight-eticket", "budapest-hotel"]
+  },
   flights: {
     party: "2명",
     outbound: [
