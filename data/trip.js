@@ -1,5 +1,7 @@
 /* Times below are local time at that place, not one shared timezone.
-   D-day in the app is computed in Asia/Seoul.
+   Before the trip, D-day uses Asia/Seoul. From 2026-11-27 through 2026-12-06, "today" uses Europe/Vienna.
+   leg:true means "do not build directions from this stop to the next one" (flight hops, and the Wien Hbf train departure).
+   A hop is also omitted when the straight line is over 30 km.
    No booking references, passenger names, or ticket numbers. */
 window.TRIP = {
   flights: {
@@ -19,8 +21,8 @@ window.TRIP = {
     icn: {
       name: "인천공항(ICN) T1",
       city: "인천",
-      lat: 37.4602,
-      lng: 126.4407,
+      lat: 37.4496,
+      lng: 126.4521,
       station: "인천공항1터미널",
       lines: "공항철도",
       photo: "assets/img/icn.webp",
@@ -34,8 +36,8 @@ window.TRIP = {
     xiy: {
       name: "시안(XIY) T5",
       city: "시안",
-      lat: 34.4471,
-      lng: 108.7516,
+      lat: 34.4523,
+      lng: 108.7821,
       station: "T5",
       lines: "",
       photo: "assets/img/xiy.webp",
@@ -49,8 +51,8 @@ window.TRIP = {
     vie: {
       name: "비엔나(VIE) T3",
       city: "비엔나",
-      lat: 48.1103,
-      lng: 16.5697,
+      lat: 48.1206,
+      lng: 16.5633,
       station: "Flughafen Wien",
       lines: "S7",
       photo: "assets/img/vie.webp",
@@ -249,8 +251,8 @@ window.TRIP = {
     danube: {
       name: "다뉴브 야경 포인트",
       city: "부다페스트",
-      lat: 47.498,
-      lng: 19.045,
+      lat: 47.4957,
+      lng: 19.0489,
       station: "Vigadó tér",
       lines: "트램 2",
       photo: "assets/img/danube.webp",
@@ -309,8 +311,8 @@ window.TRIP = {
     bud: {
       name: "부다페스트(BUD) T2A",
       city: "부다페스트",
-      lat: 47.4298,
-      lng: 19.2611,
+      lat: 47.4337,
+      lng: 19.2622,
       station: "공항버스",
       lines: "100E · 200E",
       photo: "assets/img/bud.webp",
@@ -324,9 +326,9 @@ window.TRIP = {
     pvg: {
       name: "상하이 푸동(PVG)",
       city: "상하이",
-      lat: 31.1443,
-      lng: 121.8083,
-      station: "",
+      lat: 31.1492,
+      lng: 121.8024,
+      station: "T1",
       lines: "",
       photo: "assets/img/pvg.webp",
       credit: {
@@ -343,9 +345,9 @@ window.TRIP = {
       title: "출국",
       city: "인천 → 비엔나",
       items: [
-        { time: "19:55", placeId: "icn", text: "11/27 19:55 인천공항(ICN) T1 출발 · MU854" },
-        { time: "22:30", placeId: "xiy", text: "22:30 시안(XIY) T5 도착 → 11/28 01:55 출발 · MU5063" },
-        { time: "11/28", placeId: "vie", text: "11/28 06:00 비엔나(VIE) T3 도착" }
+        { time: "19:55", placeId: "icn", leg: true, text: "11/27 19:55 인천공항(ICN) T1 출발 · MU854" },
+        { time: "22:30", placeId: "xiy", leg: true, text: "22:30 시안(XIY) T5 도착 → 11/28 01:55 출발 · MU5063" },
+        { time: "11/28", placeId: "vie", leg: true, text: "11/28 06:00 비엔나(VIE) T3 도착" }
       ],
       notes: [
         {
@@ -404,7 +406,7 @@ window.TRIP = {
       title: "비엔나 → 부다페스트",
       city: "기차",
       items: [
-        { time: "15:40", placeId: "wien-hbf", text: "Wien Hbf (기차 출발)" },
+        { time: "15:40", placeId: "wien-hbf", leg: true, text: "Wien Hbf (기차 출발)" },
         { time: "18:29", placeId: "keleti", text: "Budapest Keleti (기차 도착)" },
         { placeId: "basilica", text: "St. Stephen's Basilica" }
       ],
@@ -462,9 +464,9 @@ window.TRIP = {
       blurb: "11:30 출발이라 오전은 공항으로 이동합니다.",
       items: [
         { placeId: "adina-bud", text: "공항 이동 (출발 2~3시간 전)" },
-        { time: "11:30", placeId: "bud", text: "12/5 11:30 부다페스트(BUD) T2A 출발 · MU8640 / FM870" },
-        { time: "12/6", placeId: "pvg", text: "12/6 05:25 상하이 푸동(PVG) 도착 → 08:40 출발 · MU5041" },
-        { time: "12/6", placeId: "icn", text: "12/6 11:55 인천공항(ICN) 도착" }
+        { time: "11:30", placeId: "bud", leg: true, text: "12/5 11:30 부다페스트(BUD) T2A 출발 · MU8640 / FM870" },
+        { time: "12/6", placeId: "pvg", leg: true, text: "12/6 05:25 상하이 푸동(PVG) 도착 → 08:40 출발 · MU5041" },
+        { time: "12/6", placeId: "icn", leg: true, text: "12/6 11:55 인천공항(ICN) 도착" }
       ]
     }
   ]

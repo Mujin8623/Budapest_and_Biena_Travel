@@ -43,13 +43,25 @@
     }[ch]));
   }
 
-  function seoulToday() {
+  function calendarDate(timeZone) {
     return new Intl.DateTimeFormat("en-CA", {
-      timeZone: "Asia/Seoul",
+      timeZone: timeZone,
       year: "numeric",
       month: "2-digit",
       day: "2-digit"
     }).format(new Date());
+  }
+
+  function seoulToday() {
+    return calendarDate("Asia/Seoul");
+  }
+
+  function tripToday() {
+    const seoul = seoulToday();
+    const vienna = calendarDate("Europe/Vienna");
+    const start = TRIP.days[0].date;
+    if (vienna >= start && vienna <= "2026-12-06") return vienna;
+    return seoul;
   }
 
   function daysBetween(from, to) {
@@ -73,7 +85,7 @@
   }
 
   function defaultDay() {
-    const today = seoulToday();
+    const today = tripToday();
     return (TRIP.days.find((day) => day.date === today)
       || TRIP.days.find((day) => day.date > today)
       || TRIP.days[TRIP.days.length - 1]).date;
@@ -123,7 +135,7 @@
     if (opts.origin) url += "&origin=" + coord(opts.origin);
     url += "&destination=" + coord(opts.destination);
     if (mode !== "transit" && opts.waypoints && opts.waypoints.length) {
-      url += "&waypoints=" + opts.waypoints.map(coord).join("|");
+      url += "&waypoints=" + opts.waypoints.map(coord).join("%7C");
     }
     url += "&travelmode=" + mode;
     return url;
@@ -164,8 +176,12 @@
     if (!place || !place.photo) {
       return '<span class="ph">' + esc(place && place.city ? place.city : "사진") + "</span>";
     }
-    return '<img class="' + (eager ? "sheet-photo" : "thumb") + '" src="' + esc(place.photo) + '" alt="" '
-      + (eager ? "" : 'loading="lazy" ') + 'decoding="async">';
+    if (eager) {
+      return '<img class="sheet-photo" src="' + esc(place.photo) + '" alt="" decoding="async">';
+    }
+    const thumb = place.photo.replace("assets/img/", "assets/img/thumbs/");
+    return '<img class="thumb" src="' + esc(thumb) + '" srcset="' + esc(thumb) + " 160w, " + esc(place.photo)
+      + ' 800w" sizes="72px" alt="" loading="lazy" decoding="async">';
   }
 
   function extLink(url, label, primary) {
@@ -195,10 +211,17 @@
     return stops;
   }
 
+  function canDirect(fromItem, fromPlace, toPlace) {
+    if (!fromPlace || !toPlace || fromPlace.lat == null || toPlace.lat == null) return false;
+    if (fromItem && fromItem.leg) return false;
+    if (km(fromPlace, toPlace) > 30) return false;
+    return true;
+  }
+
   function combinedWalking(stops) {
     if (stops.length < 3 || stops.length - 2 > 9) return null;
     for (let i = 1; i < stops.length; i += 1) {
-      if (km(stops[i - 1].place, stops[i].place) > 40) return null;
+      if (!canDirect(stops[i - 1].item, stops[i - 1].place, stops[i].place)) return null;
     }
     return dirUrl({
       origin: stops[0].place,
@@ -222,7 +245,7 @@
   }
 
   function renderHome() {
-    const today = seoulToday();
+    const today = tripToday();
     const plan = planFor(today);
     let num = "다녀왔어요";
     let kicker = "여행";
@@ -236,7 +259,7 @@
     } else if (plan.kind === "during") {
       num = plan.dayIndex + "일차";
       kicker = "오늘";
-      sub = "서울 날짜 " + ko(today).long + " · " + dayCity(plan.day);
+      sub = "비엔나 기준 · " + ko(today).long + " · " + dayCity(plan.day);
       day = plan.day;
     } else if (plan.kind === "arrive") {
       num = "도착";
@@ -280,6 +303,9 @@
       const place = placeById(item.placeId);
       const next = nextPlace(day, index);
       const href = "#/place/" + day.date + "/" + item.placeId;
+      const nextLink = next && canDirect(item, place, next)
+        ? extLink(dirUrl({ origin: place, destination: next, mode: state.travel }), "다음 장소", false)
+        : "";
       return '<article class="stop"><div class="rail" aria-hidden="true"></div>'
         + '<a class="stop-main" href="' + href + '">' + photoHtml(place, false)
         + "<div>" + (item.time ? '<p class="when">' + esc(item.time) + "</p>" : "")
@@ -287,7 +313,7 @@
         + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
         + "</div></a><div class=\"stop-actions\">"
         + (place ? extLink(dirUrl({ destination: place, mode: state.travel }), dirLabel(), true) : "")
-        + (next ? extLink(dirUrl({ origin: place, destination: next, mode: state.travel }), "다음 장소", false) : "")
+        + nextLink
         + "</div></article>";
     }).join("");
     const notes = (day.notes || []).map((note) => {
@@ -347,35 +373,98 @@
         + esc(credit.author) + " · " + esc(credit.license) + "<br>"
         + '<a href="' + esc(credit.url) + '" target="_blank" rel="noopener noreferrer">' + esc(credit.title) + "</a></p></article>";
     }).join("");
+    const trainDay = dayByDate("2026-12-01");
+    const train = trainDay && (trainDay.notes || []).find((note) => note.title === "기차표");
+    const trainRows = train ? train.rows.map((row) => {
+      return '<div class="row"><dt>' + esc(row[0]) + "</dt><dd>" + esc(row[1]) + "</dd></div>";
+    }).join("") : "";
     $("view-info").innerHTML = ""
       + '<section class="group"><h2>항공</h2><dl>' + flightRows + "</dl><p class=\"fine\">" + esc(TRIP.flights.note) + "</p></section>"
       + '<section class="group"><h2>숙소와 가까운 역</h2><dl>' + stay + "</dl>"
       + '<p class="fine">비엔나 숙소는 Wien Hauptbahnhof 앞 Karl-Popper-Straße 6. 부다페스트 숙소는 Hegedűs Gyula utca 52/b–54, M3 Lehel tér에서 도보 약 5분.</p></section>'
-      + '<section class="group"><h2>기차</h2><dl>'
-      + '<div class="row"><dt>출발</dt><dd>Wien Hbf 15:40</dd></div>'
-      + '<div class="row"><dt>도착</dt><dd>Budapest Keleti 18:29</dd></div>'
-      + '<div class="row"><dt>좌석</dt><dd>Wagen 24 / 102·108</dd></div>'
-      + "</dl><p class=\"fine\">예약 확인서는 개인 보관</p></section>"
+      + (train ? '<section class="group"><h2>기차</h2><dl>' + trainRows + "</dl><p class=\"fine\">" + esc(train.foot || "") + "</p></section>" : "")
       + '<section class="group"><h2>교통</h2>'
       + "<p>비엔나 U1–U4·U6, 트램 1·2·D·O·18·71, S1·S2·S3·S7·S60. U5는 2026년 11월에도 영업 운행 전이라 넣지 않았습니다.</p>"
       + "<p>부다페스트 M1–M4, 트램 2·4·6·19. 지도의 선은 OpenStreetMap을 단순화한 것이고 공식 노선도 이미지는 넣지 않았습니다.</p>"
       + '<p><a href="https://www.wienerlinien.at/web/wl-en/network-maps" target="_blank" rel="noopener noreferrer">Wiener Linien 노선도</a><br>'
-      + '<a href="https://bkk.hu/en/maps/" target="_blank" rel="noopener noreferrer">BKK 노선도</a></p>'
-      + '<p class="fine">노선 데이터 © OpenStreetMap contributors, ODbL. 가까운 역은 장소 좌표로 고른 안내이며, 실제 경로는 길찾기에서 확인합니다. 시각은 그 장소의 현지 시각이고 D-day만 서울 기준입니다.</p></section>'
-      + '<section class="group"><h2>사진</h2><p class="fine">Wikimedia Commons. 압축해 이 저장소에 두었습니다.</p>' + creditHtml + "</section>";
+      + '<a href="https://bkk.hu/en/journey-planning/maps/" target="_blank" rel="noopener noreferrer">BKK 노선도</a></p>'
+      + '<p class="fine">노선 데이터 © OpenStreetMap contributors, ODbL. 가까운 역은 장소 좌표로 고른 안내이며, 실제 경로는 길찾기에서 확인합니다. 시각은 그 장소의 현지 시각입니다. 출국 전 D-day는 서울 날짜이고, 여행 중 오늘은 비엔나(중부유럽) 날짜입니다.</p></section>'
+      + '<section class="group"><h2>사진</h2><p class="fine">Wikimedia Commons. 압축해 이 저장소에 두었습니다. 목록 썸네일은 160px입니다.</p>' + creditHtml + "</section>";
+  }
+
+  function setPageInert(on) {
+    const app = document.querySelector(".app");
+    const nav = document.querySelector(".tabbar");
+    if (app) app.inert = on;
+    if (nav) nav.inert = on;
+  }
+
+  function rememberSheetOpener() {
+    const el = document.activeElement;
+    if (!el || el === document.body || el === document.documentElement) {
+      state.sheetOpener = null;
+      state.sheetOpenerHref = "";
+      return;
+    }
+    state.sheetOpener = el;
+    state.sheetOpenerHref = el.getAttribute ? (el.getAttribute("href") || "") : "";
+  }
+
+  function restoreSheetFocus() {
+    const el = state.sheetOpener;
+    const href = state.sheetOpenerHref;
+    state.sheetOpener = null;
+    state.sheetOpenerHref = "";
+    let target = el && document.contains(el) ? el : null;
+    if (!target && href) {
+      const links = document.querySelectorAll("a[href]");
+      for (let i = 0; i < links.length; i += 1) {
+        if (links[i].getAttribute("href") === href) {
+          target = links[i];
+          break;
+        }
+      }
+    }
+    if (target && typeof target.focus === "function") target.focus();
+  }
+
+  function refocusSheet(fresh) {
+    if (fresh) {
+      const title = $("sheet-title");
+      if (title) title.focus();
+      return;
+    }
+    const mode = document.querySelector('#sheet [data-action="mode"][aria-pressed="true"]');
+    if (mode) mode.focus();
+  }
+
+  function sheetTabbables() {
+    const panel = document.querySelector(".sheet-panel");
+    if (!panel) return [];
+    return Array.prototype.filter.call(
+      panel.querySelectorAll("a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])"),
+      (el) => el.tabIndex !== -1 && el.getClientRects().length > 0
+    );
   }
 
   function renderSheet(route) {
     const sheet = $("sheet");
-    if (!route.sheet && !route.routeSheet) {
+    const open = !!(route.sheet || route.routeSheet);
+    if (!open) {
+      const wasOpen = !sheet.hidden;
       sheet.hidden = true;
       document.body.classList.remove("sheet-open");
+      setPageInert(false);
+      if (wasOpen) restoreSheetFocus();
       return;
     }
+    const fresh = sheet.hidden;
     sheet.hidden = false;
     document.body.classList.add("sheet-open");
+    setPageInert(true);
     if (route.routeSheet) renderRouteSheet(route);
     else renderPlaceSheet(route);
+    refocusSheet(fresh);
   }
 
   function renderPlaceSheet(route) {
@@ -390,6 +479,9 @@
       return;
     }
     const next = index >= 0 ? nextPlace(day, index) : null;
+    const nextLink = next && item && canDirect(item, place, next)
+      ? extLink(dirUrl({ origin: place, destination: next, mode: state.travel }), "다음 장소 · " + next.name, false).replace("class=\"btn\"", "class=\"btn btn-block\"")
+      : "";
     $("sheet-photo-slot").innerHTML = place.photo
       ? '<img class="sheet-photo" src="' + esc(place.photo) + '" alt="' + esc(item ? item.text : place.name) + '">'
       : "";
@@ -401,9 +493,7 @@
       + modeSwitch()
       + '<div class="sheet-actions">' + extLink(mapUrl(place), "지도 열기", false)
       + extLink(dirUrl({ destination: place, mode: state.travel }), dirLabel(), true) + "</div>"
-      + (next ? extLink(dirUrl({ origin: place, destination: next, mode: state.travel }), "다음 장소 · " + next.name, false).replace("class=\"btn\"", "class=\"btn btn-block\"") : "");
-    const title = $("sheet-title");
-    if (title) title.focus();
+      + nextLink;
   }
 
   function renderRouteSheet(route) {
@@ -412,18 +502,22 @@
     $("sheet-photo-slot").innerHTML = "";
     const legs = [];
     for (let i = 1; i < stops.length; i += 1) {
-      const url = dirUrl({ origin: stops[i - 1].place, destination: stops[i].place, mode: state.travel });
-      legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + esc(stops[i - 1].place.name) + " → " + esc(stops[i].place.name)
-        + "<br>" + extLink(url, "이 구간", true) + "</dd></div>");
+      const from = stops[i - 1];
+      const to = stops[i];
+      const names = esc(from.place.name) + " → " + esc(to.place.name);
+      if (canDirect(from.item, from.place, to.place)) {
+        const url = dirUrl({ origin: from.place, destination: to.place, mode: state.travel });
+        legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names + "<br>" + extLink(url, "이 구간", true) + "</dd></div>");
+      } else {
+        legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names + "<br><span class=\"fine\">항공·기차이거나 30km를 넘는 구간이라 길찾기를 두지 않습니다.</span></dd></div>");
+      }
     }
     const walk = combinedWalking(stops);
     $("sheet-body").innerHTML = '<p class="kicker">오늘 동선</p><h2 id="sheet-title" tabindex="-1">'
       + esc(ko(day.date).long) + " · " + esc(day.title) + "</h2>"
       + modeSwitch()
       + (legs.length ? "<p>대중교통은 경유지를 무시하므로 구간마다 엽니다.</p><dl>" + legs.join("") + "</dl>" : "<p>이 날은 이어 열 장소가 하나뿐입니다.</p>")
-      + (walk ? extLink(walk, "도보로 한 번에", false).replace("class=\"btn\"", "class=\"btn btn-block\"") + '<p class="fine">경유지를 넣은 도보 경로입니다. 운전이 필요하면 구글 지도에서 바꿀 수 있습니다.</p>' : '<p class="fine">도시 사이를 넘거나 장소가 둘뿐이면 구간 버튼만 둡니다.</p>');
-    const title = $("sheet-title");
-    if (title) title.focus();
+      + (walk ? extLink(walk, "도보로 한 번에", false).replace("class=\"btn\"", "class=\"btn btn-block\"") + '<p class="fine">경유지를 넣은 도보 경로입니다. 운전이 필요하면 구글 지도에서 바꿀 수 있습니다.</p>' : '<p class="fine">항공·기차이거나 30km를 넘는 구간은 구간 버튼을 만들지 않습니다.</p>');
   }
 
   function loadLeaflet() {
@@ -450,10 +544,11 @@
     $("map-skeleton").hidden = false;
     state.mapPromise = loadLeaflet().then(() => {
       const map = L.map("map", { zoomControl: false, attributionControl: true });
+      map.attributionControl.setPrefix(false);
       L.control.zoom({ position: "topright" }).addTo(map);
       const tiles = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
-        attribution: "&copy; OpenStreetMap"
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       });
       tiles.on("tileload", () => { state.tilesOk = true; $("map-skeleton").hidden = true; });
       tiles.on("tileerror", () => {
@@ -467,6 +562,10 @@
       tiles.addTo(map);
       map.setView([48.208, 16.373], 12);
       state.map = map;
+      if (!state.cardObserver && window.ResizeObserver) {
+        state.cardObserver = new ResizeObserver(() => liftMapChrome());
+        state.cardObserver.observe($("map-card"));
+      }
       window.setTimeout(() => {
         map.invalidateSize();
         $("map-skeleton").hidden = true;
@@ -553,7 +652,7 @@
           subdomains: "abc",
           maxZoom: 19,
           opacity: 0.75,
-          attribution: "&copy; OpenRailwayMap"
+          attribution: "Style: CC-BY-SA 2.0 OpenRailwayMap, Data © OpenStreetMap contributors"
         });
       }
       if (!state.map.hasLayer(state.railLayer)) state.railLayer.addTo(state.map);
@@ -566,7 +665,7 @@
     const card = $("map-card");
     const height = card ? card.offsetHeight : 0;
     document.querySelectorAll(".view-map .leaflet-bottom").forEach((el) => {
-      el.style.marginBottom = Math.min(height + 8, 240) + "px";
+      el.style.marginBottom = (height + 8) + "px";
     });
   }
 
@@ -675,7 +774,7 @@
     const lodging = station ? station.properties.name + " · " + station.properties.lines : "표시된 숙소 역 없음";
     const official = city === "vienna"
       ? "https://www.wienerlinien.at/web/wl-en/network-maps"
-      : "https://bkk.hu/en/maps/";
+      : "https://bkk.hu/en/journey-planning/maps/";
     $("map-card").innerHTML = '<p class="kicker">숙소 역</p><h2>' + esc(lodging) + "</h2>"
       + '<div class="legend">' + legend + "</div>"
       + '<div class="hero-actions"><button type="button" class="btn" data-action="transit-lodging">숙소 역</button>'
@@ -702,6 +801,8 @@
 
   function render() {
     const route = parseRoute();
+    const sheet = $("sheet");
+    if ((route.sheet || route.routeSheet) && sheet.hidden) rememberSheetOpener();
     document.body.dataset.view = route.view;
     const tab = route.view === "map" ? "map" : route.view;
     document.querySelectorAll(".tabbar a").forEach((link) => {
@@ -833,21 +934,49 @@
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !$("sheet").hidden) {
+    if ($("sheet").hidden) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
       const route = parseRoute();
       go("#/schedule/" + (route.day || defaultDay()), true);
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const nodes = sheetTabbables();
+    if (!nodes.length) {
+      event.preventDefault();
+      return;
+    }
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    const active = document.activeElement;
+    const panel = document.querySelector(".sheet-panel");
+    if (!panel || !panel.contains(active)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+      return;
+    }
+    if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
     }
   });
 
   window.addEventListener("resize", () => {
     if (snow.on) resizeSnow();
-    if (state.map) state.map.invalidateSize();
+    if (state.map) {
+      state.map.invalidateSize();
+      liftMapChrome();
+    }
   });
 
   const snowBtn = $("snow-btn");
   if (reduce && snowBtn) {
     snowBtn.disabled = true;
-    snowBtn.title = "움직임 줄이기 설정에서는 눈을 끄어둡니다";
+    snowBtn.title = "움직임 줄이기 설정에서는 눈을 꺼 둡니다";
   } else {
     try {
       if (localStorage.getItem("trip-snow") === "1") setSnow(true);
