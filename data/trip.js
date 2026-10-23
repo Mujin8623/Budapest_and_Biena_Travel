@@ -126,6 +126,79 @@ window.TRIP = {
         title: "Cafe Sacher Wien"
       }
     },
+    opernpassage: {
+      name: "Karlsplatz · Opernpassage",
+      city: "비엔나",
+      lat: 48.20236,
+      lng: 16.36959,
+      station: "Karlsplatz",
+      lines: "U1 · U2 · U4"
+    },
+    staatsoper: {
+      name: "Wiener Staatsoper",
+      city: "비엔나",
+      address: "Opernring 2",
+      lat: 48.2029,
+      lng: 16.36905,
+      station: "Karlsplatz / Oper",
+      lines: "U1 · U2 · U4 · 트램 D · 1 · 2",
+      photo: "assets/img/staatsoper.webp",
+      credit: {
+        author: "Leonhard Lenz",
+        license: "CC0",
+        url: "https://commons.wikimedia.org/wiki/File:Wiener_Staatsoper_2022-08-08_01.jpg",
+        title: "Wiener Staatsoper 2022-08-08 01"
+      }
+    },
+    hofreitschule: {
+      name: "Spanische Hofreitschule",
+      city: "비엔나",
+      address: "Michaelerplatz 1 (미하엘러 문 돔 아래)",
+      lat: 48.20768,
+      lng: 16.3662,
+      station: "Herrengasse",
+      lines: "U3",
+      photo: "assets/img/hofreitschule.webp",
+      credit: {
+        author: "Jebulon",
+        license: "CC0",
+        url: "https://commons.wikimedia.org/wiki/File:Spanische_Hofreitschule_Vienna_entrance_Hofburg.jpg",
+        title: "Spanische Hofreitschule Vienna entrance Hofburg"
+      }
+    },
+    michaelerplatz: {
+      name: "Michaelerplatz",
+      city: "비엔나",
+      lat: 48.20799,
+      lng: 16.36666,
+      station: "Herrengasse",
+      lines: "U3",
+      photo: "assets/img/michaelerplatz.webp",
+      credit: {
+        author: "Leonhard Lenz",
+        license: "CC0",
+        url: "https://commons.wikimedia.org/wiki/File:Michaelerplatz_with_Michaelertrakt_Wien_2022-08-08_01.jpg",
+        title: "Michaelerplatz with Michaelertrakt Wien 2022-08-08 01"
+      }
+    },
+    bitzinger: {
+      name: "Bitzinger Würstelstand Albertina",
+      city: "비엔나",
+      address: "Albertinaplatz 1",
+      lat: 48.20403,
+      lng: 16.36893,
+      station: "Karlsplatz / Oper",
+      lines: "U1 · U2 · U4 · 트램 D · 1 · 2"
+    },
+    "tram-oper": {
+      name: "트램 정류장 Oper, Karlsplatz",
+      city: "비엔나",
+      address: "Kärntner Ring (D · Absberggasse 방면)",
+      lat: 48.20213,
+      lng: 16.36988,
+      station: "Oper, Karlsplatz",
+      lines: "트램 D · 1 · 2 · 71"
+    },
     wuerstelstand: {
       name: "Würstelstand am Südtiroler Platz",
       city: "비엔나",
@@ -839,7 +912,7 @@ window.TRIP = {
           rows: [
             ["Plachutta Wollzeile", "11/29 저녁 17:30 · 2명 (온라인 예약 plachuttawollzeile.pide.at 또는 전화 +43 1 512 15 77)"],
             ["Figlmüller Bäckerstraße", "12/1 점심 12:00 · 2명 (공식 사이트 온라인 예약)"],
-            ["Café Sacher", "11/29 투어 시작 장소. 앉아서 먹는 게 투어에 포함되는지 가이드에게 확인하고, 아니면 온라인 예약"],
+            ["Café Sacher", "11/29 10:00 · 2명 · 앉아서 먹기 (공식 사이트 온라인 예약 권장)"],
             ["예약 없음", "소시지 가판 · 데멜(예약 불가) · 크리스마스 마켓"]
           ],
           foot: "가격은 2026년 10월 공식 메뉴 기준(일부 추정은 각 항목에 표시). 하루 식당 한 곳 + 간식으로 짰습니다."
@@ -848,46 +921,100 @@ window.TRIP = {
     },
     {
       date: "2026-11-29",
-      title: "비엔나 투어",
+      title: "비엔나 셀프 가이드",
       city: "비엔나",
-      blurb: "이정은의 로맨틱 비엔나 투어(마이리얼트립) 10:00–14:00. 아래 순서는 받은 일정표 순서이며, 실제 동선은 가이드 안내를 따릅니다. 일요일이라 상점은 대부분 휴무.",
+      blurb: "가이드 투어 대신 우리끼리 걷는 날. 오페라 → 카페 자허 → 호프부르크 → 그라벤 → 슈테판 대성당(13시 이후) → 트램 D → 벨베데레 상궁 → 숙소 → 플라후타 저녁. 장소를 누르면 짧은 해설과 다음 장소 가는 길이 나와요. 일요일이라 상점은 대부분 휴무. 금액은 1 EUR ≈ 1,484원.",
+      guide: true,
       items: [
         {
-          time: "10:00",
+          time: "09:45",
+          placeId: "opernpassage",
+          text: "출발 · 카를스플라츠 오페른파사주",
+          note: "숙소 앞 Hauptbahnhof에서 U1(Leopoldau 방면) 2정거장(Taubstummengasse → Karlsplatz), 약 3분. 9:30쯤 숙소에서 나와요. 'Oper' 출구로 올라갑니다."
+        },
+        {
+          time: "09:50",
+          placeId: "staatsoper",
+          text: "국립 오페라 극장 (외관)",
+          note: "정면과 로지아만 보고 지나가요. 내부 투어는 생략."
+        },
+        {
+          time: "10:00–10:50",
           placeId: "cafe-sacher",
-          text: "투어 시작 · 카페 자허 🍰 잡식맨 추천",
-          note: "카페는 매일 07:00–23:00, 조식 07:00–11:00. 자허토르테를 앉아서 먹으려면 예약 권장. 미팅 장소·시간은 투어 확인서 기준. 영상 평: 토르테는 '혀 감각이 사라질 정도로 달다'. 속의 살구잼이 포인트이고, 달지 않은 생크림(Schlag)을 얹어 먹어야 맛있다고 했습니다. 멜랑주는 '그냥 커피', 인테리어는 '7성급'. 주문(2명): Sacher Sweet Treat 1개(토르테 + 따뜻한 음료 1잔 + 탄산수 0.33 l) €24.50 + 커피 1잔(Kaffee Verkehrt €7.50) = €32 (약 47,500원, 공식 메뉴). 한 조각만 나눠 먹으세요."
+          text: "카페 자허 · 앉아서 자허토르테 🍰 잡식맨 추천",
+          note: "카페는 매일 07:00–23:00, 조식 07:00–11:00. 자허토르테를 앉아서 먹으려면 예약 권장. 영상 평: 토르테는 '혀 감각이 사라질 정도로 달다'. 속의 살구잼이 포인트이고, 달지 않은 생크림(Schlag)을 얹어 먹어야 맛있다고 했습니다. 멜랑주는 '그냥 커피', 인테리어는 '7성급'. 주문(2명): Sacher Sweet Treat 1개(토르테 + 따뜻한 음료 1잔 + 탄산수 0.33 l) €24.50 + 커피 1잔(Kaffee Verkehrt €7.50) = €32 (약 47,500원, 공식 메뉴). 한 조각만 나눠 먹으세요."
         },
         {
+          time: "11:00",
           placeId: "albertina",
-          text: "알베르티나 미술관",
-          note: "매일 10:00–18:00 (수·금 ~21:00)."
+          text: "알베르티나 테라스 · 반전 기념비",
+          note: "테라스(옛 성벽 위)는 무료로 올라갈 수 있어요. 미술관 입장은 생략(매일 10:00–18:00, 수·금 ~21:00). 광장 건너편에 흐르들리치카의 기념비가 있어요."
         },
         {
+          time: "11:20",
           placeId: "hofburg",
-          text: "호프부르크 왕궁",
-          note: "시시 박물관·황제 아파트는 11/19 재개관. 내부 관람이 투어에 포함되는지 가이드에게 확인."
+          text: "호프부르크 · 요제프 광장 → 스위스 궁정 → In der Burg",
+          note: "바깥 광장과 안뜰만 걸어요(무료). 시시 박물관·황제 아파트는 2026.11.19 재개관(성인 €20 · 약 29,700원) — 오늘은 들어가지 않아요. 원하면 헬덴 광장까지 한 번 내다보고 와요."
         },
         {
+          time: "11:50",
+          placeId: "hofreitschule",
+          text: "스페인 승마학교 (미하엘러 문)",
+          note: "입구와 돔 아래 원형 홀만 봐요. 공연·훈련 관람은 별도 예매라 이번 일정엔 넣지 않았어요."
+        },
+        {
+          time: "12:00",
+          placeId: "michaelerplatz",
+          text: "미하엘러 광장 · 로마 유적 · 로스하우스",
+          note: "광장 가운데 로마 시대 집터는 밖에서 무료로 볼 수 있어요. 미하엘 성당은 일요일 미사 시간엔 조용히."
+        },
+        {
+          time: "12:10",
+          placeId: "demel",
+          text: "콜마르크트 · 데멜 쇼윈도",
+          note: "어제 들른 데멜 앞을 지나며 쇼윈도만 구경. 일요일이라 명품 상점은 대부분 휴무."
+        },
+        {
+          time: "12:25",
+          placeId: "graben",
+          text: "그라벤 · 페스트 기둥",
+          note: "소시지는 대성당 다음, 트램 타러 가는 길의 Bitzinger 가판(알베르티나 광장)에서 먹어요. 그라벤에는 확인된 가판이 없어서 이렇게 짰어요."
+        },
+        {
+          time: "12:35",
           placeId: "peterskirche",
           text: "성 페터 성당",
-          note: "토·일 09:00–19:00, 무료. 일요일 미사 10:00 · 11:15 · 17:00에는 관람이 제한될 수 있습니다."
+          note: "토·일 09:00–19:00, 무료. 일요일 미사 10:00 · 11:15 · 17:00 중에는 관람이 제한될 수 있어요(11:15 미사는 보통 12시쯤 끝나요)."
         },
         {
-          placeId: "graben",
-          text: "그라벤 거리",
-          note: "소시지는 11/28에 Hbf 앞 가판에서 먹으니 여기선 생략해도 됩니다. 꼭 한 번 더 먹고 싶다면 알베르티나 앞 Bitzinger 가판(육식맨: '야 여기 진짜 맛있다', 2번 방문)에서 케제크라이너 1개만."
-        },
-        {
+          time: "13:00–13:35",
           placeId: "stephansdom",
-          text: "슈테판 대성당",
-          note: "일요일 관광객 관람 13:00–16:30. 그 전에는 입구 쪽 자유 구역만 볼 수 있습니다."
+          text: "슈테판 대성당 내부",
+          note: "⚠️ 일요일 관광객 관람은 13:00–16:30이라 13시 이후에 들어가요(공식). 입구 쪽 뒷부분은 무료, 본당 안쪽은 유료 — 가격은 현장 확인."
         },
         {
-          time: "~14:00",
+          time: "13:45",
+          placeId: "bitzinger",
+          text: "점심 · Bitzinger 소시지 가판 🍖 육식맨 추천",
+          note: "매일 08:00–04:00(공식). 육식맨: '야 여기 진짜 맛있다'(2번 방문). 케제크라이너 1개를 나눠 먹어요. 서서 먹는 가판이라 15분이면 충분해요. 가격은 현장 확인."
+        },
+        {
+          time: "14:00",
+          placeId: "tram-oper",
+          text: "트램 D → Schloss Belvedere",
+          note: "D(Absberggasse 방면) 4정거장, 약 9분. 교통권을 미리 준비하세요. 대안: U1 Stephansplatz → Hauptbahnhof 후 걸어서 약 15분."
+        },
+        {
+          time: "14:15–16:00",
           placeId: "belvedere",
-          text: "벨베데레 궁전 (상궁)",
-          note: "상궁 매일 09:00–18:00, 성인 €23 · 시간 지정 티켓. 투어 종료 후 숙소까지 걸어서 약 10–15분."
+          text: "벨베데레 상궁 · 미술관 가이드",
+          note: "⚠️ 14:00–14:30 시간 지정 티켓을 미리 온라인으로 사 두세요. 성인 €23 (약 34,132원) × 2명 = €46 (약 68,264원). 매일 09:00–18:00. 시간 지정 티켓이 있으면 바로 입구로 갑니다. 현장 오디오 가이드 기기는 €5(약 7,400원), 한국어 포함 12개 언어. 아래 작품 안내를 보며 천천히 봐요."
+        },
+        {
+          time: "16:00",
+          placeId: "adina-vie",
+          text: "숙소까지 걸어서 · 휴식",
+          note: "상궁에서 숙소까지 약 830 m, 걸어서 약 11분. 저녁 전 1시간쯤 쉬어요."
         },
         {
           time: "17:30",
@@ -898,16 +1025,28 @@ window.TRIP = {
       ],
       notes: [
         {
-          title: "비엔나 투어",
+          title: "⚠️ 출발 전에 할 일",
           rows: [
-            ["투어", "이정은의 로맨틱 비엔나 투어 (마이리얼트립)"],
-            ["시간", "10:00–14:00 (4시간)"],
-            ["요금", "인당 59,000원"],
-            ["예약", "도슨트 가이드가 예약·티켓 구매를 일괄 진행"],
-            ["입장료", "미술관 입장료는 유로 현금으로 준비해 미팅 때 가이드에게 전달 · 벨베데레 성인 €23 (약 35,000원)"],
-            ["추천 영화", "아마데우스 · 불멸의 연인 · 비포 선라이즈"]
+            ["투어 취소", "마이리얼트립 비엔나 투어는 앱에서 직접 취소 · 10/30(비엔나 현지 시각)까지 전액 환불. 이후 29–20일 전 10%, 19–6일 전 15%, 5–1일 전 20%, 당일 50% 차감"],
+            ["벨베데레", "상궁 14:00–14:30 시간 지정 티켓 온라인 구매 · 성인 €23 (약 34,132원) × 2 = €46 (약 68,264원)"],
+            ["카페 자허", "10:00 · 2명 착석 예약 권장"],
+            ["플라후타", "17:30 · 2명 예약 (plachuttawollzeile.pide.at 또는 +43 1 512 15 77)"]
           ],
-          foot: "어느 미술관 입장료를 걷는지는 가이드에게 미리 확인하세요."
+          foot: "취소·예매는 직접 하세요. 이 앱에는 예약 번호를 적지 않습니다."
+        },
+        {
+          title: "오늘 비용 (2명)",
+          rows: [
+            ["카페 자허", "€32 (약 47,500원)"],
+            ["벨베데레 상궁", "€46 (약 68,264원)"],
+            ["플라후타", "≈ €47 (약 70,000원)"],
+            ["소시지 · 교통", "현장 확인"]
+          ],
+          foot: "가이드 투어(2명 118,000원 + 입장료)는 취소하므로 들지 않습니다."
+        },
+        {
+          title: "추천 영화",
+          rows: [["보고 가면 좋은 영화", "아마데우스 · 불멸의 연인 · 비포 선라이즈"]]
         }
       ]
     },

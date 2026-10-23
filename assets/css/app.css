@@ -499,3 +499,60 @@ body[data-view="map"] .top { display: none; }
     transition: none !important;
   }
 }
+
+/* Self-guided walk (text guide; paragraphs carry data-guide-id for future audio) */
+.guide-intro {
+  margin: 0 16px 12px;
+  padding: 12px 14px;
+  background: var(--surface);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  border-left: 3px solid var(--gold);
+}
+.guide-intro p { margin: 0 0 10px; font-size: 14px; }
+.guide-pill {
+  display: inline-block;
+  margin: 6px 0 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+.leg {
+  position: relative;
+  margin: -4px 0 12px;
+  padding: 8px 12px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+}
+.leg p { margin: 0; }
+.leg-meta { color: #1f5fa8; font-weight: 700; }
+.leg-text { color: var(--muted); margin-top: 2px !important; }
+.leg-sheet { margin: 0 0 10px; background: var(--bg); }
+.leg-map { margin: 8px 0; }
+.guide { margin: 14px 0; }
+.guide h3 { margin: 0 0 6px; font-size: 15px; }
+.guide-stop p { margin: 0 0 8px; line-height: 1.6; }
+.guide-sources a { color: inherit; }
+.art-list { list-style: none; margin: 8px 0 0; padding: 0; }
+.art { padding: 10px 0; border-top: 1px solid var(--line); }
+.art p { margin: 0; line-height: 1.55; }
+.art-head { display: flex; align-items: center; gap: 8px; }
+.art-no {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.art-sub { color: var(--muted); font-size: 13px; margin: 2px 0 4px !important; }
+.art-where { color: var(--gold); font-weight: 700; }
