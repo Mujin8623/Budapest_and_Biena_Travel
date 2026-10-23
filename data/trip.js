@@ -61,7 +61,7 @@ window.TRIP = {
       lat: 48.1206,
       lng: 16.5633,
       station: "Flughafen Wien",
-      lines: "S7",
+      lines: "Railjet · REX7 → Wien Hbf",
       photo: "assets/img/vie.webp",
       credit: {
         author: "Milan Suvajac",
@@ -108,6 +108,67 @@ window.TRIP = {
         license: "CC BY-SA 4.0",
         url: "https://commons.wikimedia.org/wiki/File:Belvedere,_Vienna_September_2016.jpg",
         title: "Belvedere, Vienna"
+      }
+    },
+    "cafe-sacher": {
+      name: "Café Sacher Wien",
+      city: "비엔나",
+      address: "Philharmoniker Str. 4",
+      lat: 48.20389,
+      lng: 16.36944,
+      station: "Karlsplatz / Oper",
+      lines: "U1 · U2 · U4 · 트램 D · 1 · 2",
+      photo: "assets/img/cafe-sacher.webp",
+      credit: {
+        author: "Thomas Ledl",
+        license: "CC BY-SA 3.0",
+        url: "https://commons.wikimedia.org/wiki/File:Cafe_Sacher_Wien.jpg",
+        title: "Cafe Sacher Wien"
+      }
+    },
+    albertina: {
+      name: "Albertina",
+      city: "비엔나",
+      lat: 48.20472,
+      lng: 16.36833,
+      station: "Karlsplatz / Oper",
+      lines: "U1 · U2 · U4",
+      photo: "assets/img/albertina.webp",
+      credit: {
+        author: "C.Stadler/Bwag",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Wien_-_Albertina.JPG",
+        title: "Wien - Albertina"
+      }
+    },
+    peterskirche: {
+      name: "Peterskirche",
+      city: "비엔나",
+      lat: 48.2093,
+      lng: 16.3695,
+      station: "Stephansplatz",
+      lines: "U1 · U3",
+      photo: "assets/img/peterskirche.webp",
+      credit: {
+        author: "C.Stadler/Bwag",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Wien_-_Peterskirche_(1).JPG",
+        title: "Wien - Peterskirche"
+      }
+    },
+    graben: {
+      name: "Graben",
+      city: "비엔나",
+      lat: 48.20861,
+      lng: 16.36917,
+      station: "Stephansplatz",
+      lines: "U1 · U3",
+      photo: "assets/img/graben.webp",
+      credit: {
+        author: "C.Stadler/Bwag",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Wien_-_Graben_(2).JPG",
+        title: "Wien - Graben"
       }
     },
     stephansdom: {
@@ -183,6 +244,36 @@ window.TRIP = {
         license: "CC BY-SA 3.0 AT",
         url: "https://commons.wikimedia.org/wiki/File:2012_am_Wiener_Naschmarkt_6.JPG",
         title: "Naschmarkt, Wien"
+      }
+    },
+    hallstatt: {
+      name: "Hallstatt",
+      city: "잘츠캄머구트",
+      lat: 47.562,
+      lng: 13.649,
+      station: "당일투어 버스",
+      lines: "",
+      photo: "assets/img/hallstatt.webp",
+      credit: {
+        author: "C.Stadler/Bwag",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Hallstatt_-_Zentrum_.JPG",
+        title: "Hallstatt - Zentrum"
+      }
+    },
+    salzburg: {
+      name: "Salzburg 구시가지",
+      city: "잘츠부르크",
+      lat: 47.8,
+      lng: 13.045,
+      station: "당일투어 버스",
+      lines: "",
+      photo: "assets/img/salzburg.webp",
+      credit: {
+        author: "Jorge Franganillo",
+        license: "CC BY 2.0",
+        url: "https://commons.wikimedia.org/wiki/File:Salzburg_(48489551981).jpg",
+        title: "Salzburg"
       }
     },
     keleti: {
@@ -371,19 +462,52 @@ window.TRIP = {
     },
     {
       date: "2026-11-28",
-      title: "비엔나 도착",
+      title: "도착 · 마트 · 크리스마스 마켓",
       city: "비엔나",
+      blurb: "밤 비행 직후라 무리하지 않는 날. 숙소 체크인은 15:00라 짐부터 맡깁니다. 내일(일요일)은 마트 대부분이 쉬니 장보기는 오늘.",
       items: [
-        { placeId: "adina-vie", text: "Adina Serviced Apartments (숙소)" },
-        { placeId: "wien-hbf", text: "Wien Hbf" },
-        { placeId: "belvedere", text: "Belvedere Palace" }
+        {
+          time: "06:00",
+          placeId: "vie",
+          text: "비엔나 공항 도착 → Wien Hbf",
+          note: "ÖBB Railjet/IC로 Wien Hbf까지 약 15분, 공항 출발 06:33부터 30분 간격(1인 €5.50). 2026.9–2027.10 공사로 S7은 St. Marx까지만 가니 Railjet이나 REX7을 타세요."
+        },
+        {
+          time: "07:30",
+          placeId: "adina-vie",
+          text: "숙소 · 짐 맡기기",
+          note: "체크인 15:00 · 체크아웃 11:00 · 24시간 리셉션 · 짐 보관 가능. 이른 체크인은 전날 숙박을 추가 예약해야 확실합니다(유료)."
+        },
+        {
+          placeId: "belvedere",
+          text: "주변 구경 · 벨베데레 정원 산책",
+          note: "숙소에서 걸어서 약 10–15분. 정원 산책만, 궁전(미술관) 입장은 11/29 일정 참고."
+        },
+        {
+          placeId: "naschmarkt",
+          text: "(선택) 나슈마르크트 · 토요 벼룩시장",
+          note: "토요일 벼룩시장 06:30–15:00 (Kettenbrückengasse 쪽). 피곤하면 생략해도 됩니다."
+        },
+        {
+          time: "15:00 전후",
+          placeId: "wien-hbf",
+          text: "Hauptbahnhof 마트 장보기 → 체크인 · 휴식",
+          note: "토요일은 일반 마트 영업. 일요일엔 대부분 문을 닫고, Hbf의 INTERSPAR-pronto(일 06:00–23:00) 정도만 엽니다."
+        },
+        {
+          time: "17:00~",
+          placeId: "rathaus",
+          text: "시청사 크리스마스 마켓",
+          note: "2026.11.13–12.26 매일 10:00–22:00. 16시쯤 해가 지면 조명이 켜집니다. 숙소 앞 트램 D 한 번에 Rathausplatz/Burgtheater."
+        }
       ],
       notes: [
         {
           title: "비엔나 숙소",
           rows: [
             ["호텔", "Adina Serviced Apartments Vienna"],
-            ["숙박", "11/28 ~ 12/01 (3박)"]
+            ["숙박", "11/28 ~ 12/01 (3박)"],
+            ["체크인 / 아웃", "15:00 / 11:00 · 짐 보관 가능"]
           ],
           foot: "예약 확인서는 개인 보관"
         }
@@ -391,21 +515,87 @@ window.TRIP = {
     },
     {
       date: "2026-11-29",
-      title: "비엔나 시내",
+      title: "비엔나 투어",
       city: "비엔나",
+      blurb: "이정은의 로맨틱 비엔나 투어(마이리얼트립) 10:00–14:00. 아래 순서는 받은 일정표 순서이며, 실제 동선은 가이드 안내를 따릅니다. 일요일이라 상점은 대부분 휴무.",
       items: [
-        { placeId: "stephansdom", text: "Stephansdom" },
-        { placeId: "hofburg", text: "Hofburg Palace" },
-        { placeId: "rathaus", text: "Rathausplatz 크리스마스 마켓" }
+        {
+          time: "10:00",
+          placeId: "cafe-sacher",
+          text: "투어 시작 · 카페 자허",
+          note: "카페는 매일 07:00–23:00, 조식 07:00–11:00. 자허토르테를 앉아서 먹으려면 예약 권장. 미팅 장소·시간은 투어 확인서 기준."
+        },
+        {
+          placeId: "albertina",
+          text: "알베르티나 미술관",
+          note: "매일 10:00–18:00 (수·금 ~21:00)."
+        },
+        {
+          placeId: "hofburg",
+          text: "호프부르크 왕궁",
+          note: "시시 박물관·황제 아파트는 11/19 재개관. 내부 관람이 투어에 포함되는지 가이드에게 확인."
+        },
+        {
+          placeId: "peterskirche",
+          text: "성 페터 성당",
+          note: "토·일 09:00–19:00, 무료. 일요일 미사 10:00 · 11:15 · 17:00에는 관람이 제한될 수 있습니다."
+        },
+        {
+          placeId: "graben",
+          text: "그라벤 거리 · 소시지 간식"
+        },
+        {
+          placeId: "stephansdom",
+          text: "슈테판 대성당",
+          note: "일요일 관광객 관람 13:00–16:30. 그 전에는 입구 쪽 자유 구역만 볼 수 있습니다."
+        },
+        {
+          time: "~14:00",
+          placeId: "belvedere",
+          text: "벨베데레 궁전 (상궁)",
+          note: "상궁 매일 09:00–18:00, 성인 €23 · 시간 지정 티켓. 투어 종료 후 숙소까지 걸어서 약 10–15분."
+        }
+      ],
+      notes: [
+        {
+          title: "비엔나 투어",
+          rows: [
+            ["투어", "이정은의 로맨틱 비엔나 투어 (마이리얼트립)"],
+            ["시간", "10:00–14:00 (4시간)"],
+            ["요금", "인당 59,000원"],
+            ["예약", "도슨트 가이드가 예약·티켓 구매를 일괄 진행"],
+            ["입장료", "미술관 입장료는 유로 현금으로 준비해 미팅 때 가이드에게 전달 · 벨베데레 성인 €23 (약 35,000원)"],
+            ["추천 영화", "아마데우스 · 불멸의 연인 · 비포 선라이즈"]
+          ],
+          foot: "어느 미술관 입장료를 걷는지는 가이드에게 미리 확인하세요."
+        }
       ]
     },
     {
       date: "2026-11-30",
-      title: "Schönbrunn",
-      city: "비엔나",
+      title: "잘츠부르크 · 할슈타트",
+      city: "당일투어",
+      blurb: "하루 13–14시간짜리 버스 투어. 보통 07:00 전후 출발해 밤 늦게 돌아옵니다. 할슈타트는 16:15쯤 해가 지니 밝을 때 보려면 할슈타트를 먼저 들르는 일정이 유리합니다.",
       items: [
-        { placeId: "schoenbrunn", text: "Schönbrunn Palace" },
-        { placeId: "naschmarkt", text: "Naschmarkt" }
+        {
+          time: "이른 아침",
+          placeId: "adina-vie",
+          leg: true,
+          text: "투어 미팅 장소로 이동",
+          note: "출발 시간·미팅 장소는 투어 확인서 기준. 전날 밤 일찍 자고, 간식·물·보조배터리를 챙기세요."
+        },
+        {
+          placeId: "hallstatt",
+          leg: true,
+          text: "할슈타트 (소금마을)",
+          note: "잘츠캄머구트 호숫가 마을. 청동기 시대부터 소금을 캐 왔고, 1997년 유네스코 세계유산(할슈타트-다흐슈타인/잘츠캄머구트 문화경관)에 올랐습니다."
+        },
+        {
+          placeId: "salzburg",
+          leg: true,
+          text: "잘츠부르크 (사운드 오브 뮤직)",
+          note: "모차르트의 고향이자 영화 사운드 오브 뮤직 촬영지. 미라벨 정원·게트라이데 거리 등."
+        }
       ]
     },
     {
@@ -413,7 +603,25 @@ window.TRIP = {
       title: "비엔나 → 부다페스트",
       city: "기차",
       items: [
-        { time: "15:40", placeId: "wien-hbf", leg: true, text: "Wien Hbf (기차 출발)" },
+        {
+          time: "08:30",
+          placeId: "adina-vie",
+          text: "체크아웃 · 짐 맡기기",
+          note: "체크아웃 11:00. 미리 체크아웃하고 리셉션에 짐을 맡긴 뒤 가볍게 나갑니다."
+        },
+        {
+          time: "09:00",
+          placeId: "schoenbrunn",
+          text: "(선택) 쇤브룬 궁전 · 주변 돌아다니기",
+          note: "11/3–3/31 매일 08:30–17:00 (마지막 입장 16:15). Hbf에서 U1 → Karlsplatz → U4로 약 25–30분. 12:30쯤엔 숙소 쪽으로 돌아오세요. 가까이 있고 싶다면 벨베데레 정원·Hbf 주변 산책으로 대신."
+        },
+        {
+          time: "15:40",
+          placeId: "wien-hbf",
+          leg: true,
+          text: "Wien Hbf (기차 출발)",
+          note: "14:30쯤 숙소에서 짐을 찾아 15:15까지 플랫폼으로. 숙소에서 역까지 걸어서 몇 분."
+        },
         { time: "18:29", placeId: "keleti", text: "Budapest Keleti (기차 도착)" },
         {
           time: "도착 후",
