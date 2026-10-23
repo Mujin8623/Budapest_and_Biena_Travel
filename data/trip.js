@@ -406,6 +406,168 @@ window.TRIP = {
         title: "Hungarian Parliament Building"
       }
     },
+    "hospital-rock": {
+      name: "Hospital in the Rock (Sziklakórház)",
+      city: "부다페스트",
+      address: "Lovas út 4/c",
+      lat: 47.501,
+      lng: 19.0315,
+      station: "Széll Kálmán tér",
+      lines: "M2 · 버스 16 (Bécsi kapu tér)",
+      photo: "assets/img/hospital-rock.webp",
+      credit: {
+        author: "Globetrotter19",
+        license: "CC BY-SA 3.0",
+        url: "https://commons.wikimedia.org/wiki/File:Budapest._I._Lovas_%C3%BAt._4.-_Hospital_in_the_Rock_-_Secret_Military_Hospital_and_Nuclear_Bunker.JPG",
+        title: "Hospital in the Rock – Lovas út 4"
+      }
+    },
+    stand25: {
+      name: "Stand25 Bisztró",
+      city: "부다페스트",
+      address: "Attila út 10",
+      lat: 47.49777,
+      lng: 19.0328,
+      station: "Clark Ádám tér",
+      lines: "버스 16 · 105 · 트램 19 · 41"
+    },
+    vorosmarty: {
+      name: "Vörösmarty tér 크리스마스 마켓",
+      city: "부다페스트",
+      address: "Vörösmarty tér",
+      lat: 47.49637,
+      lng: 19.0504,
+      station: "Vörösmarty tér",
+      lines: "M1",
+      photo: "assets/img/vorosmarty.webp",
+      credit: {
+        author: "ucsendre",
+        license: "CC BY-SA 3.0",
+        url: "https://commons.wikimedia.org/wiki/File:Budapest,_V%C3%B6r%C3%B6smarty_t%C3%A9r_(2009_kar%C3%A1csonyi_v%C3%A1s%C3%A1r)_-_panoramio.jpg",
+        title: "Budapest, Vörösmarty tér (2009 karácsonyi vásár)"
+      }
+    },
+    szazeves: {
+      name: "Százéves Étterem",
+      city: "부다페스트",
+      address: "Piarista u. 2",
+      lat: 47.49315,
+      lng: 19.05187,
+      station: "Ferenciek tere",
+      lines: "M3 · 트램 2 (Március 15. tér)",
+      photo: "assets/img/szazeves.webp",
+      credit: {
+        author: "Prolete",
+        license: "CC0",
+        url: "https://commons.wikimedia.org/wiki/File:Sz%C3%A1z%C3%A9ves_%C3%89tterem,_P%C3%A9terffy-palota,_Piarista_utca,_Budapest,_September_2013_175.jpg",
+        title: "Százéves Étterem, Péterffy-palota"
+      }
+    },
+    "lehel-market": {
+      name: "Lehel Csarnok (레헬 시장)",
+      city: "부다페스트",
+      address: "Váci út 9–15",
+      lat: 47.51847,
+      lng: 19.06144,
+      station: "Lehel tér",
+      lines: "M3",
+      photo: "assets/img/lehel-market.webp",
+      credit: {
+        author: "OsvátA",
+        license: "Public domain",
+        url: "https://commons.wikimedia.org/wiki/File:Lehel_Csarnok,_Budapest.jpg",
+        title: "Lehel Csarnok, Budapest"
+      }
+    },
+    rosenstein: {
+      name: "Rosenstein Vendéglő",
+      city: "부다페스트",
+      address: "Mosonyi u. 3",
+      lat: 47.49838,
+      lng: 19.08237,
+      station: "Keleti pályaudvar",
+      lines: "M2 · M4"
+    },
+    karavan: {
+      name: "Karaván Street Food",
+      city: "부다페스트",
+      address: "Kazinczy u. 18",
+      lat: 47.49712,
+      lng: 19.06293,
+      station: "Astoria",
+      lines: "M2 · 트램 47 · 49",
+      photo: "assets/img/karavan.webp",
+      credit: {
+        author: "Christo",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Budapest,_Street_Food_Karav%C3%A1n.jpg",
+        title: "Budapest, Street Food Karaván"
+      }
+    },
+    szimpla: {
+      name: "Szimpla Kert",
+      city: "부다페스트",
+      address: "Kazinczy u. 14",
+      lat: 47.49693,
+      lng: 19.06331,
+      station: "Astoria",
+      lines: "M2 · 트램 47 · 49",
+      photo: "assets/img/szimpla.webp",
+      credit: {
+        author: "Yelkrokoyade",
+        license: "CC BY-SA 3.0",
+        url: "https://commons.wikimedia.org/wiki/File:Szimpla_Kert_Budapest_1.jpg",
+        title: "Szimpla Kert Budapest"
+      }
+    },
+    "great-market": {
+      name: "Great Market Hall (중앙시장)",
+      city: "부다페스트",
+      address: "Vámház krt. 1–3",
+      lat: 47.48658,
+      lng: 19.05899,
+      station: "Fővám tér",
+      lines: "M4 · 트램 2 · 47 · 49",
+      photo: "assets/img/great-market.webp",
+      credit: {
+        author: "Xosema",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Budapest_-_Mercado_Central_-_Grand_Market_Hall_-_Nagycsarnok_-_02.jpg",
+        title: "Grand Market Hall – Nagycsarnok"
+      }
+    },
+    gozsdu: {
+      name: "Gozsdu Udvar · Spíler",
+      city: "부다페스트",
+      address: "Király u. 13",
+      lat: 47.49867,
+      lng: 19.05911,
+      station: "Deák Ferenc tér",
+      lines: "M1 · M2 · M3",
+      photo: "assets/img/gozsdu.webp",
+      credit: {
+        author: "Christo",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Budapest,_Gozsdu_Udvar,_2.jpg",
+        title: "Budapest, Gozsdu Udvar"
+      }
+    },
+    pinball: {
+      name: "Flippermúzeum (핀볼 박물관)",
+      city: "부다페스트",
+      address: "Radnóti Miklós u. 18",
+      lat: 47.51465,
+      lng: 19.0544,
+      station: "Nyugati pályaudvar",
+      lines: "M3 · 트램 4 · 6",
+      photo: "assets/img/pinball.webp",
+      credit: {
+        author: "12akd",
+        license: "CC0",
+        url: "https://commons.wikimedia.org/wiki/File:Flipperm%C3%BAzeum_bej%C3%A1rat1.jpg",
+        title: "Flippermúzeum bejárat"
+      }
+    },
     bud: {
       name: "부다페스트(BUD) T2A",
       city: "부다페스트",
@@ -622,14 +784,18 @@ window.TRIP = {
           text: "Wien Hbf (기차 출발)",
           note: "14:30쯤 숙소에서 짐을 찾아 15:15까지 플랫폼으로. 숙소에서 역까지 걸어서 몇 분."
         },
-        { time: "18:29", placeId: "keleti", text: "Budapest Keleti (기차 도착)" },
         {
-          time: "도착 후",
-          placeId: "adina-bud",
-          text: "숙소 이동 · 체크인",
-          note: "Keleti에는 M3가 없습니다. M2로 Deák Ferenc tér, 또는 M4로 Kálvin tér에서 M3를 타고 Lehel tér. 택시는 약 10–15분."
+          time: "18:29",
+          placeId: "keleti",
+          text: "Budapest Keleti (기차 도착)",
+          note: "짐이 있으니 Bolt/택시를 추천합니다(숙소까지 약 10–15분). 대중교통은 Keleti에 M3가 없어서 M2로 Deák Ferenc tér, 또는 M4로 Kálvin tér까지 간 뒤 M3로 갈아타고 Lehel tér에서 내립니다."
         },
-        { placeId: "basilica", text: "St. Stephen's Basilica" }
+        {
+          time: "19:15",
+          placeId: "adina-bud",
+          text: "숙소 체크인 · 가볍게 쉬기",
+          note: "체크인 15:00부터, 체크아웃 11:00, 리셉션 24시간, 짐 보관 가능(호텔 공식 페이지 기준). 객실에 주방이 있어 근처 마트에서 맥주와 간식을 사 와서 가볍게 첫날 저녁을 해결하기 좋습니다."
+        }
       ],
       notes: [
         {
@@ -653,38 +819,206 @@ window.TRIP = {
     },
     {
       date: "2026-12-02",
-      title: "부다 성",
+      title: "부다 성 · 다뉴브 크루즈",
       city: "부다페스트",
+      blurb: "부다 언덕을 북쪽(바위 병원·어부의 요새)에서 남쪽(왕궁)으로 걸은 뒤, 서쪽 기슭의 Stand25에서 점심을 먹습니다. 체인 브리지를 건너 페스트에서 크리스마스 마켓 → 노을·야경 크루즈 → 오래된 식당에서 저녁. 🎬 영상 추천 = Edmmer 헝가리 브이로그에 나온 곳입니다.",
       items: [
-        { placeId: "castle", text: "Buda Castle" },
-        { placeId: "bastion", text: "Fisherman’s Bastion" },
-        { placeId: "danube", text: "다뉴브 야경 포인트" }
+        {
+          time: "09:30",
+          placeId: "adina-bud",
+          text: "숙소 출발",
+          note: "Bolt로 Lovas út(바위 병원)까지 약 15분. 대중교통은 M3 Lehel tér → Deák Ferenc tér → M2 Széll Kálmán tér에서 내린 뒤 도보 약 10분(오르막)."
+        },
+        {
+          time: "10:00",
+          placeId: "hospital-rock",
+          text: "바위 병원(Sziklakórház) 가이드 투어 🎬 영상 추천",
+          note: "매일 10:00–19:00. 가이드 투어로만 볼 수 있고, 약 60분이며 정시마다 출발합니다(마지막 출발 18:00). 영어 투어 성인 30 EUR이며 당일 환율로 포린트 결제. 12/24·25·31 휴관. 온라인으로 회차를 예매해 두면 편합니다."
+        },
+        {
+          time: "11:30",
+          placeId: "bastion",
+          text: "어부의 요새 · 마차시 성당 앞",
+          note: "아래 테라스와 아케이드는 24시간 무료입니다. 위층 탑 전망대는 09:00–19:00 유료(성인 1,700 HUF)이고 그 밖의 시간에는 무료입니다. 가격은 2026년 3자 안내 사이트 기준이라 현장에서 확인하세요."
+        },
+        {
+          time: "12:15",
+          placeId: "castle",
+          text: "부다 왕궁 산책",
+          note: "왕궁 안뜰과 테라스는 자유롭게 걸을 수 있습니다. 어부의 요새에서 성 언덕을 따라 남쪽으로 약 15분. 다 보면 서쪽 기슭(Attila út)으로 내려갑니다."
+        },
+        {
+          time: "13:15",
+          placeId: "stand25",
+          text: "점심 · Stand25 Bisztró 🎬 영상 추천",
+          note: "영상에서 먹은 것은 구야시 수프, 메기 파프리카시(harcsapaprikás), 사슴 스테이크, 쇼믈로이 갈루슈카(Somlói galuska), 토카이 와인과 팔린카입니다. 메뉴가 계절마다 바뀌니 일부는 없을 수 있지만, 구야시와 쇼믈로이는 대표 메뉴입니다. 미쉐린 빕구르망. 점심은 월–토 12:00–16:00(마지막 입장 14:30), 일요일 휴무. 서비스 차지가 붙습니다. ⚠️ 예약 필수: 전화(+36 30 961 3262) 또는 홈페이지의 SevenRooms."
+        },
+        {
+          time: "15:15",
+          placeId: "vorosmarty",
+          text: "체인 브리지 건너 · 뵈뢰슈마르티 광장 크리스마스 마켓",
+          note: "Stand25에서 체인 브리지를 건너 도보 약 20분. 2026.11.13–12.31 운영, 일–목 11:00–21:00, 금–토 11:00–22:00(공식 사이트). 뱅쇼(forralt bor)와 굴뚝빵(kürtőskalács)을 맛보세요. 사람이 많으니 소매치기 주의."
+        },
+        {
+          time: "16:20",
+          placeId: "danube",
+          text: "다뉴브 노을·야경 크루즈 (Legenda, 7번 선착장)",
+          note: "선착장은 Vigadó tér 7번(Jane Haining rakpart 7, 마켓에서 도보 5분). 11/23–12/31 저녁 크루즈는 15:40, 16:20부터 20분 간격으로 21:00까지 있습니다. 약 1시간이고 음료 1잔과 오디오 가이드가 포함되며 성인 €25. 해가 일찍 지니 16시대 배를 타면 노을과 야경을 둘 다 볼 수 있습니다. 온라인 예매 권장."
+        },
+        {
+          time: "18:30",
+          placeId: "szazeves",
+          text: "저녁 · Százéves Étterem 🎬 영상 추천",
+          note: "1831년에 문을 연 '페스트에서 가장 오래된 식당'. 선착장에서 도보 약 8분. 영상에서 먹은 것은 비프 타르타르, 구야시 수프, 구운 거위 다리, Soproni 맥주입니다. 화–일 12:00–23:00(월 13:00–). 예약 권장: 전화(+36 1 230 0329) 또는 홈페이지."
+        },
+        {
+          time: "21:00",
+          placeId: "adina-bud",
+          text: "숙소 복귀",
+          note: "Ferenciek tere에서 M3를 타면 Lehel tér까지 갈아타지 않고 갑니다."
+        }
+      ],
+      notes: [
+        {
+          title: "미리 예약할 것",
+          rows: [
+            ["Stand25", "12/2 점심 (전화 / SevenRooms)"],
+            ["Százéves", "12/2 저녁 (전화 / 홈페이지)"],
+            ["Rosenstein", "12/3 점심 (전화 / 이메일, 웹 폼은 자동 확정 아님)"],
+            ["국회의사당", "12/4 오전 영어 투어 (jegymester.hu 공식)"],
+            ["선택", "바위 병원 회차, 세체니 입장권, Legenda 크루즈 (온라인)"]
+          ],
+          foot: "시간과 가격은 2026년 10월 확인 기준입니다. 떠나기 전에 다시 확인하세요."
+        },
+        {
+          title: "부다페스트 팁",
+          rows: [
+            ["건배", "Egészségedre! (에게세게드레) — 눈을 마주치며. 맥주잔은 전통적으로 부딪치지 않습니다(1849년 아라드 순교자 처형 때 오스트리아인들이 맥주로 건배했다는 전설인데, 역사적 근거는 약함). 와인과 팔린카는 부딪쳐도 괜찮습니다."],
+            ["생수", "라벨을 보세요: szénsavmentes = 탄산 없음, szénsavas = 탄산, enyhén szénsavas = 약한 탄산. 뚜껑 색(분홍 = 무탄산, 파랑 = 탄산)이 흔하지만 브랜드마다 다릅니다."],
+            ["돈", "통화는 포린트(HUF)입니다. 카드가 대부분 되지만 시장이나 노점용으로 현금을 조금 챙기세요. 카드 결제 때 통화를 고르라면 HUF를 선택하세요."],
+            ["이동", "Bolt와 Uber는 면허 택시로 운행합니다. 대중교통은 BudapestGO 앱. 내릴 때 휴대폰과 지갑을 두고 내리지 않았는지 확인하세요."],
+            ["주의", "시장, 크리스마스 마켓, 루인바에서는 소매치기 주의. 가방은 앞으로."]
+          ]
+        }
       ]
     },
     {
       date: "2026-12-03",
-      title: "온천",
+      title: "온천 · 유대인 지구 루인바",
       city: "부다페스트",
+      blurb: "숙소 옆 시장에서 아침 → 세체니 온천 → Keleti 근처 Rosenstein 점심 → 서쪽 유대인 지구로 걸어가 스트리트 푸드와 루인바. 북쪽에서 남쪽, 다시 서쪽으로 이어지는 동선입니다.",
       items: [
-        { placeId: "szechenyi", text: "Széchenyi Thermal Bath" },
-        { placeId: "jewish", text: "유대인 지구" }
+        {
+          time: "08:30",
+          placeId: "lehel-market",
+          text: "아침 · 레헬 시장 Csirke Csibész 🎬 영상 추천",
+          note: "숙소에서 도보 약 5분(Lehel tér M3 바로 앞). 시장은 월–금 06:00–18:00. 2층 갤러리의 닭 요리 가게 Csirke Csibész는 월–금 6:30–18:00입니다. 영상에 나온 메뉴 이름은 확인하지 못했으니 진열대를 보고 고르세요. (영상의 Café ZAJ는 이 시장이 아니라 Jókai u. 11에 있어 일정에서 뺐습니다.)"
+        },
+        {
+          time: "10:00",
+          placeId: "szechenyi",
+          text: "세체니 온천",
+          note: "M3 Lehel tér → Deák Ferenc tér → M1 Széchenyi fürdő, 또는 Bolt로 약 10분. 월–목 07:00–20:00(탕은 19:40까지), 금 07:00–22:00. 평일 입장권 13,200 HUF, Fast Track 15,200 HUF(온라인 전용). ⚠️ 수건과 가운 대여가 현재 중단돼 있으니 수건, 슬리퍼, 수영복을 챙기세요(현장 판매는 있음). 온천 안 매점은 카드만 받습니다."
+        },
+        {
+          time: "13:30",
+          placeId: "rosenstein",
+          text: "점심 · Rosenstein Vendéglő 🎬 영상 추천",
+          note: "세체니에서 Bolt로 약 10분. 월–토 12:00–23:00, 일요일 휴무. 2026년 여름 리노베이션 뒤 9/1에 다시 열었습니다. 영상에서 먹은 것은 강꼬치고기(süllő/fogas) 요리, 치킨 파프리카시(paprikás csirke), 맥주. 예약 권장: 전화 +36 1 333 3492 / +36 30 746 1603, 또는 rosenstein@rosenstein.hu."
+        },
+        {
+          time: "15:30",
+          placeId: "jewish",
+          text: "유대인 지구 산책 · 도하니 회당",
+          note: "Rosenstein에서 Rákóczi út를 따라 서쪽으로 약 1.5 km. 해가 지고 불이 켜진 골목이 분위기가 좋습니다."
+        },
+        {
+          time: "17:30",
+          placeId: "karavan",
+          text: "Karaván 스트리트 푸드 🎬 영상 추천",
+          note: "매일 11:30–23:59(공식 사이트), 겨울에도 엽니다. 랑고시, 랑고시 버거 같은 푸드트럭 음식에 맥주 한 잔."
+        },
+        {
+          time: "19:30",
+          placeId: "szimpla",
+          text: "Szimpla Kert 루인바 🎬 영상 추천",
+          note: "Karaván 바로 옆에 있는 원조 루인바입니다. 영업시간(월–금 15:00–04:00, 토 12:00–, 일 09:00–)은 3자 자료 기준이고 공식 사이트에서는 확인하지 못했습니다(미확인). 밤이 깊을수록 붐비니 일찍 가세요. 소지품 주의."
+        },
+        {
+          time: "22:30",
+          placeId: "adina-bud",
+          text: "숙소 복귀",
+          note: "Bolt로 약 10–15분, 또는 Deák Ferenc tér에서 M3."
+        }
       ]
     },
     {
       date: "2026-12-04",
-      title: "국회의사당",
+      title: "페스트 · 국회의사당 · 크리스마스 마켓",
       city: "부다페스트",
+      blurb: "남쪽 중앙시장에서 랑고시로 시작해 트램 2를 타고 다뉴브를 따라 국회의사당까지 올라갑니다. 대성당과 마켓을 본 뒤 숙소에서 쉬고, 저녁에는 프로젝션 쇼 → Gozsdu 구야시 → 숙소 근처 핀볼로 마지막 밤을 마무리합니다.",
       items: [
-        { placeId: "parliament", text: "Hungarian Parliament Building" }
+        {
+          time: "08:30",
+          placeId: "great-market",
+          text: "중앙시장 · 랑고시 아침 🎬 영상 추천",
+          note: "M3 Lehel tér → Kálvin tér 직행(약 10분), 내려서 도보 5분. 월–금 06:00–18:00, 공휴일 휴무. 랑고시는 2층 갤러리에 있습니다. ⚠️ 영상에서는 토핑을 전부 '예스' 했다가 약 10만 원이 나왔습니다. 주문 전에 가격표와 토핑별 가격을 확인하고, 기본(사워크림 + 치즈)부터 시작하세요. ⚠️ 붐비는 곳이니 소매치기 주의."
+        },
+        {
+          time: "10:30",
+          placeId: "parliament",
+          text: "국회의사당 가이드 투어",
+          note: "Fővám tér에서 트램 2를 타면 다뉴브 강변을 따라 Kossuth Lajos tér까지 약 15분입니다. 비EU 성인 14,000 HUF, 약 45분, 영어 가이드 또는 오디오 가이드. 11월부터 방문자센터 08:00–16:00. ⚠️ 공식 jegymester.hu에서 날짜와 영어 회차를 미리 예매하세요(국가 행사가 있으면 투어가 바뀔 수 있음)."
+        },
+        {
+          time: "12:15",
+          placeId: "basilica",
+          text: "성 이슈트반 대성당 · Advent Bazilika 마켓 점심",
+          note: "국회에서 도보 약 15분. 성당 내부는 월–토 09:00–17:45, 전망대는 매일 09:00–19:00. 성인 요금은 성당 2,600 / 전망대 + 보물관 5,000 / 통합권 6,800 HUF. 마켓은 2026.11.13–2027.1.1, 일–목 11:00–22:00, 금–토 11:00–23:00. 노점에서 소시지, 굴뚝빵, 뱅쇼로 점심."
+        },
+        {
+          time: "14:30",
+          placeId: "adina-bud",
+          text: "(선택) 숙소에서 쉬기",
+          note: "Arany János utca에서 M3로 Lehel tér까지 세 정거장."
+        },
+        {
+          time: "17:30",
+          placeId: "basilica",
+          text: "대성당 파사드 프로젝션 쇼 · 크리스마스 마켓",
+          note: "매일 17:30부터 성당 파사드에 라이트 페인팅을 쏩니다(날에 따라 17:00 콘서트, 공식 사이트 기준)."
+        },
+        {
+          time: "18:30",
+          placeId: "gozsdu",
+          text: "저녁 · Gozsdu Udvar의 Spíler 구야시 🎬 영상 추천",
+          note: "대성당에서 도보 약 8분. Spíler는 매일 11:30부터(목–토 01:30까지)이고, 구야시 수프 2,940 HUF, 비프 구야시 6,580 HUF(메뉴 사이트 기준). 영상에서는 '해장 구야시'로 나왔습니다. Gozsdu 크리스마스 마켓은 12/4부터 금 10:00–19:00(3자 자료)."
+        },
+        {
+          time: "21:00",
+          placeId: "pinball",
+          text: "핀볼 박물관 (Flippermúzeum) 🎬 영상 추천",
+          note: "Deák Ferenc tér에서 M3로 Nyugati, 내려서 도보. 수–금 16:00–24:00, 토 13:00–24:00, 일 11:00–22:00, 월·화 휴관. 성인 5,500 HUF로 무제한 플레이, 개인은 예약 필요 없음. 지하라 계단이 있습니다. 숙소까지 도보 약 15분."
+        },
+        {
+          time: "23:00",
+          placeId: "adina-bud",
+          text: "숙소 복귀 · 짐 싸기"
+        }
       ]
     },
     {
       date: "2026-12-05",
       title: "출발",
       city: "부다페스트 → 인천",
-      blurb: "11:30 출발이라 오전은 공항으로 이동합니다.",
+      blurb: "11:30 출발이라 09:00까지 T2A에 도착하는 것을 목표로 07:30에 체크아웃합니다.",
       items: [
-        { placeId: "adina-bud", text: "공항 이동 (출발 2~3시간 전)" },
+        {
+          time: "07:30",
+          placeId: "adina-bud",
+          text: "체크아웃 · 공항 이동",
+          note: "① Bolt나 택시: 앱에서 요금을 미리 확인하세요. 주말 아침이라 30–40분 정도 예상합니다(추정). ② 대중교통: M3 Lehel tér → Kálvin tér(약 10분) → 100E 공항버스(약 40분, 전용권 2,500 HUF, 앞문 단말기에 카드 탭). 아침에는 10–15분 간격. 호텔 조식은 주말 07:30부터라 시간이 빠듯합니다."
+        },
         { time: "11:30", placeId: "bud", leg: true, text: "12/5 11:30 부다페스트(BUD) T2A 출발 · MU8640 / FM870" },
         { time: "12/6", placeId: "pvg", leg: true, text: "12/6 05:25 상하이 푸동(PVG) 도착 → 08:40 출발 · MU5041" },
         { time: "12/6", placeId: "icn", leg: true, text: "12/6 11:55 인천공항(ICN) 도착" }
