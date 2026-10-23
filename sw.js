@@ -1,16 +1,19 @@
 /* Offline shell for the trip app.
    Same-origin files are cache-first, then refreshed in the background.
    Map tiles are not intercepted and are never prefetched. */
-const CACHE_VERSION = "trip-docs-v8";
+const CACHE_VERSION = "trip-docs-v9";
 const SHELL = [
   "./",
   "./index.html",
   "./assets/css/app.css",
+  "./assets/css/tour.css",
   "./assets/js/app.js",
+  "./assets/js/tour.js",
   "./assets/favicon.svg",
   "./data/trip.js",
   "./data/transit.js",
   "./data/guide.js",
+  "./data/story.js",
   "./data/vault.js",
   "./vendor/leaflet/leaflet.css",
   "./vendor/leaflet/leaflet.js"

@@ -111,6 +111,7 @@
     if (head === "transit") {
       return { view: "map", mode: "transit", city: parts[1] === "budapest" ? "budapest" : "vienna" };
     }
+    if (head === "tour") return { view: "tour", tourId: parts[1] || "vienna-city", step: parts[2] != null ? Number(parts[2]) : null };
     if (head === "info") return { view: "info" };
     if (head === "docs") return { view: "docs", docId: parts[1] || null };
     return { view: "home" };
@@ -246,15 +247,24 @@
     }).join(" · ") + "</p>";
   }
 
+  function tourCtaHtml(guide) {
+    if (!guide || !window.TripTour) return "";
+    return '<div class="tour-cta"><a class="tour-city" href="#/tour/vienna-city"><strong>투어 모드 시작</strong><span>구시가지 걷기 · 해설 쭉 이어서</span></a>'
+      + (guide.artworks && guide.artworks.length ? '<a class="tour-art" href="#/tour/belvedere"><strong>벨베데레 작품 투어</strong><span>상궁 작품 ' + guide.artworks.length + "점</span></a>" : "")
+      + "</div>";
+  }
+
   function artworksHtml(guide) {
     if (!guide.artworks || !guide.artworks.length) return "";
     const list = guide.artworks.map((art, i) => {
-      return '<li class="art" data-art-id="' + esc(art.id) + '"><p class="art-head"><span class="art-no">' + (i + 1) + "</span>"
+      const thumb = art.photo ? '<img class="art-thumb" src="' + esc(art.photo.replace("assets/img/", "assets/img/thumbs/")) + '" alt="" loading="lazy" decoding="async">' : "";
+      return '<li class="art" data-art-id="' + esc(art.id) + '"><p class="art-head">' + thumb + '<span class="art-no">' + (i + 1) + "</span>"
         + "<strong>" + esc(art.title) + "</strong></p>"
         + '<p class="art-sub">' + esc(art.artist) + " · " + esc(art.year) + ' · <span class="art-where">' + esc(art.where) + "</span></p>"
         + parasHtml(art.paras) + "</li>";
     }).join("");
     return '<section class="guide guide-art"><h3>상궁 작품 안내 · ' + guide.artworks.length + "점</h3>"
+      + (window.TripTour ? '<a class="btn btn-primary btn-block" href="#/tour/belvedere">벨베데레 작품 투어 시작</a>' : "")
       + (guide.artworksNote ? '<p class="fine">' + esc(guide.artworksNote) + "</p>" : "")
       + '<ol class="art-list">' + list + "</ol>" + sourcesHtml(guide.artworkSources) + "</section>";
   }
@@ -778,6 +788,7 @@
         + "</div></a><div class=\"stop-actions\">"
         + (place ? extLink(dirUrl({ destination: place, mode: state.travel }), dirLabel(), true) : "")
         + nextLink
+        + (guide && place && guide.artworksFor === place.id && window.TripTour ? '<a class="btn" href="#/tour/belvedere">작품 투어</a>' : "")
         + "</div></article>"
         + (leg ? legHtml(leg, "leg") : "");
     }).join("");
@@ -790,6 +801,7 @@
     return '<div class="sticky-tools">' + modeSwitch() + '<div class="chips">' + chips + "</div></div>"
       + '<div class="day-head"><div><p>' + esc(day.city || "") + "</p><h2>" + esc(ko(day.date).long)
       + " · " + esc(day.title) + '</h2></div><a class="btn" href="#/route/' + day.date + '">오늘 동선</a></div>'
+      + tourCtaHtml(guide)
       + (day.blurb ? '<p class="blurb">' + esc(day.blurb) + "</p>" : "")
       + (guide && guide.intro ? '<div class="guide-intro"><p data-guide-id="' + esc(guide.intro.id) + '">' + esc(guide.intro.text) + "</p>"
         + '<a class="btn" href="#/map/' + day.date + "/" + esc((dayStops(day)[0] || { place: { id: "" } }).place.id) + '">지도에서 경로 보기</a></div>' : "")
@@ -835,6 +847,13 @@
       if (!place.credit || seen[place.credit.url]) return;
       seen[place.credit.url] = true;
       credits.push(place);
+    });
+    Object.keys(window.TRIP_GUIDE || {}).forEach((date) => {
+      (window.TRIP_GUIDE[date].artworks || []).forEach((art) => {
+        if (!art.credit || seen[art.credit.url]) return;
+        seen[art.credit.url] = true;
+        credits.push({ name: "벨베데레 · " + art.title, credit: art.credit });
+      });
     });
     const creditHtml = credits.map((place) => {
       const credit = place.credit;
@@ -1332,13 +1351,19 @@
     $("view-map").hidden = route.view !== "map";
     $("view-info").hidden = route.view !== "info";
     $("view-docs").hidden = route.view !== "docs";
-    const titles = { home: "홈", schedule: "일정", map: "지도", info: "정보", docs: "문서함" };
+    $("view-tour").hidden = route.view !== "tour";
+    if (route.view !== "tour" && window.TripTour) window.TripTour.hide();
+    const titles = { home: "홈", schedule: "일정", map: "지도", info: "정보", docs: "문서함", tour: "투어 모드" };
     document.title = (titles[route.view] || "여행") + " · 비엔나 & 부다페스트";
     if (route.view === "home") renderHome();
     if (route.view === "schedule") renderSchedule(route);
     if (route.view === "info") renderInfo();
     if (route.view === "map") showMap(route);
     if (route.view === "docs") ensureDocs(route);
+    if (route.view === "tour") {
+      if (window.TripTour) window.TripTour.show($("view-tour"), route.tourId, route.step);
+      else $("view-tour").innerHTML = '<div class="pad"><p>투어 화면을 불러오지 못했습니다.</p><a class="btn" href="#/schedule">일정으로</a></div>';
+    }
     renderSheet(route);
     const snowBtn = $("snow-btn");
     if (snowBtn) snowBtn.setAttribute("aria-pressed", snow.on ? "true" : "false");
