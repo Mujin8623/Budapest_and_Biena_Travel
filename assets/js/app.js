@@ -212,6 +212,53 @@
     return stops;
   }
 
+  function guideFor(date) {
+    const all = window.TRIP_GUIDE;
+    return all && date && all[date] ? all[date] : null;
+  }
+
+  function guideLeg(guide, fromId, toId) {
+    if (!guide || !guide.legs) return null;
+    return guide.legs.find((leg) => leg.from === fromId && leg.to === toId) || null;
+  }
+
+  function legMeta(leg) {
+    const icon = leg.mode === "tram" ? "🚋 트램" : leg.mode === "transit" ? "🚇 대중교통" : "🚶 도보";
+    const parts = [icon, "약 " + leg.min + "분"];
+    if (leg.mode === "walk" && leg.m) parts.push("약 " + (leg.m >= 1000 ? (leg.m / 1000).toFixed(1) + " km" : Math.round(leg.m / 10) * 10 + " m"));
+    if (leg.mode === "tram" && leg.m) parts.push("내려서 도보 약 " + Math.round(leg.m / 10) * 10 + " m");
+    return parts.join(" · ");
+  }
+
+  function legHtml(leg, cls) {
+    return '<div class="' + cls + '" data-leg-id="' + esc(leg.id) + '"><p class="leg-meta">' + esc(legMeta(leg)) + "</p>"
+      + '<p class="leg-text">' + esc(leg.text) + "</p></div>";
+  }
+
+  function parasHtml(paras) {
+    return (paras || []).map((para) => '<p data-guide-id="' + esc(para.id) + '">' + esc(para.text) + "</p>").join("");
+  }
+
+  function sourcesHtml(sources) {
+    if (!sources || !sources.length) return "";
+    return '<p class="fine guide-sources">출처 · ' + sources.map((src) => {
+      return '<a href="' + esc(src.url) + '" target="_blank" rel="noopener noreferrer">' + esc(src.title) + "</a>";
+    }).join(" · ") + "</p>";
+  }
+
+  function artworksHtml(guide) {
+    if (!guide.artworks || !guide.artworks.length) return "";
+    const list = guide.artworks.map((art, i) => {
+      return '<li class="art" data-art-id="' + esc(art.id) + '"><p class="art-head"><span class="art-no">' + (i + 1) + "</span>"
+        + "<strong>" + esc(art.title) + "</strong></p>"
+        + '<p class="art-sub">' + esc(art.artist) + " · " + esc(art.year) + ' · <span class="art-where">' + esc(art.where) + "</span></p>"
+        + parasHtml(art.paras) + "</li>";
+    }).join("");
+    return '<section class="guide guide-art"><h3>상궁 작품 안내 · ' + guide.artworks.length + "점</h3>"
+      + (guide.artworksNote ? '<p class="fine">' + esc(guide.artworksNote) + "</p>" : "")
+      + '<ol class="art-list">' + list + "</ol>" + sourcesHtml(guide.artworkSources) + "</section>";
+  }
+
   function canDirect(fromItem, fromPlace, toPlace, mode) {
     if (!fromPlace || !toPlace || fromPlace.lat == null || toPlace.lat == null) return false;
     if (fromItem && fromItem.leg) return false;
@@ -711,9 +758,12 @@
       const current = item.date === day.date ? ' aria-current="true"' : "";
       return '<a class="chip' + on + '" href="#/schedule/' + item.date + '"' + current + ">" + esc(ko(item.date).chip) + "</a>";
     }).join("");
+    const guide = guideFor(day.date);
     const stops = day.items.map((item, index) => {
       const place = placeById(item.placeId);
       const next = nextPlace(day, index);
+      const leg = guide && place && next ? guideLeg(guide, place.id, next.id) : null;
+      const hasGuide = guide && place && guide.stops && guide.stops[place.id];
       const href = "#/place/" + day.date + "/" + item.placeId;
       const nextLink = next && canDirect(item, place, next)
         ? extLink(dirUrl({ origin: place, destination: next, mode: state.travel }), "다음 장소", false)
@@ -724,10 +774,12 @@
         + "<h3>" + esc(item.text) + "</h3>"
         + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
         + (item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
+        + (hasGuide ? '<p class="guide-pill">해설' + (guide.artworksFor === place.id ? " · 작품 " + guide.artworks.length + "점" : "") + "</p>" : "")
         + "</div></a><div class=\"stop-actions\">"
         + (place ? extLink(dirUrl({ destination: place, mode: state.travel }), dirLabel(), true) : "")
         + nextLink
-        + "</div></article>";
+        + "</div></article>"
+        + (leg ? legHtml(leg, "leg") : "");
     }).join("");
     const notes = (day.notes || []).map((note) => {
       const rows = note.rows.map((row) => "<div><dt>" + esc(row[0]) + "</dt><dd>" + esc(row[1]) + "</dd></div>").join("");
@@ -739,6 +791,8 @@
       + '<div class="day-head"><div><p>' + esc(day.city || "") + "</p><h2>" + esc(ko(day.date).long)
       + " · " + esc(day.title) + '</h2></div><a class="btn" href="#/route/' + day.date + '">오늘 동선</a></div>'
       + (day.blurb ? '<p class="blurb">' + esc(day.blurb) + "</p>" : "")
+      + (guide && guide.intro ? '<div class="guide-intro"><p data-guide-id="' + esc(guide.intro.id) + '">' + esc(guide.intro.text) + "</p>"
+        + '<a class="btn" href="#/map/' + day.date + "/" + esc((dayStops(day)[0] || { place: { id: "" } }).place.id) + '">지도에서 경로 보기</a></div>' : "")
       + (docs ? '<div class="doc-row">' + docs + "</div>" : "")
       + '<div class="timeline">' + stops + "</div>" + notes;
   }
@@ -906,10 +960,28 @@
       + (place.address ? '<p class="station">' + esc(place.address) + "</p>" : "")
       + (item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
       + (place.lines === "100E · 200E" ? '<p class="fine">터미널 안에 지하철역은 없습니다. 100E는 도심, 200E는 M3 Kőbánya-Kispest로 갑니다.</p>' : "")
+      + guideSheetHtml(day, place, next)
       + modeSwitch()
       + '<div class="sheet-actions">' + extLink(mapUrl(place), "지도 열기", false)
       + extLink(dirUrl({ destination: place, mode: state.travel }), dirLabel(), true) + "</div>"
       + nextLink;
+  }
+
+  function guideSheetHtml(day, place, next) {
+    const guide = guideFor(day.date);
+    if (!guide) return "";
+    const stop = guide.stops && guide.stops[place.id];
+    const leg = next ? guideLeg(guide, place.id, next.id) : null;
+    let html = "";
+    if (stop) {
+      html += '<section class="guide guide-stop"><h3>해설</h3>' + parasHtml(stop.paras) + sourcesHtml(stop.sources) + "</section>";
+    }
+    if (guide.artworksFor === place.id) html += artworksHtml(guide);
+    if (leg) {
+      html += '<section class="guide guide-next"><h3>다음 장소 · ' + esc(next.name) + "</h3>" + legHtml(leg, "leg leg-sheet")
+        + '<a class="btn btn-block" href="#/map/' + day.date + "/" + esc(place.id) + '">지도에서 경로 보기</a></section>';
+    }
+    return html;
   }
 
   function renderRouteSheet(route) {
@@ -923,7 +995,10 @@
       const names = esc(from.place.name) + " → " + esc(to.place.name);
       if (canDirect(from.item, from.place, to.place)) {
         const url = dirUrl({ origin: from.place, destination: to.place, mode: state.travel });
-        legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names + "<br>" + extLink(url, "이 구간", true) + "</dd></div>");
+        const gleg = guideLeg(guideFor(day.date), from.place.id, to.place.id);
+        legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names
+          + (gleg ? '<br><span class="fine">' + esc(legMeta(gleg)) + " — " + esc(gleg.text) + "</span>" : "")
+          + "<br>" + extLink(url, "이 구간", true) + "</dd></div>");
       } else {
         legs.push("<div class=\"row\"><dt>" + i + "</dt><dd>" + names + "<br><span class=\"fine\">항공·기차이거나, 30km(도보는 5km)를 넘는 구간이라 길찾기를 두지 않습니다.</span></dd></div>");
       }
@@ -1122,12 +1197,15 @@
       return '<button type="button" class="chip' + (item.date === day.date ? " is-on" : "")
         + '" data-action="go" data-hash="#/map/' + item.date + "/" + id + '">' + esc(ko(item.date).chip) + "</button>";
     }).join("");
+    const tourNext = stops[index + 1];
+    const tourLeg = place && tourNext ? guideLeg(guideFor(day.date), place.id, tourNext.place.id) : null;
     const dots = stops.map((stop, i) => {
       return '<button type="button" class="' + (i === index ? "is-on" : "") + '" data-action="go" data-hash="#/map/'
         + day.date + "/" + stop.place.id + '" aria-label="' + esc(stop.place.name) + '"></button>';
     }).join("");
     $("map-card").innerHTML = place ? '<p class="kicker">' + esc(ko(day.date).chip) + " · 사전답사</p><h2>"
       + esc(stops[index].item.text) + "</h2><p class=\"station\">" + esc(stationText(place)) + "</p>"
+      + (tourLeg ? legHtml(tourLeg, "leg leg-map") : "")
       + '<div class="dots">' + dots + "</div>"
       + '<div class="map-nav"><button type="button" class="btn" data-action="step" data-delta="-1">이전</button>'
       + "<span>" + (index + 1) + " / " + stops.length + "</span>"
@@ -1144,6 +1222,7 @@
     if (!state.map) return;
     if (state.tourLayer) state.map.removeLayer(state.tourLayer);
     state.tourLayer = L.layerGroup();
+    drawGuideRoute(stops);
     stops.forEach((stop, i) => {
       const marker = L.marker([stop.place.lat, stop.place.lng], {
         icon: L.divIcon({
@@ -1158,6 +1237,27 @@
       marker.addTo(state.tourLayer);
     });
     state.tourLayer.addTo(state.map);
+  }
+
+  function drawGuideRoute(stops) {
+    const guide = guideFor(state.tourDay);
+    if (!guide || !guide.legs) return;
+    for (let i = 1; i < stops.length; i += 1) {
+      const a = stops[i - 1].place;
+      const b = stops[i].place;
+      const leg = guideLeg(guide, a.id, b.id);
+      if (!leg || leg.mode === "transit") continue;
+      if (leg.tram && leg.tram.length > 1) {
+        L.polyline(leg.tram, { color: "#D35400", weight: 4, opacity: 0.85, dashArray: "2 8", lineCap: "round", interactive: false, className: "guide-tram" }).addTo(state.tourLayer);
+      }
+      const path = leg.path && leg.path.length > 1 ? leg.path.slice() : null;
+      const line = path || [[a.lat, a.lng], [b.lat, b.lng]];
+      if (leg.mode === "walk") {
+        line.unshift([a.lat, a.lng]);
+        line.push([b.lat, b.lng]);
+      }
+      L.polyline(line, { color: "#1f5fa8", weight: 4, opacity: path ? 0.8 : 0.5, dashArray: path ? null : "6 8", lineJoin: "round", interactive: false, className: "guide-walk" }).addTo(state.tourLayer);
+    }
   }
 
   function showTransit(route) {
