@@ -552,22 +552,6 @@ window.TRIP = {
         title: "Budapest, Gozsdu Udvar"
       }
     },
-    pinball: {
-      name: "Flippermúzeum (핀볼 박물관)",
-      city: "부다페스트",
-      address: "Radnóti Miklós u. 18",
-      lat: 47.51465,
-      lng: 19.0544,
-      station: "Nyugati pályaudvar",
-      lines: "M3 · 트램 4 · 6",
-      photo: "assets/img/pinball.webp",
-      credit: {
-        author: "12akd",
-        license: "CC0",
-        url: "https://commons.wikimedia.org/wiki/File:Flipperm%C3%BAzeum_bej%C3%A1rat1.jpg",
-        title: "Flippermúzeum bejárat"
-      }
-    },
     bud: {
       name: "부다페스트(BUD) T2A",
       city: "부다페스트",
@@ -956,7 +940,7 @@ window.TRIP = {
       date: "2026-12-04",
       title: "페스트 · 국회의사당 · 크리스마스 마켓",
       city: "부다페스트",
-      blurb: "남쪽 중앙시장에서 랑고시로 시작해 트램 2를 타고 다뉴브를 따라 국회의사당까지 올라갑니다. 대성당과 마켓을 본 뒤 숙소에서 쉬고, 저녁에는 프로젝션 쇼 → Gozsdu 구야시 → 숙소 근처 핀볼로 마지막 밤을 마무리합니다.",
+      blurb: "남쪽 중앙시장에서 랑고시로 시작해 트램 2를 타고 다뉴브를 따라 국회의사당까지 올라갑니다. 대성당과 마켓을 본 뒤 숙소에서 쉬고, 저녁에는 프로젝션 쇼 → Gozsdu 구야시 → 국회의사당 강변 야경 산책으로 마지막 밤을 가볍게 마무리합니다.",
       items: [
         {
           time: "08:30",
@@ -995,15 +979,16 @@ window.TRIP = {
           note: "대성당에서 도보 약 8분. Spíler는 매일 11:30부터(목–토 01:30까지)이고, 구야시 수프 2,940 HUF, 비프 구야시 6,580 HUF(메뉴 사이트 기준). 영상에서는 '해장 구야시'로 나왔습니다. Gozsdu 크리스마스 마켓은 12/4부터 금 10:00–19:00(3자 자료)."
         },
         {
-          time: "21:00",
-          placeId: "pinball",
-          text: "핀볼 박물관 (Flippermúzeum) 🎬 영상 추천",
-          note: "Deák Ferenc tér에서 M3로 Nyugati, 내려서 도보. 수–금 16:00–24:00, 토 13:00–24:00, 일 11:00–22:00, 월·화 휴관. 성인 5,500 HUF로 무제한 플레이, 개인은 예약 필요 없음. 지하라 계단이 있습니다. 숙소까지 도보 약 15분."
+          time: "20:00",
+          placeId: "parliament",
+          text: "국회의사당 · 다뉴브 강변 야경 산책",
+          note: "Deák Ferenc tér에서 M2로 두 정거장 가서 Kossuth Lajos tér에서 내리거나, Gozsdu에서 걸어서 약 25분. 오전에 투어한 국회의사당을 밤에 강변에서 한 번 더 봅니다. 가볍게 30–40분 걷고 숙소로 갑니다."
         },
         {
-          time: "23:00",
+          time: "21:30",
           placeId: "adina-bud",
-          text: "숙소 복귀 · 짐 싸기"
+          text: "숙소 복귀 · 짐 싸기",
+          note: "Kossuth Lajos tér에서 숙소까지 걸어서 약 20분(약 1.6 km), 또는 Bolt."
         }
       ]
     },
