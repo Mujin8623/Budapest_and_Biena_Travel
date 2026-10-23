@@ -246,27 +246,118 @@ window.TRIP = {
         title: "Naschmarkt, Wien"
       }
     },
-    hallstatt: {
-      name: "Hallstatt",
-      city: "잘츠캄머구트",
-      lat: 47.562,
-      lng: 13.649,
-      station: "당일투어 버스",
+    "salzburg-hbf": {
+      name: "Salzburg Hbf",
+      city: "잘츠부르크",
+      lat: 47.81314,
+      lng: 13.04577,
+      station: "Salzburg Hauptbahnhof",
+      lines: "ÖBB Railjet · Westbahn",
+      photo: "assets/img/salzburg-hbf.webp",
+      credit: {
+        author: "Simon Legner (User:simon04)",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Salzburg_Hauptbahnhof_(20190623_170409).jpg",
+        title: "Salzburg Hauptbahnhof"
+      }
+    },
+    mirabell: {
+      name: "Mirabell Gardens (미라벨 정원)",
+      city: "잘츠부르크",
+      lat: 47.8041,
+      lng: 13.0426,
+      station: "도보 · Hbf에서 약 15분",
       lines: "",
-      photo: "assets/img/hallstatt.webp",
+      photo: "assets/img/mirabell.webp",
+      credit: {
+        author: "Michael Burgholzer",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Mirabellgarten_mit_Blick_auf_die_Andr%C3%A4kirche.jpg",
+        title: "Mirabellgarten mit Blick auf die Andräkirche"
+      }
+    },
+    "feingold-steg": {
+      name: "Marko-Feingold-Steg (옛 Makartsteg)",
+      city: "잘츠부르크",
+      lat: 47.802,
+      lng: 13.0424,
+      station: "도보",
+      lines: "",
+      photo: "assets/img/feingold-steg.webp",
+      credit: {
+        author: "Flocci Nivis",
+        license: "CC BY 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:20230610_Marko-Feingold-Steg.jpg",
+        title: "Marko-Feingold-Steg, Salzburg"
+      }
+    },
+    getreidegasse: {
+      name: "Getreidegasse",
+      city: "잘츠부르크",
+      lat: 47.8,
+      lng: 13.04278,
+      station: "도보",
+      lines: "",
+      photo: "assets/img/getreidegasse.webp",
+      credit: {
+        author: "Snotty",
+        license: "CC BY-SA 3.0",
+        url: "https://commons.wikimedia.org/wiki/File:Getreidegasse_am_Nachmittag,_Salzburg.jpg",
+        title: "Getreidegasse am Nachmittag, Salzburg"
+      }
+    },
+    "mozart-geburtshaus": {
+      name: "Mozart's Birthplace (모차르트 생가)",
+      city: "잘츠부르크",
+      address: "Getreidegasse 9",
+      lat: 47.79994,
+      lng: 13.04355,
+      station: "도보",
+      lines: "",
+      photo: "assets/img/mozart-geburtshaus.webp",
+      credit: {
+        author: "Andreas Stiasny",
+        license: "CC BY-SA 3.0 AT",
+        url: "https://commons.wikimedia.org/wiki/File:Salzburg,_Getreidegasse_9,_Mozarts_Geburtshaus.jpg",
+        title: "Salzburg, Getreidegasse 9, Mozarts Geburtshaus"
+      }
+    },
+    "salzburg-dom": {
+      name: "Salzburg Cathedral (잘츠부르크 대성당)",
+      city: "잘츠부르크",
+      lat: 47.79787,
+      lng: 13.04664,
+      station: "도보",
+      lines: "",
+      photo: "assets/img/salzburg-dom.webp",
+      credit: {
+        author: "Uoaei1",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Salzburg_Dom_Fassade_02.jpg",
+        title: "Salzburg Dom Fassade"
+      }
+    },
+    hohensalzburg: {
+      name: "Hohensalzburg Fortress (호엔잘츠부르크 성)",
+      city: "잘츠부르크",
+      lat: 47.79497,
+      lng: 13.04726,
+      station: "FestungsBahn 산악열차 (Festungsgasse 4)",
+      lines: "FestungsBahn",
+      photo: "assets/img/hohensalzburg.webp",
       credit: {
         author: "C.Stadler/Bwag",
         license: "CC BY-SA 4.0",
-        url: "https://commons.wikimedia.org/wiki/File:Hallstatt_-_Zentrum_.JPG",
-        title: "Hallstatt - Zentrum"
+        url: "https://commons.wikimedia.org/wiki/File:Salzburg_-_Festung_Hohensalzburg.JPG",
+        title: "Salzburg - Festung Hohensalzburg"
       }
     },
     salzburg: {
-      name: "Salzburg 구시가지",
+      name: "Salzburg 구시가지 · 크리스마스 마켓 (Dom·Residenzplatz)",
       city: "잘츠부르크",
-      lat: 47.8,
-      lng: 13.045,
-      station: "당일투어 버스",
+      lat: 47.79843,
+      lng: 13.04637,
+      station: "도보 · Hbf까지 약 25분",
       lines: "",
       photo: "assets/img/salzburg.webp",
       credit: {
@@ -719,28 +810,96 @@ window.TRIP = {
     },
     {
       date: "2026-11-30",
-      title: "잘츠부르크 · 할슈타트",
-      city: "당일투어",
-      blurb: "하루 13–14시간짜리 버스 투어. 보통 07:00 전후 출발해 밤 늦게 돌아옵니다. 할슈타트는 16:15쯤 해가 지니 밝을 때 보려면 할슈타트를 먼저 들르는 일정이 유리합니다.",
+      title: "잘츠부르크 당일치기",
+      city: "잘츠부르크",
+      blurb: "투어 없이 기차로 다녀오는 잘츠부르크 하루(할슈타트 없음). 역에서 미라벨 정원을 지나 강을 건너 구시가지와 요새까지 걸어서 다니고, 해가 진 뒤(16:20쯤) 불이 켜진 크리스마스 마켓을 보고 돌아옵니다. 기차 시간은 ÖBB Scotty에서 2026.11.30 기준으로 확인했습니다.",
       items: [
         {
-          time: "이른 아침",
+          time: "07:10",
           placeId: "adina-vie",
-          leg: true,
-          text: "투어 미팅 장소로 이동",
-          note: "출발 시간·미팅 장소는 투어 확인서 기준. 전날 밤 일찍 자고, 간식·물·보조배터리를 챙기세요."
+          text: "숙소 출발 → Wien Hbf",
+          note: "걸어서 5–10분. 07:15까지 역에 도착하면 여유 있습니다. 물·간식·보조배터리를 챙기세요."
         },
         {
-          placeId: "hallstatt",
+          time: "07:28",
+          placeId: "wien-hbf",
           leg: true,
-          text: "할슈타트 (소금마을)",
-          note: "잘츠캄머구트 호숫가 마을. 청동기 시대부터 소금을 캐 왔고, 1997년 유네스코 세계유산(할슈타트-다흐슈타인/잘츠캄머구트 문화경관)에 올랐습니다."
+          text: "Wien Hbf 07:28 → Salzburg Hbf 09:53 (ÖBB RJX)",
+          note: "약 2시간 25분, 직행. 더 일찍 가려면 06:28 → 08:53 (RJX), 또는 Westbahn 06:38 Wien Westbahnhof → 09:08. Sparschiene·Superpreis 표는 고른 열차에만 탈 수 있습니다."
         },
         {
+          time: "09:53",
+          placeId: "salzburg-hbf",
+          text: "Salzburg Hbf 도착",
+          note: "역 남쪽 출구로 나와 Rainerstraße를 따라 미라벨 정원까지 걸어서 약 15분(약 1 km)."
+        },
+        {
+          time: "10:15",
+          placeId: "mirabell",
+          text: "미라벨 정원 (사운드 오브 뮤직)",
+          note: "정원은 무료. 영화 '도레미' 장면의 페가수스 분수·계단이 있고, 정원 너머로 요새가 보입니다."
+        },
+        {
+          time: "10:45",
+          placeId: "feingold-steg",
+          text: "Marko-Feingold-Steg (옛 Makartsteg) · 사랑의 자물쇠 다리",
+          note: "미라벨 정원에서 걸어서 약 5분. 2021년에 Marko-Feingold-Steg로 이름이 바뀌었지만 흔히 Makartsteg라고 부릅니다. 다리를 건너면 바로 구시가지."
+        },
+        {
+          time: "11:00",
+          placeId: "getreidegasse",
+          text: "게트라이데 거리",
+          note: "다리에서 걸어서 약 3분. 철제 간판이 늘어선 쇼핑 거리. 점심은 이 근처나 대성당 주변에서."
+        },
+        {
+          time: "11:15",
+          placeId: "mozart-geburtshaus",
+          text: "모차르트 생가 (Getreidegasse 9)",
+          note: "매일 09:00–17:30 (마지막 입장 17:00), 성인 €18. 관람 약 1시간. 공식 웹숍(mozarteum.at) 또는 현장 구매, 3자 판매처 표는 받지 않습니다. (Salzburg 관광청·Mozarteum, 2026년 10월 확인)"
+        },
+        {
+          time: "13:30",
+          placeId: "salzburg-dom",
+          text: "잘츠부르크 대성당 · 레지덴츠 광장",
+          note: "생가에서 걸어서 약 5분. 대성당 앞 Domplatz와 옆 Residenzplatz가 저녁 크리스마스 마켓 자리입니다."
+        },
+        {
+          time: "14:15",
+          placeId: "hohensalzburg",
+          text: "호엔잘츠부르크 성 (FestungsBahn 산악열차)",
+          note: "대성당에서 FestungsBahn 승강장(Festungsgasse 4)까지 걸어서 약 5분. Basic 티켓(산악열차 왕복 포함) 성인 €15.50. 10–12월 09:30–17:00, 표는 문 닫기 1시간 전까지 팝니다(공식 사이트, 2026). 16:20쯤 해 지는 모습을 요새 위에서 보고 내려오면 좋습니다."
+        },
+        {
+          time: "17:00",
           placeId: "salzburg",
+          text: "잘츠부르크 크리스마스 마켓 (Domplatz · Residenzplatz)",
+          note: "2026.11.19–2027.1.1, 월–목 10:00–20:30, 무료(공식 사이트). 해가 진 뒤라 조명이 켜져 있습니다. 뱅쇼와 간식으로 저녁. 사람이 많으니 소매치기 주의."
+        },
+        {
+          time: "19:07",
+          placeId: "salzburg-hbf",
           leg: true,
-          text: "잘츠부르크 (사운드 오브 뮤직)",
-          note: "모차르트의 고향이자 영화 사운드 오브 뮤직 촬영지. 미라벨 정원·게트라이데 거리 등."
+          text: "Salzburg Hbf 19:07 → Wien Hbf 21:32 (ÖBB RJX)",
+          note: "마켓에서 역까지 걸어서 약 25분(약 2 km). 더 늦게는 20:07 → 22:32, 마지막은 21:07 → 23:32. 22:07은 00:35 도착이라 비추천."
+        },
+        {
+          time: "21:32",
+          placeId: "wien-hbf",
+          text: "Wien Hbf 도착 → 숙소",
+          note: "걸어서 5–10분. 내일(12/1)은 체크아웃·부다페스트 이동일이니 일찍 쉬세요."
+        }
+      ],
+      notes: [
+        {
+          title: "잘츠부르크 기차",
+          rows: [
+            ["가는 편", "Wien Hbf 07:28 → Salzburg Hbf 09:53 (RJX)\n대안 06:28 → 08:53 · Westbahn 06:38 Westbahnhof → 09:08"],
+            ["오는 편", "Salzburg Hbf 19:07 → Wien Hbf 21:32 (RJX)\n대안 20:07 → 22:32 · 마지막 21:07 → 23:32"],
+            ["표", "ÖBB Sparschiene 편도 €9.90부터 (shop.oebbtickets.at)\nWestbahn WestSuperpreis 편도 €13.99부터 (westbahn.at/ticketshop)"],
+            ["조건", "둘 다 수량 한정·열차 지정. Sparschiene는 환불·취소 불가. 일찍 살수록 쌉니다."],
+            ["현지 이동", "걸어서. 요새 산악열차는 요새 티켓에 포함."]
+          ],
+          foot: "시간은 ÖBB Scotty 2026.11.30 조회 기준입니다. 떠나기 전에 다시 확인하세요."
         }
       ]
     },
