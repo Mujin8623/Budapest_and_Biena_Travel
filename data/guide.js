@@ -2,6 +2,7 @@
    Every paragraph has a stable id (g-<stop>-<n>, a-<artwork>-<n>, l-<leg>) so audio files or TTS can be attached later.
    Walking paths: OSRM foot profile on OpenStreetMap data (routing.openstreetmap.de), simplified. © OpenStreetMap contributors, ODbL.
    Tram D path follows the roads the tram uses (approximate). Prices: 1 EUR ≈ 1,484 KRW.
+   Artwork photos: Wikimedia Commons (credit on each artwork; PD-Art paintings, CC BY-SA photos of rooms/sculpture).
    No booking references or names. */
 window.TRIP_GUIDE = {
   "2026-11-29": {
@@ -136,24 +137,44 @@ window.TRIP_GUIDE = {
     artworksNote: "층은 박물관 표기 Ebene 0/1/2(한국식 1/2/3층)예요. 전시 배치는 바뀔 수 있으니 입구 안내도를 먼저 확인해요. 〈키스〉 방이 가장 붐비니 먼저 가도 좋아요. 현장 오디오 가이드 기기 대여 €5(약 7,400원).",
     artworks: [
       { id: "a-marmorsaal", title: "대리석 홀 · 국가조약", artist: "천장화 카를로 카를로네", year: "1721–1723", where: "Ebene 1 · 중앙",
+        photo: "assets/img/art-marmorsaal.webp",
+        credit: { author: "C.Stadler/Bwag", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Wien_-_Oberes_Belvedere,_Marmorsaal.JPG", title: "Wien - Oberes Belvedere, Marmorsaal" },
         paras: [{ id: "a-marmorsaal-1", text: "1955년 5월 15일 이 홀에서 오스트리아 국가조약이 서명됐어요. 피글 외무장관이 발코니에서 조약서를 들어 보이던 곳이에요." }] },
       { id: "a-messerschmidt", title: "성격 두상", artist: "프란츠 크사버 메서슈미트", year: "1770–1783", where: "Ebene 1 · 바로크",
+        photo: "assets/img/art-messerschmidt.webp",
+        credit: { author: "Bahnfrend (사진) · 작품 Franz Xaver Messerschmidt", license: "CC BY-SA 4.0 (작품은 퍼블릭 도메인)", url: "https://commons.wikimedia.org/wiki/File:Character_heads,_%C3%96sterreichische_Galerie_Belvedere,_2019_(01).jpg", title: "Character heads, Österreichische Galerie Belvedere, 2019 (01)" },
         paras: [{ id: "a-messerschmidt-1", text: "얼굴을 잔뜩 찡그린 두상들이에요. 제목은 작가가 죽은 뒤에 붙었으니, 마음 가는 대로 표정을 읽어 봐요." }] },
       { id: "a-napoleon", title: "그랑 생베르나르 고개를 넘는 나폴레옹", artist: "자크루이 다비드", year: "1801–1805 연작 중 하나", where: "Ebene 1 · 신고전주의",
+        photo: "assets/img/art-napoleon.webp",
+        credit: { author: "Jacques-Louis David · Google Art Project", license: "Public domain (PD-Art)", url: "https://commons.wikimedia.org/wiki/File:Napoleon_at_the_Great_St._Bernard_-_Jacques-Louis_David_-_Google_Cultural_Institute.jpg", title: "Napoleon at the Great St. Bernard - Jacques-Louis David - Google Cultural Institute" },
         paras: [{ id: "a-napoleon-1", text: "다섯 점 연작 중 하나로, 1834년부터 벨베데레에 있어요. 실제로는 맑은 날 노새를 타고 넘었지만, 나폴레옹은 '사나운 말 위의 침착한 모습'을 원했대요." }] },
       { id: "a-waldmueller", title: "성체축일 아침", artist: "페르디난트 게오르크 발트뮐러", year: "1857", where: "Ebene 1 · 비더마이어",
+        photo: "assets/img/art-waldmueller.webp",
+        credit: { author: "Ferdinand Georg Waldmüller", license: "Public domain (PD-Art)", url: "https://commons.wikimedia.org/wiki/File:Ferdinand_Georg_Waldm%C3%BCller_-_Am_Fronleichnamsmorgen_(1857).jpg", title: "Ferdinand Georg Waldmüller - Am Fronleichnamsmorgen (1857)" },
         paras: [{ id: "a-waldmueller-1", text: "축제날 아침의 환한 햇살 속에 가난한 사람들의 모습도 함께 담았어요." }] },
       { id: "a-judith", title: "유디트 I", artist: "구스타프 클림트", year: "1901", where: "Ebene 1 · 빈 1900",
+        photo: "assets/img/art-judith.webp",
+        credit: { author: "Gustav Klimt", license: "Public domain (PD-Art)", url: "https://commons.wikimedia.org/wiki/File:Gustav_Klimt_039.jpg", title: "Gustav Klimt 039" },
         paras: [{ id: "a-judith-1", text: "클림트 그림에서 금이 처음으로 주인공처럼 쓰인 작품이에요." }] },
       { id: "a-kiss", title: "키스", artist: "구스타프 클림트", year: "1907–1908", where: "Ebene 1 · 빈 1900",
+        photo: "assets/img/art-kiss.webp",
+        credit: { author: "Gustav Klimt · Google Art Project", license: "Public domain (PD-Art)", url: "https://commons.wikimedia.org/wiki/File:The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg", title: "The Kiss - Gustav Klimt - Google Cultural Institute" },
         paras: [{ id: "a-kiss-1", text: "1908년 쿤스트샤우에 '연인'이라는 제목으로 걸렸고, 아직 완성 전에 국가가 사들였어요. 180 cm 정사각형 캔버스에 금박과 은, 백금을 썼어요." }] },
       { id: "a-vangogh", title: "오베르의 평원", artist: "빈센트 반 고흐", year: "1890", where: "Ebene 1 · 빈 1900",
+        photo: "assets/img/art-vangogh.webp",
+        credit: { author: "Vincent van Gogh · Google Art Project", license: "Public domain (PD-Art)", url: "https://commons.wikimedia.org/wiki/File:The_Plain_of_Auvers_-_Vincent_van_Gogh_-_Google_Cultural_Institute.jpg", title: "The Plain of Auvers - Vincent van Gogh - Google Cultural Institute" },
         paras: [{ id: "a-vangogh-1", text: "반 고흐가 생애 마지막 여름에 오베르에서 그린 넓은 들판이에요." }] },
       { id: "a-tod-maedchen", title: "죽음과 소녀", artist: "에곤 실레", year: "1915", where: "Ebene 2 · 모더니즘",
+        photo: "assets/img/art-tod-maedchen.webp",
+        credit: { author: "Egon Schiele", license: "Public domain (PD-Art)", url: "https://commons.wikimedia.org/wiki/File:Egon_Schiele_-_Der_Tod_und_das_M%C3%A4dchen.jpg", title: "Egon Schiele - Der Tod und das Mädchen" },
         paras: [{ id: "a-tod-maedchen-1", text: "실레가 에디트와 결혼하고 군에 징집되던 1915년에 그렸어요. 오래 곁에 있던 발리와의 이별을 담았다고 흔히 해석해요." }] },
       { id: "a-familie", title: "가족(웅크린 한 쌍)", artist: "에곤 실레", year: "1918", where: "Ebene 2 · 모더니즘",
+        photo: "assets/img/art-familie.webp",
+        credit: { author: "Egon Schiele", license: "Public domain (PD-Art)", url: "https://commons.wikimedia.org/wiki/File:Egon_Schiele_-_Die_Familie_(1918).jpg", title: "Egon Schiele - Die Familie (1918)" },
         paras: [{ id: "a-familie-1", text: "1918년, 실레가 스물여덟에 스페인 독감으로 세상을 떠나기 직전 그린 그림이에요. '가족'이라는 제목은 나중에 붙어서 모델이 실레 가족이라고 단정할 수는 없어요." }] },
       { id: "a-znaim", title: "츠나임 제단", artist: "빈 공방", year: "1440–1450 무렵", where: "Ebene 0 · 중세",
+        photo: "assets/img/art-znaim.webp",
+        credit: { author: "C.Stadler/Bwag", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Wien_-_Oberes_Belvedere,_Znaimer_Altar.JPG", title: "Wien - Oberes Belvedere, Znaimer Altar" },
         paras: [{ id: "a-znaim-1", text: "높이 약 5 m의 날개 제단으로, 금박 조각과 채색이 거의 그대로 남아 있어요." }] }
     ],
     artworkSources: [
