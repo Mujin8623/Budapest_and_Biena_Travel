@@ -126,6 +126,70 @@ window.TRIP = {
         title: "Cafe Sacher Wien"
       }
     },
+    wuerstelstand: {
+      name: "Würstelstand am Südtiroler Platz",
+      city: "비엔나",
+      address: "Wiedner Gürtel 3 (Hbf 앞)",
+      lat: 48.18564,
+      lng: 16.37309,
+      station: "Hauptbahnhof / Südtiroler Platz",
+      lines: "U1 · S-Bahn · 트램 D · O · 18",
+      photo: "assets/img/wuerstelstand.webp",
+      credit: {
+        author: "Andrew Nash",
+        license: "CC BY-SA 2.0",
+        url: "https://commons.wikimedia.org/wiki/File:Wurstelstand_Sudtirolerplatz_Vienna_Austria_(8329474159).jpg",
+        title: "Wurstelstand Sudtirolerplatz, Vienna (2008)"
+      }
+    },
+    demel: {
+      name: "Demel (K.u.K. Hofzuckerbäcker)",
+      city: "비엔나",
+      address: "Kohlmarkt 14",
+      lat: 48.20861,
+      lng: 16.36721,
+      station: "Herrengasse / Stephansplatz",
+      lines: "U3 · U1",
+      photo: "assets/img/demel.webp",
+      credit: {
+        author: "Gerd Eichmann",
+        license: "CC BY-SA 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Wien-Kohlmarkt-30-Nr_14-Cafe_Demel-2008-gje.jpg",
+        title: "Wien, Kohlmarkt 14 – Café Demel"
+      }
+    },
+    plachutta: {
+      name: "Plachutta Wollzeile",
+      city: "비엔나",
+      address: "Wollzeile 38",
+      lat: 48.20755,
+      lng: 16.37876,
+      station: "Stubentor",
+      lines: "U3 · 트램 2",
+      photo: "assets/img/plachutta.webp",
+      credit: {
+        author: "P e z i",
+        license: "CC BY-SA 3.0",
+        url: "https://commons.wikimedia.org/wiki/File:Plachutta_Wien_Wollzeile-DSC1272w.jpg",
+        title: "Plachutta Wien Wollzeile"
+      }
+    },
+    figlmueller: {
+      name: "Figlmüller Bäckerstraße",
+      city: "비엔나",
+      address: "Bäckerstraße 6",
+      lat: 48.20929,
+      lng: 16.37553,
+      station: "Stephansplatz",
+      lines: "U1 · U3",
+      photo: "assets/img/figlmueller.webp",
+      credit: {
+        author: "Thomas Dahlstrøm Nielsen",
+        license: "CC BY 4.0",
+        url: "https://commons.wikimedia.org/wiki/File:Figlm%C3%BCller_B%C3%A4ckerstra%C3%9Fe.jpg",
+        title: "Figlmüller Bäckerstraße"
+      }
+    },
     albertina: {
       name: "Albertina",
       city: "비엔나",
@@ -538,22 +602,6 @@ window.TRIP = {
         title: "Budapest, Vörösmarty tér (2009 karácsonyi vásár)"
       }
     },
-    szazeves: {
-      name: "Százéves Étterem",
-      city: "부다페스트",
-      address: "Piarista u. 2",
-      lat: 47.49315,
-      lng: 19.05187,
-      station: "Ferenciek tere",
-      lines: "M3 · 트램 2 (Március 15. tér)",
-      photo: "assets/img/szazeves.webp",
-      credit: {
-        author: "Prolete",
-        license: "CC0",
-        url: "https://commons.wikimedia.org/wiki/File:Sz%C3%A1z%C3%A9ves_%C3%89tterem,_P%C3%A9terffy-palota,_Piarista_utca,_Budapest,_September_2013_175.jpg",
-        title: "Százéves Étterem, Péterffy-palota"
-      }
-    },
     "lehel-market": {
       name: "Lehel Csarnok (레헬 시장)",
       city: "부다페스트",
@@ -570,30 +618,39 @@ window.TRIP = {
         title: "Lehel Csarnok, Budapest"
       }
     },
-    rosenstein: {
-      name: "Rosenstein Vendéglő",
+    "comme-chez-soi": {
+      name: "Comme Chez Soi",
       city: "부다페스트",
-      address: "Mosonyi u. 3",
-      lat: 47.49838,
-      lng: 19.08237,
-      station: "Keleti pályaudvar",
-      lines: "M2 · M4"
-    },
-    karavan: {
-      name: "Karaván Street Food",
-      city: "부다페스트",
-      address: "Kazinczy u. 18",
-      lat: 47.49712,
-      lng: 19.06293,
-      station: "Astoria",
-      lines: "M2 · 트램 47 · 49",
-      photo: "assets/img/karavan.webp",
+      address: "Aranykéz u. 2",
+      lat: 47.49449,
+      lng: 19.05134,
+      station: "Vörösmarty tér",
+      lines: "M1",
+      photo: "assets/img/comme-chez-soi.webp",
       credit: {
-        author: "Christo",
+        author: "Yair-haklai",
         license: "CC BY-SA 4.0",
-        url: "https://commons.wikimedia.org/wiki/File:Budapest,_Street_Food_Karav%C3%A1n.jpg",
-        title: "Budapest, Street Food Karaván"
+        url: "https://commons.wikimedia.org/wiki/File:Aranyk%C3%A9z_utca_2_(Budapest).jpg",
+        title: "Aranykéz utca 2 (Budapest)"
       }
+    },
+    negromangalica: {
+      name: "Negro Mangalica Bistro & Bar",
+      city: "부다페스트",
+      address: "Dohány u. 36",
+      lat: 47.49641,
+      lng: 19.06565,
+      station: "Astoria / Blaha Lujza tér",
+      lines: "M2"
+    },
+    parasztkonyha: {
+      name: "Parasztkonyha (Október 6. utca)",
+      city: "부다페스트",
+      address: "Október 6. u. 3",
+      lat: 47.49952,
+      lng: 19.05138,
+      station: "Arany János utca",
+      lines: "M3"
     },
     szimpla: {
       name: "Szimpla Kert",
@@ -625,22 +682,6 @@ window.TRIP = {
         license: "CC BY-SA 4.0",
         url: "https://commons.wikimedia.org/wiki/File:Budapest_-_Mercado_Central_-_Grand_Market_Hall_-_Nagycsarnok_-_02.jpg",
         title: "Grand Market Hall – Nagycsarnok"
-      }
-    },
-    gozsdu: {
-      name: "Gozsdu Udvar · Spíler",
-      city: "부다페스트",
-      address: "Király u. 13",
-      lat: 47.49867,
-      lng: 19.05911,
-      station: "Deák Ferenc tér",
-      lines: "M1 · M2 · M3",
-      photo: "assets/img/gozsdu.webp",
-      credit: {
-        author: "Christo",
-        license: "CC BY-SA 4.0",
-        url: "https://commons.wikimedia.org/wiki/File:Budapest,_Gozsdu_Udvar,_2.jpg",
-        title: "Budapest, Gozsdu Udvar"
       }
     },
     bud: {
@@ -701,7 +742,7 @@ window.TRIP = {
       date: "2026-11-28",
       title: "도착 · 마트 · 크리스마스 마켓",
       city: "비엔나",
-      blurb: "밤 비행 직후라 무리하지 않는 날. 숙소 체크인은 15:00라 짐부터 맡깁니다. 내일(일요일)은 마트 대부분이 쉬니 장보기는 오늘.",
+      blurb: "밤 비행 직후라 무리하지 않는 날. 숙소 체크인은 15:00라 짐부터 맡깁니다. 내일(일요일)은 마트 대부분이 쉬니 장보기는 오늘. 오늘은 식당 대신 간식(소시지 · 카이저슈마렌 · 마켓)으로 가볍게. 🍖 육식맨 추천 / 🍰 잡식맨 추천 = 유튜브 육식맨·잡식맨 영상에 나온 곳. 금액은 2명 기준, 1 EUR ≈ 1,484원 · 1 HUF ≈ 4.05원으로 계산했습니다.",
       items: [
         {
           time: "06:00",
@@ -726,16 +767,28 @@ window.TRIP = {
           note: "토요일 벼룩시장 06:30–15:00 (Kettenbrückengasse 쪽). 피곤하면 생략해도 됩니다."
         },
         {
+          time: "12:00 전후",
+          placeId: "wuerstelstand",
+          text: "점심 간식 · 쥐트티롤러 광장 소시지 가판 🍖 육식맨 추천",
+          note: "Hbf 바로 앞, 숙소에서 걸어서 몇 분. 매일 09:00–04:00(공식 사이트). 영상 평: '진짜 맛있다… 훨씬 요리 같은 느낌', 'Art des Hauses는 노골적으로 맛있어'. 주문(2명): 케제크라이너 Art des Hauses(양파·케첩·커리·카옌, 빵 없음) €5.60 + 케제크라이너 핫도그 €5.50 = €11.10 (약 16,500원, 공식 메뉴 가격). 음료는 별도. 예약 없음. 비엔나 소시지는 여기 한 번만 먹습니다."
+        },
+        {
           time: "15:00 전후",
           placeId: "wien-hbf",
-          text: "Hauptbahnhof 마트 장보기 → 체크인 · 휴식",
+          text: "Hauptbahnhof 마트 장보기 → 체크인 · 잠깐 휴식",
           note: "토요일은 일반 마트 영업. 일요일엔 대부분 문을 닫고, Hbf의 INTERSPAR-pronto(일 06:00–23:00) 정도만 엽니다."
         },
         {
-          time: "17:00~",
+          time: "16:00",
+          placeId: "demel",
+          text: "데멜 카이저슈마렌 🍰 잡식맨 추천",
+          note: "숙소에서 U1 Stephansplatz(약 5분) 하차 후 걸어서 약 6분. 매일 10:00–19:00, 카이저슈마렌도 19:00까지, 예약 불가(공식 사이트). 영상 평: '월드 클래스 디저트… 꼭 드세요'. 푹신하고 푸딩처럼 부드럽고, 자두 콤포트(Zwetschkenröster)가 달지 않고 상큼하다고 했습니다(영상은 6월이라 자두가 아니었을 수 있음). 주문(2명): 카이저슈마렌 1개 나눠 먹기 + 멜랑주 2잔. 약 €26 (약 39,000원). 카이저슈마렌은 2026년 방문 후기 기준 €12.90, 멜랑주는 잔당 약 €6.5로 추정했습니다(미확인). 토요일엔 줄이 길어요. 그럴 땐 포장 창구에서 '스몰' 사이즈를 사세요(영상 추천). 자허토르테는 내일 카페 자허에서 먹으니 여기선 생략."
+        },
+        {
+          time: "17:30~",
           placeId: "rathaus",
-          text: "시청사 크리스마스 마켓",
-          note: "2026.11.13–12.26 매일 10:00–22:00. 16시쯤 해가 지면 조명이 켜집니다. 숙소 앞 트램 D 한 번에 Rathausplatz/Burgtheater."
+          text: "시청사 크리스마스 마켓 · 가벼운 저녁",
+          note: "2026.11.13–12.26 매일 10:00–22:00. 16시쯤 해가 지면 조명이 켜집니다. 데멜에서 걸어서 약 12분, 돌아올 땐 Rathausplatz/Burgtheater에서 트램 D 한 번에 숙소. 펀치나 뱅쇼 2잔 + 간식 1–2개로 저녁(마켓 가격은 현장 확인, 약 €20–25 · 3–3.7만 원 추정). 머그 보증금(Häferlpfand)은 컵을 돌려주면 돌려받습니다."
         }
       ],
       notes: [
@@ -747,6 +800,16 @@ window.TRIP = {
             ["체크인 / 아웃", "15:00 / 11:00 · 짐 보관 가능"]
           ],
           foot: "예약 확인서는 개인 보관"
+        },
+        {
+          title: "비엔나 식사 · 미리 예약할 것",
+          rows: [
+            ["Plachutta Wollzeile", "11/29 저녁 17:30 · 2명 (온라인 예약 plachuttawollzeile.pide.at 또는 전화 +43 1 512 15 77)"],
+            ["Figlmüller Bäckerstraße", "12/1 점심 12:00 · 2명 (공식 사이트 온라인 예약)"],
+            ["Café Sacher", "11/29 투어 시작 장소. 앉아서 먹는 게 투어에 포함되는지 가이드에게 확인하고, 아니면 온라인 예약"],
+            ["예약 없음", "소시지 가판 · 데멜(예약 불가) · 크리스마스 마켓"]
+          ],
+          foot: "가격은 2026년 10월 공식 메뉴 기준(일부 추정은 각 항목에 표시). 하루 식당 한 곳 + 간식으로 짰습니다."
         }
       ]
     },
@@ -759,8 +822,8 @@ window.TRIP = {
         {
           time: "10:00",
           placeId: "cafe-sacher",
-          text: "투어 시작 · 카페 자허",
-          note: "카페는 매일 07:00–23:00, 조식 07:00–11:00. 자허토르테를 앉아서 먹으려면 예약 권장. 미팅 장소·시간은 투어 확인서 기준."
+          text: "투어 시작 · 카페 자허 🍰 잡식맨 추천",
+          note: "카페는 매일 07:00–23:00, 조식 07:00–11:00. 자허토르테를 앉아서 먹으려면 예약 권장. 미팅 장소·시간은 투어 확인서 기준. 영상 평: 토르테는 '혀 감각이 사라질 정도로 달다'. 속의 살구잼이 포인트이고, 달지 않은 생크림(Schlag)을 얹어 먹어야 맛있다고 했습니다. 멜랑주는 '그냥 커피', 인테리어는 '7성급'. 주문(2명): Sacher Sweet Treat 1개(토르테 + 따뜻한 음료 1잔 + 탄산수 0.33 l) €24.50 + 커피 1잔(Kaffee Verkehrt €7.50) = €32 (약 47,500원, 공식 메뉴). 한 조각만 나눠 먹으세요."
         },
         {
           placeId: "albertina",
@@ -779,7 +842,8 @@ window.TRIP = {
         },
         {
           placeId: "graben",
-          text: "그라벤 거리 · 소시지 간식"
+          text: "그라벤 거리",
+          note: "소시지는 11/28에 Hbf 앞 가판에서 먹으니 여기선 생략해도 됩니다. 꼭 한 번 더 먹고 싶다면 알베르티나 앞 Bitzinger 가판(육식맨: '야 여기 진짜 맛있다', 2번 방문)에서 케제크라이너 1개만."
         },
         {
           placeId: "stephansdom",
@@ -791,6 +855,12 @@ window.TRIP = {
           placeId: "belvedere",
           text: "벨베데레 궁전 (상궁)",
           note: "상궁 매일 09:00–18:00, 성인 €23 · 시간 지정 티켓. 투어 종료 후 숙소까지 걸어서 약 10–15분."
+        },
+        {
+          time: "17:30",
+          placeId: "plachutta",
+          text: "저녁 · Plachutta Wollzeile 타펠슈피츠 🍖 육식맨 추천",
+          note: "숙소에서 U1 Stephansplatz → U3 Stubentor, 또는 Stephansplatz에서 걸어서 약 8분. 매일 11:30–23:30(공식). 영상은 히칭 본점이었지만, 같은 체인에서 같은 메뉴를 내고 도심이라 Wollzeile 지점으로 잡았습니다. 영상에서도 '많이 안 먹으려고' 1인분을 둘이 나눠 먹었습니다. 순서: 구리 냄비 수프 → 골수(빵에 발라서) → 고기 + 사과홀스래디시 · 차이브 소스 · 감자. 주문(2명): Tafelspitz 1인분 €36.90 + 음료 2잔(약 €10, 추정) ≈ €47 (약 70,000원). 접시 추가 요금이 있는지는 미확인. ⚠️ 예약 권장: plachuttawollzeile.pide.at 또는 +43 1 512 15 77."
         }
       ],
       notes: [
@@ -849,7 +919,7 @@ window.TRIP = {
           time: "11:00",
           placeId: "getreidegasse",
           text: "게트라이데 거리",
-          note: "다리에서 걸어서 약 3분. 철제 간판이 늘어선 쇼핑 거리. 점심은 이 근처나 대성당 주변에서."
+          note: "다리에서 걸어서 약 3분. 철제 간판이 늘어선 쇼핑 거리. 점심(영상 추천 아님): 생가 관람 뒤 걸어서 약 2분 거리인 Sternbräu(Griesgasse 23)에서 핀츠가우 케스노켄(Pinzgauer Kasnockn, 치즈 뇨키 팬) 1개 + 수프 1개를 나눠 먹으면 비엔나에서 먹을 메뉴와 겹치지 않습니다. 가격은 미확인입니다(예전 메뉴는 케스노켄 €9.90 · 수프 €4.50이었고 지금은 더 비쌀 수 있음, 약 €20–25 · 3–3.7만 원 추정). 매일 영업이라는 정보도 3자 자료 기준."
         },
         {
           time: "11:15",
@@ -918,7 +988,13 @@ window.TRIP = {
           time: "09:00",
           placeId: "schoenbrunn",
           text: "(선택) 쇤브룬 궁전 · 주변 돌아다니기",
-          note: "11/3–3/31 매일 08:30–17:00 (마지막 입장 16:15). Hbf에서 U1 → Karlsplatz → U4로 약 25–30분. 12:30쯤엔 숙소 쪽으로 돌아오세요. 가까이 있고 싶다면 벨베데레 정원·Hbf 주변 산책으로 대신."
+          note: "11/3–3/31 매일 08:30–17:00 (마지막 입장 16:15). Hbf에서 U1 → Karlsplatz → U4로 약 25–30분. 11:30쯤 나와서 U4 → Karlsplatz → U1 Stephansplatz로 점심 장소까지 약 20분. 가까이 있고 싶다면 벨베데레 정원·Hbf 주변 산책으로 대신."
+        },
+        {
+          time: "12:00",
+          placeId: "figlmueller",
+          text: "점심 · Figlmüller 슈니첼 🍖 육식맨 추천",
+          note: "Stephansplatz에서 걸어서 약 3분. 매일 11:30–23:30(3자 자료 기준, 미확인). 영상 평: 돼지 슈니첼이 송아지보다 '더 촉촉하다'고 했고, TasteAtlas '전설적인 식당' 1위. 접시보다 큰 슈니첼이라 둘이 1장이면 충분합니다. 주문(2명): Figlmüller-Schnitzel(돼지) 1장 €21.90 + 감자 · 콘샐러드(Erdäpfel-Vogerlsalat, 가격 미표기라 약 €7로 추정) + 링곤베리 잼 €2.90 + 음료 2잔(약 €10, 추정) ≈ €42 (약 62,000원). ⚠️ 예약 권장(공식 사이트). 13:45쯤 U1 Stephansplatz → Hauptbahnhof(약 5분) → 숙소에서 짐 찾기."
         },
         {
           time: "15:40",
@@ -964,7 +1040,7 @@ window.TRIP = {
       date: "2026-12-02",
       title: "부다 성 · 다뉴브 크루즈",
       city: "부다페스트",
-      blurb: "부다 언덕을 북쪽(바위 병원·어부의 요새)에서 남쪽(왕궁)으로 걸은 뒤, 서쪽 기슭의 Stand25에서 점심을 먹습니다. 체인 브리지를 건너 페스트에서 크리스마스 마켓 → 노을·야경 크루즈 → 오래된 식당에서 저녁. 🎬 영상 추천 = Edmmer 헝가리 브이로그에 나온 곳입니다.",
+      blurb: "부다 언덕을 북쪽(바위 병원·어부의 요새)에서 남쪽(왕궁)으로 걸은 뒤, 서쪽 기슭의 Stand25에서 점심을 먹습니다. 체인 브리지를 건너 페스트에서 크리스마스 마켓 → 노을·야경 크루즈 → 마켓으로 돌아와 가벼운 저녁. 점심을 든든히 먹으니 저녁은 노점으로 가볍게. 🎬 영상 추천 = Edmmer 헝가리 브이로그, 🍖 육식맨 추천 = 육식맨 부다페스트 영상에 나온 곳입니다.",
       items: [
         {
           time: "09:30",
@@ -994,13 +1070,13 @@ window.TRIP = {
           time: "13:15",
           placeId: "stand25",
           text: "점심 · Stand25 Bisztró 🎬 영상 추천",
-          note: "영상에서 먹은 것은 구야시 수프, 메기 파프리카시(harcsapaprikás), 사슴 스테이크, 쇼믈로이 갈루슈카(Somlói galuska), 토카이 와인과 팔린카입니다. 메뉴가 계절마다 바뀌니 일부는 없을 수 있지만, 구야시와 쇼믈로이는 대표 메뉴입니다. 미쉐린 빕구르망. 점심은 월–토 12:00–16:00(마지막 입장 14:30), 일요일 휴무. 서비스 차지가 붙습니다. ⚠️ 예약 필수: 전화(+36 30 961 3262) 또는 홈페이지의 SevenRooms."
+          note: "영상에서 먹은 것은 구야시 수프, 메기 파프리카시(harcsapaprikás), 사슴 스테이크, 쇼믈로이 갈루슈카(Somlói galuska), 토카이 와인과 팔린카입니다. 메뉴가 계절마다 바뀌니 일부는 없을 수 있지만, 구야시와 쇼믈로이는 대표 메뉴입니다. 미쉐린 빕구르망. 주문(2명): 구야시 5,900 + 메기 파프리카시(juhtúrós sztrapacska 곁들임) 9,900 + 쇼믈로이 4,900 = 20,700 HUF (약 84,000원) + 서비스 차지(비율 미확인, 10–15%면 약 9.2–9.6만 원). 구야시는 이번 여행에서 여기서만 먹습니다. (2026 메뉴 PDF 기준) 점심은 월–토 12:00–16:00(마지막 입장 14:30), 일요일 휴무. 서비스 차지가 붙습니다. ⚠️ 예약 필수: 전화(+36 30 961 3262) 또는 홈페이지의 SevenRooms."
         },
         {
           time: "15:15",
           placeId: "vorosmarty",
           text: "체인 브리지 건너 · 뵈뢰슈마르티 광장 크리스마스 마켓",
-          note: "Stand25에서 체인 브리지를 건너 도보 약 20분. 2026.11.13–12.31 운영, 일–목 11:00–21:00, 금–토 11:00–22:00(공식 사이트). 뱅쇼(forralt bor)와 굴뚝빵(kürtőskalács)을 맛보세요. 사람이 많으니 소매치기 주의."
+          note: "Stand25에서 체인 브리지를 건너 도보 약 20분. 2026.11.13–12.31 운영, 일–목 11:00–21:00, 금–토 11:00–22:00(공식 사이트). 지금은 구경만 하고, 크루즈가 끝나면 다시 와서 저녁을 먹습니다. 사람이 많으니 소매치기 주의."
         },
         {
           time: "16:20",
@@ -1009,10 +1085,10 @@ window.TRIP = {
           note: "선착장은 Vigadó tér 7번(Jane Haining rakpart 7, 마켓에서 도보 5분). 11/23–12/31 저녁 크루즈는 15:40, 16:20부터 20분 간격으로 21:00까지 있습니다. 약 1시간이고 음료 1잔과 오디오 가이드가 포함되며 성인 €25. 해가 일찍 지니 16시대 배를 타면 노을과 야경을 둘 다 볼 수 있습니다. 온라인 예매 권장."
         },
         {
-          time: "18:30",
-          placeId: "szazeves",
-          text: "저녁 · Százéves Étterem 🎬 영상 추천",
-          note: "1831년에 문을 연 '페스트에서 가장 오래된 식당'. 선착장에서 도보 약 8분. 영상에서 먹은 것은 비프 타르타르, 구야시 수프, 구운 거위 다리, Soproni 맥주입니다. 화–일 12:00–23:00(월 13:00–). 예약 권장: 전화(+36 1 230 0329) 또는 홈페이지."
+          time: "17:40",
+          placeId: "vorosmarty",
+          text: "가벼운 저녁 · 뵈뢰슈마르티 마켓 노점",
+          note: "선착장에서 걸어서 약 5분. 수요일은 21:00까지. 주문(2명): 구운 소시지(kolbász) + 빵 1개 나눠 먹기, 굴뚝빵(kürtőskalács) 1개, 뱅쇼(forralt bor) 2잔. 약 10,000 HUF (약 40,000원). 노점 가격은 미확인이라 추정치이고 현장에서 확인하세요. 컵 보증금이 따로 있을 수 있습니다."
         },
         {
           time: "21:00",
@@ -1025,9 +1101,10 @@ window.TRIP = {
         {
           title: "미리 예약할 것",
           rows: [
-            ["Stand25", "12/2 점심 (전화 / SevenRooms)"],
-            ["Százéves", "12/2 저녁 (전화 / 홈페이지)"],
-            ["Rosenstein", "12/3 점심 (전화 / 이메일, 웹 폼은 자동 확정 아님)"],
+            ["Stand25", "12/2 점심 13:15 (전화 / SevenRooms) · 필수"],
+            ["Comme Chez Soi", "12/3 점심 13:00 (이메일 commechezsoi@gmail.com 또는 전화 +36 1 318 3943) · 필수, 10테이블 정도로 작음 · 현금만 받는다는 후기(미확인)"],
+            ["Negro Mangalica", "12/3 저녁 17:30 (reservours.com/negromangalica 또는 전화 +36 20 244 4733) · 권장"],
+            ["Parasztkonyha", "12/4 저녁 18:30 · Október 6. utca 지점 (booking@parasztkonyha.com / +36 70 596 7087) · 권장"],
             ["국회의사당", "12/4 오전 영어 투어 (jegymester.hu 공식)"],
             ["선택", "바위 병원 회차, 세체니 입장권, Legenda 크루즈 (온라인)"]
           ],
@@ -1049,13 +1126,13 @@ window.TRIP = {
       date: "2026-12-03",
       title: "온천 · 유대인 지구 루인바",
       city: "부다페스트",
-      blurb: "숙소 옆 시장에서 아침 → 세체니 온천 → Keleti 근처 Rosenstein 점심 → 서쪽 유대인 지구로 걸어가 스트리트 푸드와 루인바. 북쪽에서 남쪽, 다시 서쪽으로 이어지는 동선입니다.",
+      blurb: "숙소 옆 시장에서 아침 → 세체니 온천 → M1으로 도심에 가서 푸아그라 점심 → 유대인 지구를 걸은 뒤 망갈리차 샤퀴테리와 와인으로 가벼운 저녁 → 루인바.",
       items: [
         {
           time: "08:30",
           placeId: "lehel-market",
           text: "아침 · 레헬 시장 Csirke Csibész 🎬 영상 추천",
-          note: "숙소에서 도보 약 5분(Lehel tér M3 바로 앞). 시장은 월–금 06:00–18:00. 2층 갤러리의 닭 요리 가게 Csirke Csibész는 월–금 6:30–18:00입니다. 영상에 나온 메뉴 이름은 확인하지 못했으니 진열대를 보고 고르세요. (영상의 Café ZAJ는 이 시장이 아니라 Jókai u. 11에 있어 일정에서 뺐습니다.)"
+          note: "숙소에서 도보 약 5분(Lehel tér M3 바로 앞). 시장은 월–금 06:00–18:00. 2층 갤러리의 닭 요리 가게 Csirke Csibész는 월–금 6:30–18:00입니다. 영상에 나온 메뉴 이름은 확인하지 못했으니 진열대를 보고 고르세요. 점심이 진하니 아침은 닭 요리 1인분과 곁들이 1개를 나눠 먹기(약 2,500–3,500 HUF · 1–1.4만 원, 추정). (영상의 Café ZAJ는 이 시장이 아니라 Jókai u. 11에 있어 일정에서 뺐습니다.)"
         },
         {
           time: "10:00",
@@ -1064,28 +1141,28 @@ window.TRIP = {
           note: "M3 Lehel tér → Deák Ferenc tér → M1 Széchenyi fürdő, 또는 Bolt로 약 10분. 월–목 07:00–20:00(탕은 19:40까지), 금 07:00–22:00. 평일 입장권 13,200 HUF, Fast Track 15,200 HUF(온라인 전용). ⚠️ 수건과 가운 대여가 현재 중단돼 있으니 수건, 슬리퍼, 수영복을 챙기세요(현장 판매는 있음). 온천 안 매점은 카드만 받습니다."
         },
         {
-          time: "13:30",
-          placeId: "rosenstein",
-          text: "점심 · Rosenstein Vendéglő 🎬 영상 추천",
-          note: "세체니에서 Bolt로 약 10분. 월–토 12:00–23:00, 일요일 휴무. 2026년 여름 리노베이션 뒤 9/1에 다시 열었습니다. 영상에서 먹은 것은 강꼬치고기(süllő/fogas) 요리, 치킨 파프리카시(paprikás csirke), 맥주. 예약 권장: 전화 +36 1 333 3492 / +36 30 746 1603, 또는 rosenstein@rosenstein.hu."
+          time: "13:00",
+          placeId: "comme-chez-soi",
+          text: "점심 · Comme Chez Soi 거위 간 🍖 육식맨 추천",
+          note: "M1 Széchenyi fürdő → Vörösmarty tér(약 12분), 내려서 걸어서 약 5분. 매일 12:00–23:00(공식). 영상 평: 차가운 푸아그라와 사과 플람베를 곁들인 구운 푸아그라 둘 다 극찬. 샐러드 · 셔벗 · 리큐어를 서비스로 준다는 후기가 있습니다. 주문(2명): 사과 곁들인 구운 거위 간 1개 12,900 HUF(3자 자료 기준) + 해산물 파스타 1개 8,900 HUF(2명이 먹을 만한 양이라는 후기) ≈ 21,800 HUF (약 88,000원) + 음료. 차가운 푸아그라도 먹고 싶으면 파스타 대신 시키세요(가격 미확인). ⚠️ 예약 필수: commechezsoi@gmail.com / +36 1 318 3943. ⚠️ 현금만 받는다는 후기가 있으니(미확인) 3만 HUF 정도 현금을 챙기세요."
         },
         {
-          time: "15:30",
+          time: "15:00",
           placeId: "jewish",
           text: "유대인 지구 산책 · 도하니 회당",
-          note: "Rosenstein에서 Rákóczi út를 따라 서쪽으로 약 1.5 km. 해가 지고 불이 켜진 골목이 분위기가 좋습니다."
+          note: "Comme Chez Soi에서 걸어서 약 20분(약 1.5 km). 해가 지고 불이 켜진 골목이 분위기가 좋습니다. (Edmmer 영상의 Rosenstein · Karaván은 동선과 메뉴가 겹쳐서 이번엔 뺐습니다.)"
         },
         {
           time: "17:30",
-          placeId: "karavan",
-          text: "Karaván 스트리트 푸드 🎬 영상 추천",
-          note: "매일 11:30–23:59(공식 사이트), 겨울에도 엽니다. 랑고시, 랑고시 버거 같은 푸드트럭 음식에 맥주 한 잔."
+          placeId: "negromangalica",
+          text: "가벼운 저녁 · Negro Mangalica 샤퀴테리 🍖 육식맨 추천",
+          note: "Szimpla에서 걸어서 약 5분. 매일 12:00–23:30(공식). 헝가리 토종 돼지 망갈리차 전문점. 영상에서는 샤퀴테리 플레이트(파프리카 소시지, 페퍼 소시지, 햄, 디스노샤이트)를 먹었습니다. 주문(2명): Mangalica felvágottas tál 5,900 + 호르토바지 팔러친타(고기를 넣은 크레페) 3,500 + 헝가리 와인 2잔(약 4,000, 추정) ≈ 13,400 HUF (약 54,000원). 메뉴판 사진 기준이고 서비스 차지는 미확인. 예약 권장: reservours.com/negromangalica 또는 +36 20 244 4733."
         },
         {
           time: "19:30",
           placeId: "szimpla",
           text: "Szimpla Kert 루인바 🎬 영상 추천",
-          note: "Karaván 바로 옆에 있는 원조 루인바입니다. 영업시간(월–금 15:00–04:00, 토 12:00–, 일 09:00–)은 3자 자료 기준이고 공식 사이트에서는 확인하지 못했습니다(미확인). 밤이 깊을수록 붐비니 일찍 가세요. 소지품 주의."
+          note: "Negro Mangalica에서 걸어서 약 5분, Kazinczy utca에 있는 원조 루인바입니다. 영업시간(월–금 15:00–04:00, 토 12:00–, 일 09:00–)은 3자 자료 기준이고 공식 사이트에서는 확인하지 못했습니다(미확인). 밤이 깊을수록 붐비니 일찍 가세요. 소지품 주의."
         },
         {
           time: "22:30",
@@ -1099,13 +1176,13 @@ window.TRIP = {
       date: "2026-12-04",
       title: "페스트 · 국회의사당 · 크리스마스 마켓",
       city: "부다페스트",
-      blurb: "남쪽 중앙시장에서 랑고시로 시작해 트램 2를 타고 다뉴브를 따라 국회의사당까지 올라갑니다. 대성당과 마켓을 본 뒤 숙소에서 쉬고, 저녁에는 프로젝션 쇼 → Gozsdu 구야시 → 국회의사당 강변 야경 산책으로 마지막 밤을 가볍게 마무리합니다.",
+      blurb: "남쪽 중앙시장에서 랑고시로 시작해 트램 2를 타고 다뉴브를 따라 국회의사당까지 올라갑니다. 대성당과 마켓을 본 뒤 숙소에서 쉬고, 저녁에는 프로젝션 쇼 → 바로 옆 Parasztkonyha에서 마지막 헝가리 가정식 → 국회의사당 강변 야경 산책으로 마무리합니다.",
       items: [
         {
           time: "08:30",
           placeId: "great-market",
           text: "중앙시장 · 랑고시 아침 🎬 영상 추천",
-          note: "M3 Lehel tér → Kálvin tér 직행(약 10분), 내려서 도보 5분. 월–금 06:00–18:00, 공휴일 휴무. 랑고시는 2층 갤러리에 있습니다. ⚠️ 영상에서는 토핑을 전부 '예스' 했다가 약 10만 원이 나왔습니다. 주문 전에 가격표와 토핑별 가격을 확인하고, 기본(사워크림 + 치즈)부터 시작하세요. ⚠️ 붐비는 곳이니 소매치기 주의."
+          note: "M3 Lehel tér → Kálvin tér 직행(약 10분), 내려서 도보 5분. 월–금 06:00–18:00, 공휴일 휴무. 랑고시는 2층 갤러리에 있습니다. ⚠️ 영상에서는 토핑을 전부 '예스' 했다가 약 10만 원이 나왔습니다. 주문 전에 가격표와 토핑별 가격을 확인하고, 기본(사워크림 + 치즈)부터 시작하세요. 주문(2명): 사워크림 + 치즈 랑고시 1개 나눠 먹기(약 2,000–3,000 HUF · 8,000–12,000원, 추정). 랑고시는 이번 여행에서 여기서만 먹습니다. ⚠️ 붐비는 곳이니 소매치기 주의."
         },
         {
           time: "10:30",
@@ -1117,7 +1194,7 @@ window.TRIP = {
           time: "12:15",
           placeId: "basilica",
           text: "성 이슈트반 대성당 · Advent Bazilika 마켓 점심",
-          note: "국회에서 도보 약 15분. 성당 내부는 월–토 09:00–17:45, 전망대는 매일 09:00–19:00. 성인 요금은 성당 2,600 / 전망대 + 보물관 5,000 / 통합권 6,800 HUF. 마켓은 2026.11.13–2027.1.1, 일–목 11:00–22:00, 금–토 11:00–23:00. 노점에서 소시지, 굴뚝빵, 뱅쇼로 점심."
+          note: "국회에서 도보 약 15분. 성당 내부는 월–토 09:00–17:45, 전망대는 매일 09:00–19:00. 성인 요금은 성당 2,600 / 전망대 + 보물관 5,000 / 통합권 6,800 HUF. 마켓은 2026.11.13–2027.1.1, 일–목 11:00–22:00, 금–토 11:00–23:00. 주문(2명): 12/2에 소시지와 굴뚝빵을 먹었으니, 여기서는 töltött káposzta(양배추 롤) 1개 + 뱅쇼나 따뜻한 펀치 1–2잔(약 5,000–8,000 HUF · 2–3.2만 원, 추정). 저녁을 든든히 먹으니 가볍게."
         },
         {
           time: "14:30",
@@ -1133,15 +1210,15 @@ window.TRIP = {
         },
         {
           time: "18:30",
-          placeId: "gozsdu",
-          text: "저녁 · Gozsdu Udvar의 Spíler 구야시 🎬 영상 추천",
-          note: "대성당에서 도보 약 8분. Spíler는 매일 11:30부터(목–토 01:30까지)이고, 구야시 수프 2,940 HUF, 비프 구야시 6,580 HUF(메뉴 사이트 기준). 영상에서는 '해장 구야시'로 나왔습니다. Gozsdu 크리스마스 마켓은 12/4부터 금 10:00–19:00(3자 자료)."
+          placeId: "parasztkonyha",
+          text: "저녁 · Parasztkonyha 헝가리 가정식 🍖 육식맨 추천",
+          note: "대성당에서 걸어서 약 5분. Váci utca에도 지점이 있으니 Október 6. utca 3으로 가세요. 월–목 17:00–23:00, 금–일 12:00–23:00(공식). 영상 평: 레초(lecsó), 구야시, 소고기 푀르켈트 모두 훌륭하고 양이 많다. 구야시는 12/2에 먹었으니 빼고 주문(2명): 레초 4,990 + 소고기 푀르켈트(marhapörkölt, 달걀 넣은 헝가리식 수제비 곁들임) 7,790 + 군델 팔러친타(호두 크레페 · 초콜릿 소스) 3,990 + 와인 1.5 dl 2잔(약 4,880) ≈ 21,650 HUF (약 88,000원). 2026/05 공식 메뉴, VAT 포함, 서비스 차지는 미확인. 예약 권장: booking@parasztkonyha.com / +36 70 596 7087."
         },
         {
           time: "20:00",
           placeId: "parliament",
           text: "국회의사당 · 다뉴브 강변 야경 산책",
-          note: "Deák Ferenc tér에서 M2로 두 정거장 가서 Kossuth Lajos tér에서 내리거나, Gozsdu에서 걸어서 약 25분. 오전에 투어한 국회의사당을 밤에 강변에서 한 번 더 봅니다. 가볍게 30–40분 걷고 숙소로 갑니다."
+          note: "Parasztkonyha에서 걸어서 약 12분(약 1 km). 오전에 투어한 국회의사당을 밤에 강변에서 한 번 더 봅니다. 가볍게 30–40분 걷고 숙소로 갑니다."
         },
         {
           time: "21:30",
