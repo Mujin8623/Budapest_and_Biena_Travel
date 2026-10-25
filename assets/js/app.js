@@ -308,6 +308,7 @@
     "vienna-hotel": "문서 · 숙소",
     "budapest-hotel": "문서 · 숙소",
     "train-vie-bud": "문서 · 기차",
+    "train-vie-sbg": "문서 · 기차",
     "flight-eticket": "문서 · 항공권"
   };
   const vaultState = {
@@ -330,6 +331,11 @@
 
   function docChipLabel(id) {
     return DOC_LABELS[id] || "문서";
+  }
+
+  function vaultSeatLink(id) {
+    if (!id) return "";
+    return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '">좌석 번호는 보관함(' + esc(id) + ")에서 확인</a>";
   }
 
   function vaultHas(id) {
@@ -789,12 +795,15 @@
         + (place ? extLink(dirUrl({ destination: place, mode: state.travel }), dirLabel(), true) : "")
         + nextLink
         + (guide && place && guide.artworksFor === place.id && window.TripTour ? '<a class="btn" href="#/tour/belvedere">작품 투어</a>' : "")
-        + "</div></article>"
+        + "</div>"
+        + (item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId) + "</div>" : "")
+        + "</article>"
         + (leg ? legHtml(leg, "leg") : "");
     }).join("");
     const notes = (day.notes || []).map((note) => {
       const rows = note.rows.map((row) => "<div><dt>" + esc(row[0]) + "</dt><dd>" + esc(row[1]) + "</dd></div>").join("");
       return '<section class="note"><h3>' + esc(note.title) + "</h3><dl>" + rows + "</dl>"
+        + (note.docId ? '<div class="stop-vault">' + vaultSeatLink(note.docId) + "</div>" : "")
         + (note.foot ? '<p class="fine">' + esc(note.foot) + "</p>" : "") + "</section>";
     }).join("");
     const docs = docLinksHtml(day.date);
@@ -978,6 +987,7 @@
       + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
       + (place.address ? '<p class="station">' + esc(place.address) + "</p>" : "")
       + (item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
+      + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId) + "</div>" : "")
       + (place.lines === "100E · 200E" ? '<p class="fine">터미널 안에 지하철역은 없습니다. 100E는 도심, 200E는 M3 Kőbánya-Kispest로 갑니다.</p>' : "")
       + guideSheetHtml(day, place, next)
       + modeSwitch()

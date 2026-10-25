@@ -110,6 +110,14 @@ main { padding-bottom: var(--nav-h); }
 .hero-list b { flex: 0 0 52px; font-variant-numeric: tabular-nums; color: var(--accent); }
 .hero-actions, .stop-actions, .sheet-actions { display: flex; gap: 8px; margin-top: 12px; }
 .hero-actions .btn, .stop-actions .btn, .sheet-actions .btn { flex: 1; }
+.stop-vault { margin-top: 8px; }
+.stop-vault .vault-seat {
+  width: 100%;
+  white-space: normal;
+  line-height: 1.35;
+  padding: 10px 12px;
+  text-align: center;
+}
 
 .quick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
 .quick a {
