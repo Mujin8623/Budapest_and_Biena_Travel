@@ -25,6 +25,21 @@
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function legBetween(a, b) { return G.legs.find(function (l) { return l.from === a && l.to === b; }) || null; }
   function km(m) { return m >= 1000 ? (m / 1000).toFixed(1) + " km" : Math.round(m / 10) * 10 + " m"; }
+  /* Line icons (SVG, so they look the same on every OS instead of emoji / text glyphs). */
+  function ico(d) { return '<svg class="tm-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + d + "</svg>"; }
+  var I = {
+    close: ico('<path d="M6 6l12 12M18 6L6 18"/>'),
+    back: ico('<path d="M15 5l-7 7 7 7"/>'),
+    ext: ico('<path d="M14 5h5v5M19 5l-8 8M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4"/>'),
+    walk: ico('<circle cx="13" cy="4.5" r="1.8"/><path d="M10 21l2.2-6.2M14.5 21l-1.6-4.6-2.3-2.4.9-4.6M8 12.5l1.6-3.4 3-.9 2.2 2.6 2.7 1"/>'),
+    tram: ico('<rect x="5" y="6" width="14" height="12" rx="3"/><path d="M5 12h14M9 3h6M12 3v3M8 21l1.5-3M16 21l-1.5-3"/><circle cx="8.5" cy="15" r=".6"/><circle cx="15.5" cy="15" r=".6"/>'),
+    metro: ico('<rect x="5" y="3.5" width="14" height="14" rx="4"/><path d="M9 21l1.5-3.5M15 21l-1.5-3.5M5 11h14"/><circle cx="9" cy="14.3" r=".6"/><circle cx="15" cy="14.3" r=".6"/>'),
+    save: ico('<path d="M12 4v11M7 10l5 5 5-5M5 19h14"/>'),
+    check: ico('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
+    retry: ico('<path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/>')
+  };
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)");
+  function smooth() { return reduceMotion && reduceMotion.matches ? "auto" : "smooth"; }
   function thumb(src) { return src.replace("assets/img/", "assets/img/thumbs/"); }
 
   /* ---------- tour definitions ---------- */
@@ -66,7 +81,7 @@
     var segs = "";
     for (var k = 0; k < segCount; k += 1) segs += '<i class="' + (k < at ? "done" : k === at ? "now" : "") + '"></i>';
     return '<div class="tm-top' + (light ? " tm-top-light" : "") + '">'
-      + '<a class="tm-close" href="' + BACK + '" aria-label="투어 닫고 일정으로">✕</a>'
+      + '<a class="tm-close" href="' + BACK + '" aria-label="투어 닫고 일정으로">' + I.close + "</a>"
       + '<button type="button" class="tm-prog" data-tm="list" aria-label="전체 순서 보기 (' + esc(label) + ')"><span class="tm-prog-bar">' + segs + '</span><span class="tm-prog-num">' + esc(label) + "</span></button></div>";
   }
   var ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
@@ -78,19 +93,35 @@
       + '<span class="tm-audio-label">이 화면은 글로만 봐요</span>'
       + '<button type="button" class="tm-chip" data-tm="auto" aria-pressed="' + auto + '">글 자동 넘김</button></div>';
   }
-  /* Relay player: play/pause, small speaker label + handover line, next segment. */
+  /* Relay player: play/pause, speaker name chip (initial avatar) + handover line, next segment,
+     one-line AI-voice note and (start card) the offline-save chip. */
   function relaySlot(segs, withSave) {
     var sec = segs.reduce(function (t, x) { return t + (x.d || 0) + 6; }, 0), min = Math.max(1, Math.round(sec / 60));
     return '<div class="tm-relay" data-relay>'
       + '<div class="tm-relay-ctrl">'
-      + '<button type="button" class="tm-audio-play tm-relay-play" data-tm="rplay" aria-label="음성 해설 재생">' + ICON_PLAY + "</button>"
-      + '<div class="tm-relay-now"><p class="tm-relay-top"><span class="tm-relay-who">여섯 가이드 릴레이</span><span class="tm-relay-pos">' + segs.length + "구간 · 약 " + min + "분</span></p>"
+      + '<button type="button" class="tm-relay-play" data-tm="rplay" aria-label="음성 해설 재생">' + ICON_PLAY + "</button>"
+      + '<div class="tm-relay-now"><p class="tm-relay-top"><span class="tm-relay-who">여섯 가이드 릴레이</span><span class="tm-relay-pos">' + segs.length + "구간 · 약 " + min + "분</span>"
+      + '<span class="tm-relay-eq" aria-hidden="true"><i></i><i></i><i></i></span></p>'
       + '<p class="tm-relay-hand" aria-live="polite">재생을 누르면 가이드들이 번갈아 읽어 줘요.</p></div>'
       + '<button type="button" class="tm-relay-skip" data-tm="rnext" aria-label="다음 구간"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5v14l9-7zM16 5h3v14h-3z"/></svg></button>'
       + "</div>"
-      + '<p class="tm-relay-note">AI 합성 음성이에요. xAI 기본 목소리 6개가 가상의 가이드 캐릭터를 맡았어요(실제 인물이 아니에요).</p>'
-      + (withSave ? '<button type="button" class="tm-chip tm-relay-save" data-tm="rsave">오프라인 저장 · 약 ' + Math.round(RD.tours[tourId].bytes / 1048576) + " MB</button>" : "")
+      + '<div class="tm-relay-foot"><p class="tm-relay-note">AI 합성 음성(xAI) · 가이드 6명은 가상 캐릭터예요</p>'
+      + (withSave ? saveBtn() : "") + "</div>"
       + "</div>";
+  }
+  /* Offline-save chip. data-state: idle | loading (progress fill via --p) | done | failed. */
+  function saveMb() { return Math.round(RD.tours[tourId].bytes / 1048576); }
+  function saveBtn() {
+    return '<button type="button" class="tm-relay-save" data-tm="rsave" data-state="idle" aria-live="polite" aria-busy="false">'
+      + I.save + '<span class="tm-relay-save-txt">오프라인 저장 · ' + saveMb() + " MB</span></button>";
+  }
+  function saveState(btn, state, text, pct) {
+    btn.dataset.state = state;
+    btn.setAttribute("aria-busy", String(state === "loading"));
+    if (pct != null) btn.style.setProperty("--p", pct + "%"); else btn.style.removeProperty("--p");
+    var icon = state === "done" ? I.check : state === "failed" ? I.retry : I.save, old = btn.querySelector(".tm-ico");
+    if (old && old.getAttribute("data-k") !== state) { old.outerHTML = icon; btn.querySelector(".tm-ico").setAttribute("data-k", state); }
+    btn.querySelector(".tm-relay-save-txt").textContent = text;
   }
   function relaySegs(c) {
     if (!HAS_RELAY || !c) return null;
@@ -119,7 +150,7 @@
   function bar(primary, opts) {
     opts = opts || {};
     return '<footer class="tm-bar">'
-      + (pos > 0 ? '<button type="button" class="tm-btn tm-ghost tm-prev" data-tm="prev" aria-label="이전">‹</button>' : "")
+      + (pos > 0 ? '<button type="button" class="tm-btn tm-ghost tm-prev" data-tm="prev" aria-label="이전">' + I.back + "</button>" : "")
       + (opts.secondary || "")
       + (opts.href ? '<a class="tm-btn tm-primary" href="' + esc(opts.href) + '">' + primary + "</a>"
         : '<button type="button" class="tm-btn tm-primary" data-tm="' + (opts.act || "next") + '">' + primary + "</button>")
@@ -127,15 +158,15 @@
   }
   function legCard(l, from, to, opts) {
     opts = opts || {};
-    var mode = l ? l.mode : "walk", icon = mode === "walk" ? "🚶" : mode === "tram" ? "🚋" : "🚇";
+    var mode = l ? l.mode : "walk", icon = mode === "walk" ? I.walk : mode === "tram" ? I.tram : I.metro;
     var meta = l ? l.min + "분" + (mode === "walk" && l.m ? " · " + km(l.m) : "") : "";
     var sub = l && l.tramM ? "트램 D " + km(l.tramM) + " + 걷기 " + km(l.m) : mode === "transit" ? "지하철 + 걷기" : "";
     var gm = "https://www.google.com/maps/dir/?api=1&destination=" + to.place.lat + "," + to.place.lng + "&travelmode=" + (mode === "walk" ? "walking" : "transit");
-    return '<p class="tm-leg-meta"><span aria-hidden="true">' + icon + "</span>" + esc(meta) + "</p>"
+    return '<p class="tm-leg-meta">' + icon + esc(meta) + "</p>"
       + (sub ? '<p class="tm-leg-sub">' + esc(sub) + "</p>" : "")
       + (l && (l.path || l.tram) ? miniMap(l, opts.context) : "")
       + '<p class="tm-leg-text"' + (l ? ' data-guide-id="' + esc(l.id) + '"' : "") + ">" + esc(l ? l.text : to.note || "") + "</p>"
-      + '<a class="tm-maplink" href="' + gm + '" target="_blank" rel="noopener noreferrer">지도 앱으로 길 찾기 ↗</a>';
+      + '<a class="tm-maplink" href="' + gm + '" target="_blank" rel="noopener noreferrer">지도 앱으로 길 찾기' + I.ext + "</a>";
   }
 
   /* Mini-map: plain SVG (no tiles, works offline). Faint context = other legs of this tour, bold = this leg. */
@@ -195,8 +226,8 @@
       + '<div class="tm-legtop">' + top(city.length, c.i, (c.i + 1) + "/" + city.length, true)
       + '<p class="tm-kicker">다음 장소 · ' + esc(to.time) + "</p><h1>" + esc(to.place.name) + "</h1></div>"
       + '<div class="tm-body">' + legCard(l, from, to, { context: cityLegs() })
-      + '<div class="tm-peek">' + (to.place.photo ? '<img src="' + esc(thumb(to.place.photo)) + '" alt="" loading="lazy">' : "") + '<div><p class="tm-kicker">도착하면</p><p>' + esc(to.text) + "</p></div></div>"
-      + (HAS_RELAY ? '<p class="tm-hint">도착하면 아래 버튼을 눌러요. 다음 장소 해설이 이어서 나와요.</p>' : "")
+      + '<div class="tm-peek">' + (to.place.photo ? '<img src="' + esc(thumb(to.place.photo)) + '" alt="" loading="lazy">' : "") + '<div><p class="tm-kicker">도착하면</p><p>' + esc(to.text) + "</p>"
+      + (HAS_RELAY ? '<p class="tm-peek-hint">아래 버튼을 누르면 다음 장소 해설이 이어서 나와요.</p>' : "") + "</div></div>"
       + "</div>" + bar(HAS_RELAY ? "도착 · 다음 장소" : "도착했어요") + "</section>";
   }
   function cEnd() {
@@ -326,7 +357,9 @@
     box.classList.toggle("is-hand", P.phase === "hand");
     if (it) {
       var who = box.querySelector(".tm-relay-who");
-      who.textContent = RD.voices[it.voice].name; who.style.setProperty("--c", RD.voices[it.voice].color);
+      var vc = RD.voices[it.voice];
+      who.textContent = vc.name; who.setAttribute("data-initial", vc.name.charAt(0));
+      who.style.setProperty("--c", vc.color); box.style.setProperty("--c", vc.color);
       who.classList.add("is-voice");
       box.querySelector(".tm-relay-pos").textContent = (P.k + 1) + "/" + segs.length;
       box.querySelector(".tm-relay-hand").textContent = it.hand.text;
@@ -334,7 +367,7 @@
   }
   function rFocus() {
     var ps = el.querySelectorAll(".tm-para"), p = ps[P.k];
-    if (p) { setOn(p); p.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    if (p) { setOn(p); p.scrollIntoView({ behavior: smooth(), block: "center" }); }
   }
   function rStep(phase) {
     var it = rItem(P.k), tok = ++P.token;
@@ -367,7 +400,7 @@
     var h = el.querySelector(".tm-relay-hand"); if (h) h.textContent = "여기 해설은 끝났어요.";
     var nx = tour.deck[pos + 1];
     if (nx && nx.t === "leg") { var at = pos; setTimeout(function () { if (pos === at && P.phase === "done") go(pos + 1, 1); }, 1200); return; }
-    var d = el.querySelector(".tm-relay-done"); if (d) { d.hidden = false; d.scrollIntoView({ behavior: "smooth", block: "center" }); }
+    var d = el.querySelector(".tm-relay-done"); if (d) { d.hidden = false; d.scrollIntoView({ behavior: smooth(), block: "center" }); }
     var b = el.querySelector(".tm-bar .tm-primary"); if (b) b.classList.add("tm-pulse");
   }
   function rPlayFrom(k) {
@@ -404,24 +437,26 @@
   }
   /* Optional: store every clip of this tour for offline use (not part of the app-shell precache). */
   function rSaveOffline(btn) {
-    if (!canCache) { btn.textContent = "이 브라우저에서는 저장할 수 없어요"; return; }
-    if (btn.dataset.busy) return; btn.dataset.busy = "1";
+    if (!canCache) { saveState(btn, "failed", "이 브라우저에서는 저장할 수 없어요"); return; }
+    if (btn.dataset.state === "loading") return;
     if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function () {});
-    var list = RL.files(RD, tourId), done = 0, failed = 0;
+    var list = RL.files(RD, tourId), done = 0, failed = 0, n = list.length;
+    saveState(btn, "loading", "저장 중 0/" + n, 0);
     caches.open(AUDIO_CACHE).then(function (c) {
       var i = 0;
       function worker() {
-        if (i >= list.length) return Promise.resolve();
+        if (i >= n) return Promise.resolve();
         var url = list[i++];
         return c.match(url).then(function (hit) { return hit || fetch(url).then(function (r) { if (!r.ok) throw 0; return c.put(url, r); }); })
           .then(function () { done += 1; }, function () { failed += 1; })
-          .then(function () { btn.textContent = "저장 중 " + (done + failed) + "/" + list.length; return worker(); });
+          .then(function () { var k = done + failed; saveState(btn, "loading", "저장 중 " + k + "/" + n, Math.round(k / n * 100)); return worker(); });
       }
       return Promise.all([worker(), worker(), worker(), worker()]);
     }).then(function () {
-      delete btn.dataset.busy;
-      btn.textContent = failed ? "일부 실패 (" + failed + "개) · 다시 눌러 이어서 저장" : "오프라인 저장 완료 ✓";
-    });
+      if (!failed) saveState(btn, "done", "오프라인 저장 완료 · " + saveMb() + " MB");
+      else if (!done) saveState(btn, "failed", "저장 실패 · 다시 시도");
+      else saveState(btn, "failed", "일부 실패 (" + failed + "개) · 다시 시도");
+    }, function () { saveState(btn, "failed", "저장 실패 · 다시 시도"); });
   }
 
   function setOn(p) { el.querySelectorAll(".tm-para.on").forEach(function (x) { x.classList.remove("on"); }); p.classList.add("on"); }
@@ -440,7 +475,7 @@
     (function step() {
       if (!auto) return;
       var p = ps[k]; if (!p) { stopAuto(); return; }
-      setOn(p); p.scrollIntoView({ behavior: "smooth", block: "center" });
+      setOn(p); p.scrollIntoView({ behavior: smooth(), block: "center" });
       autoTimer = setTimeout(function () { k += 1; step(); }, Math.max(2500, p.textContent.length * 110));
     })();
     syncAuto();

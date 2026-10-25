@@ -8,6 +8,15 @@
   --accent-soft: #fdecec;
   --gold: #8d6b32;
   --shadow: 0 10px 28px rgba(23, 24, 28, 0.06);
+  /* Shared by the tour mode and the map view */
+  --walk: #1f5fa8;
+  --tram: #d35400;
+  --accent-line: #f3c4c6;
+  --accent-glow: rgba(196, 55, 60, 0.28);
+  --ok: #1e6b3a;
+  --ok-soft: #e8f5ec;
+  --ok-line: #bfe3c9;
+  --tap: 44px;
   --nav-h: calc(62px + env(safe-area-inset-bottom));
   --header-h: calc(58px + env(safe-area-inset-top));
   color-scheme: light;
@@ -530,7 +539,7 @@ body[data-view="map"] .top { display: none; }
   font-size: 13px;
 }
 .leg p { margin: 0; }
-.leg-meta { color: #1f5fa8; font-weight: 700; }
+.leg-meta { color: var(--walk); font-weight: 700; }
 .leg-text { color: var(--muted); margin-top: 2px !important; }
 .leg-sheet { margin: 0 0 10px; background: var(--bg); }
 .leg-map { margin: 8px 0; }
