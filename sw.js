@@ -1,7 +1,7 @@
 /* Offline shell for the trip app.
    Same-origin files are cache-first, then refreshed in the background.
    Map tiles are not intercepted and are never prefetched. */
-const CACHE_VERSION = "trip-docs-v14";
+const CACHE_VERSION = "trip-docs-v15";
 const SHELL = [
   "./",
   "./index.html",
