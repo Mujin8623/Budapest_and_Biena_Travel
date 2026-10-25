@@ -1,7 +1,11 @@
 /* Offline shell for the trip app.
    Same-origin files are cache-first, then refreshed in the background.
-   Map tiles are not intercepted and are never prefetched. */
-const CACHE_VERSION = "trip-docs-v15";
+   Map tiles are not intercepted and are never prefetched.
+   Tour audio (audio/tour/) is NOT precached and not handled here: the page fetches clips on demand
+   and keeps them in its own "trip-audio-v1" cache (plus an optional per-tour "오프라인 저장" button),
+   so that cache survives shell version bumps. */
+const CACHE_VERSION = "trip-docs-v16";
+const AUDIO_CACHE = "trip-audio-v1";
 const SHELL = [
   "./",
   "./index.html",
@@ -9,11 +13,13 @@ const SHELL = [
   "./assets/css/tour.css",
   "./assets/js/app.js",
   "./assets/js/tour.js",
+  "./assets/js/relay.js",
   "./assets/favicon.svg",
   "./data/trip.js",
   "./data/transit.js",
   "./data/guide.js",
   "./data/story.js",
+  "./data/relay.js",
   "./data/vault.js",
   "./vendor/leaflet/leaflet.css",
   "./vendor/leaflet/leaflet.js"
@@ -27,7 +33,7 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter((key) => key !== CACHE_VERSION).map((key) => caches.delete(key)));
+    await Promise.all(keys.filter((key) => key !== CACHE_VERSION && key !== AUDIO_CACHE).map((key) => caches.delete(key)));
     await self.clients.claim();
   })());
 });
@@ -37,6 +43,7 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+  if (url.pathname.includes("/audio/tour/")) return;
   event.respondWith(cacheFirst(event, request));
 });
 

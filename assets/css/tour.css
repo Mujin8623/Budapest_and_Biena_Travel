@@ -149,3 +149,28 @@ body[data-view="tour"] main { padding-bottom: 0; }
 .tour-cta .tour-art { color: #fff; background: radial-gradient(120% 90% at 85% 10%, rgba(210,173,106,.5), transparent 60%), linear-gradient(160deg, #2a2118, #6b5226); }
 .art-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex: 0 0 auto; }
 .art-head .art-thumb + .art-no { display: none; }
+
+/* Six-guide relay audio player */
+.tm-relay { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); padding: 10px 10px 8px; margin-bottom: 14px; }
+.tm-relay-ctrl { display: flex; align-items: center; gap: 10px; }
+.tm-relay .tm-relay-play { background: var(--accent); cursor: pointer; flex: 0 0 auto; width: 44px; height: 44px; }
+.tm-relay .tm-relay-play svg { fill: #fff; }
+.tm-relay-now { flex: 1; min-width: 0; }
+.tm-relay-top { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.tm-relay-who { font-weight: 800; color: var(--ink); }
+.tm-relay-who.is-voice { color: var(--c, var(--accent)); }
+.tm-relay-who.is-voice::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--accent)); margin-right: 5px; vertical-align: 1px; }
+.tm-relay-pos { color: var(--muted); font-variant-numeric: tabular-nums; }
+.tm-relay-hand { margin: 2px 0 0; font-size: 12.5px; line-height: 1.45; color: var(--muted); word-break: keep-all; }
+.tm-relay.is-hand .tm-relay-hand { color: var(--ink); }
+.tm-relay-skip { flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); display: grid; place-items: center; padding: 0; cursor: pointer; }
+.tm-relay-skip svg { width: 16px; height: 16px; fill: var(--ink); }
+.tm-relay-note { margin: 8px 4px 0; font-size: 11px; line-height: 1.45; color: var(--muted); }
+.tm-relay-save { margin: 8px 4px 2px; }
+.tm-relay-done { margin-top: 16px; padding: 12px 14px; border-radius: 14px; background: var(--surface); border: 1px dashed var(--accent); }
+.tm-relay-done p { margin: 0; font-size: 15px; }
+.tm-relay-done .tm-kicker { font-size: 12px; margin-bottom: 4px; }
+.tm-pulse { animation: tm-pulse 1.4s ease-in-out 3; }
+@keyframes tm-pulse { 50% { box-shadow: 0 0 0 6px rgba(196,55,60,.25), 0 8px 20px rgba(196,55,60,.28); } }
+@media (prefers-reduced-motion: reduce) { .tm-pulse { animation: none; } }
+.tm-stats + .tm-relay { margin-top: 14px; }
