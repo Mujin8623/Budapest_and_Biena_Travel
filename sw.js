@@ -4,7 +4,7 @@
    Tour audio (audio/tour/) is NOT precached and not handled here: the page fetches clips on demand
    and keeps them in its own "trip-audio-v1" cache (plus an optional per-tour "오프라인 저장" button),
    so that cache survives shell version bumps. */
-const CACHE_VERSION = "trip-docs-v19";
+const CACHE_VERSION = "trip-docs-v21";
 const AUDIO_CACHE = "trip-audio-v1";
 const SHELL = [
   "./",
