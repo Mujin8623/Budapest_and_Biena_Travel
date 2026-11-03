@@ -340,9 +340,9 @@
     "restaurant-stand25": "예약 확인 보기"
   };
 
-  function vaultSeatLink(id) {
+  function vaultSeatLink(id, labelOverride) {
     if (!id) return "";
-    const label = /^train-/.test(id) ? "좌석 번호 보기" : (VAULT_CTA[id] || "예약 문서 보기");
+    const label = labelOverride || (/^train-/.test(id) ? "좌석 번호 보기" : (VAULT_CTA[id] || "예약 문서 보기"));
     return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '" aria-label="문서함에서 ' + esc(label) + '">' + esc(label) + "</a>";
   }
 
@@ -804,14 +804,14 @@
         + nextLink
         + (guide && place && guide.artworksFor === place.id && window.TripTour ? '<a class="btn" href="#/tour/belvedere">작품 투어</a>' : "")
         + "</div>"
-        + (item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId) + "</div>" : "")
+        + (item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId, item.docLabel) + "</div>" : "")
         + "</article>"
         + (leg ? legHtml(leg, "leg") : "");
     }).join("");
     const notes = (day.notes || []).map((note) => {
       const rows = note.rows.map((row) => "<div><dt>" + esc(row[0]) + "</dt><dd>" + esc(row[1]) + "</dd></div>").join("");
       return '<section class="note"><h3>' + esc(note.title) + "</h3><dl>" + rows + "</dl>"
-        + (note.docId ? '<div class="stop-vault">' + vaultSeatLink(note.docId) + "</div>" : "")
+        + (note.docId ? '<div class="stop-vault">' + vaultSeatLink(note.docId, note.docLabel) + "</div>" : "")
         + (note.foot ? '<p class="fine">' + esc(note.foot) + "</p>" : "") + "</section>";
     }).join("");
     const docs = docLinksHtml(day.date);
@@ -995,7 +995,7 @@
       + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
       + (place.address ? '<p class="station">' + esc(place.address) + "</p>" : "")
       + (item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
-      + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId) + "</div>" : "")
+      + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId, item.docLabel) + "</div>" : "")
       + (place.lines === "100E · 200E" ? '<p class="fine">터미널 안에 지하철역은 없습니다. 100E는 도심, 200E는 M3 Kőbánya-Kispest로 갑니다.</p>' : "")
       + guideSheetHtml(day, place, next)
       + modeSwitch()
