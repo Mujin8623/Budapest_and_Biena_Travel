@@ -335,10 +335,15 @@
     return DOC_LABELS[id] || "문서";
   }
 
+  const VAULT_CTA = {
+    "belvedere-1129": "티켓 · 예약번호 보기",
+    "restaurant-stand25": "예약 확인 보기"
+  };
+
   function vaultSeatLink(id) {
     if (!id) return "";
-    const what = /^train-/.test(id) ? "좌석 번호는" : "예약번호 · 바우처는";
-    return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '">' + what + " 보관함(" + esc(id) + ")에서 확인</a>";
+    const label = /^train-/.test(id) ? "좌석 번호 보기" : (VAULT_CTA[id] || "예약 문서 보기");
+    return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '" aria-label="문서함에서 ' + esc(label) + '">' + esc(label) + "</a>";
   }
 
   function vaultHas(id) {
@@ -544,7 +549,7 @@
         : "";
       body = '<form id="vault-form" class="vault-form" autocomplete="off">'
         + '<h2 id="docs-title" tabindex="-1">문서함</h2>'
-        + '<p class="fine">숙소 바우처와 기차표를 엽니다.</p>'
+        + '<p class="fine">숙소 · 기차 · 티켓 · 식당 예약 문서를 엽니다.</p>'
         + '<label class="field-label" for="vault-password">비밀번호</label>'
         + '<input id="vault-password" name="password" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false"'
         + (vaultState.error ? ' aria-invalid="true" aria-describedby="vault-error"' : "")
@@ -790,7 +795,7 @@
       return '<article class="stop"><div class="rail" aria-hidden="true"></div>'
         + '<a class="stop-main" href="' + href + '">' + photoHtml(place, false)
         + "<div>" + (item.time ? '<p class="when">' + esc(item.time) + "</p>" : "")
-        + "<h3>" + esc(item.text) + "</h3>"
+        + "<h3>" + esc(item.text) + (item.booked ? ' <span class="booked-pill">예약 완료</span>' : "") + "</h3>"
         + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
         + (item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
         + (hasGuide ? '<p class="guide-pill">해설' + (guide.artworksFor === place.id ? " · 작품 " + guide.artworks.length + "점" : "") + "</p>" : "")
