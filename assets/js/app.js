@@ -309,7 +309,9 @@
     "budapest-hotel": "문서 · 숙소",
     "train-vie-bud": "문서 · 기차",
     "train-vie-sbg": "문서 · 기차",
-    "flight-eticket": "문서 · 항공권"
+    "flight-eticket": "문서 · 항공권",
+    "belvedere-1129": "문서 · 벨베데레 티켓",
+    "restaurant-stand25": "문서 · Stand25 예약"
   };
   const vaultState = {
     booted: false,
@@ -335,7 +337,8 @@
 
   function vaultSeatLink(id) {
     if (!id) return "";
-    return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '">좌석 번호는 보관함(' + esc(id) + ")에서 확인</a>";
+    const what = /^train-/.test(id) ? "좌석 번호는" : "예약번호 · 바우처는";
+    return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '">' + what + " 보관함(" + esc(id) + ")에서 확인</a>";
   }
 
   function vaultHas(id) {
