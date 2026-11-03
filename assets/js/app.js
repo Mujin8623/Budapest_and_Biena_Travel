@@ -309,7 +309,9 @@
     "budapest-hotel": "문서 · 숙소",
     "train-vie-bud": "문서 · 기차",
     "train-vie-sbg": "문서 · 기차",
-    "flight-eticket": "문서 · 항공권"
+    "flight-eticket": "문서 · 항공권",
+    "belvedere-1129": "문서 · 벨베데레 티켓",
+    "restaurant-stand25": "문서 · Stand25 예약"
   };
   const vaultState = {
     booted: false,
@@ -333,9 +335,15 @@
     return DOC_LABELS[id] || "문서";
   }
 
-  function vaultSeatLink(id) {
+  const VAULT_CTA = {
+    "belvedere-1129": "티켓 · 예약번호 보기",
+    "restaurant-stand25": "예약 확인 보기"
+  };
+
+  function vaultSeatLink(id, labelOverride) {
     if (!id) return "";
-    return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '">좌석 번호는 보관함(' + esc(id) + ")에서 확인</a>";
+    const label = labelOverride || (/^train-/.test(id) ? "좌석 번호 보기" : (VAULT_CTA[id] || "예약 문서 보기"));
+    return '<a class="btn vault-seat" href="#/docs/' + esc(id) + '" aria-label="문서함에서 ' + esc(label) + '">' + esc(label) + "</a>";
   }
 
   function vaultHas(id) {
@@ -541,7 +549,7 @@
         : "";
       body = '<form id="vault-form" class="vault-form" autocomplete="off">'
         + '<h2 id="docs-title" tabindex="-1">문서함</h2>'
-        + '<p class="fine">숙소 바우처와 기차표를 엽니다.</p>'
+        + '<p class="fine">숙소 · 기차 · 티켓 · 식당 예약 문서를 엽니다.</p>'
         + '<label class="field-label" for="vault-password">비밀번호</label>'
         + '<input id="vault-password" name="password" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false"'
         + (vaultState.error ? ' aria-invalid="true" aria-describedby="vault-error"' : "")
@@ -787,7 +795,7 @@
       return '<article class="stop"><div class="rail" aria-hidden="true"></div>'
         + '<a class="stop-main" href="' + href + '">' + photoHtml(place, false)
         + "<div>" + (item.time ? '<p class="when">' + esc(item.time) + "</p>" : "")
-        + "<h3>" + esc(item.text) + "</h3>"
+        + "<h3>" + esc(item.text) + (item.booked ? ' <span class="booked-pill">예약 완료</span>' : "") + "</h3>"
         + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
         + (item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
         + (hasGuide ? '<p class="guide-pill">해설' + (guide.artworksFor === place.id ? " · 작품 " + guide.artworks.length + "점" : "") + "</p>" : "")
@@ -796,14 +804,14 @@
         + nextLink
         + (guide && place && guide.artworksFor === place.id && window.TripTour ? '<a class="btn" href="#/tour/belvedere">작품 투어</a>' : "")
         + "</div>"
-        + (item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId) + "</div>" : "")
+        + (item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId, item.docLabel) + "</div>" : "")
         + "</article>"
         + (leg ? legHtml(leg, "leg") : "");
     }).join("");
     const notes = (day.notes || []).map((note) => {
       const rows = note.rows.map((row) => "<div><dt>" + esc(row[0]) + "</dt><dd>" + esc(row[1]) + "</dd></div>").join("");
       return '<section class="note"><h3>' + esc(note.title) + "</h3><dl>" + rows + "</dl>"
-        + (note.docId ? '<div class="stop-vault">' + vaultSeatLink(note.docId) + "</div>" : "")
+        + (note.docId ? '<div class="stop-vault">' + vaultSeatLink(note.docId, note.docLabel) + "</div>" : "")
         + (note.foot ? '<p class="fine">' + esc(note.foot) + "</p>" : "") + "</section>";
     }).join("");
     const docs = docLinksHtml(day.date);
@@ -987,7 +995,7 @@
       + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
       + (place.address ? '<p class="station">' + esc(place.address) + "</p>" : "")
       + (item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
-      + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId) + "</div>" : "")
+      + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId, item.docLabel) + "</div>" : "")
       + (place.lines === "100E · 200E" ? '<p class="fine">터미널 안에 지하철역은 없습니다. 100E는 도심, 200E는 M3 Kőbánya-Kispest로 갑니다.</p>' : "")
       + guideSheetHtml(day, place, next)
       + modeSwitch()
