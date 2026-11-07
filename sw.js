@@ -4,16 +4,19 @@
    Tour audio (audio/tour/) is NOT precached and not handled here: the page fetches clips on demand
    and keeps them in its own "trip-audio-v1" cache (plus an optional per-tour "오프라인 저장" button),
    so that cache survives shell version bumps. */
-const CACHE_VERSION = "trip-docs-v22";
+const CACHE_VERSION = "trip-docs-v23";
 const AUDIO_CACHE = "trip-audio-v1";
 const SHELL = [
   "./",
   "./index.html",
   "./assets/css/app.css",
   "./assets/css/tour.css",
+  "./assets/css/timetable.css",
   "./assets/js/app.js",
   "./assets/js/tour.js",
   "./assets/js/relay.js",
+  "./assets/js/schedule.js",
+  "./assets/js/timetable.js",
   "./assets/favicon.svg",
   "./data/trip.js",
   "./data/transit.js",

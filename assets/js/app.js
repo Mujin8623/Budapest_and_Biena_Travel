@@ -80,15 +80,20 @@
     return id ? TRIP.places[id] : null;
   }
 
+  function tripDays() {
+    return window.TripSchedule && TripSchedule.days ? TripSchedule.days() : TRIP.days;
+  }
+
   function dayByDate(iso) {
-    return TRIP.days.find((day) => day.date === iso) || null;
+    return tripDays().find((day) => day.date === iso) || null;
   }
 
   function defaultDay() {
+    const days = tripDays();
     const today = tripToday().date;
-    return (TRIP.days.find((day) => day.date === today)
-      || TRIP.days.find((day) => day.date > today)
-      || TRIP.days[TRIP.days.length - 1]).date;
+    return (days.find((day) => day.date === today)
+      || days.find((day) => day.date > today)
+      || days[days.length - 1]).date;
   }
 
   function isDate(value) {
@@ -99,8 +104,16 @@
     const parts = (location.hash || "#/home").replace(/^#/, "").split("/").filter(Boolean);
     const head = parts[0] || "home";
     if (head === "schedule") return { view: "schedule", day: isDate(parts[1]) ? parts[1] : null };
+    if (head === "timetable") return { view: "timetable", day: isDate(parts[1]) ? parts[1] : null };
     if (head === "place") {
-      if (isDate(parts[1])) return { view: "schedule", day: parts[1], sheet: parts[2] || null };
+      if (isDate(parts[1])) {
+        return {
+          view: "schedule",
+          day: parts[1],
+          sheet: parts[2] || null,
+          eventId: parts[3] ? decodeURIComponent(parts[3]) : null
+        };
+      }
       return { view: "schedule", sheet: parts[1] || null };
     }
     if (head === "route") return { view: "schedule", day: isDate(parts[1]) ? parts[1] : null, routeSheet: true };
@@ -292,13 +305,14 @@
   }
 
   function planFor(today) {
-    const start = TRIP.days[0].date;
-    const last = TRIP.days[TRIP.days.length - 1].date;
+    const days = tripDays();
+    const start = days[0].date;
+    const last = days[days.length - 1].date;
     const until = daysBetween(today, start);
-    if (until > 0) return { kind: "before", days: until, day: TRIP.days[0] };
+    if (until > 0) return { kind: "before", days: until, day: days[0] };
     if (today <= last) {
-      const day = dayByDate(today) || TRIP.days[0];
-      return { kind: "during", dayIndex: TRIP.days.indexOf(day) + 1, day: day };
+      const day = dayByDate(today) || days[0];
+      return { kind: "during", dayIndex: days.findIndex((item) => item.date === day.date) + 1, day: day };
     }
     if (today === "2026-12-06") return { kind: "arrive" };
     return { kind: "after" };
@@ -731,7 +745,7 @@
     let num = "다녀왔어요";
     let kicker = "여행";
     let sub = "일정은 11월 27일부터 12월 5일까지입니다. 12월 6일 인천 도착은 출발일에 함께 적혀 있습니다.";
-    let day = TRIP.days[TRIP.days.length - 1];
+    let day = tripDays()[tripDays().length - 1];
     if (plan.kind === "before") {
       num = "D-" + plan.days;
       kicker = "출국까지";
@@ -746,7 +760,7 @@
       num = "도착";
       kicker = "오늘";
       sub = "12월 6일 인천 도착. 일정 카드는 12월 5일 출발에 붙어 있습니다.";
-      day = TRIP.days[TRIP.days.length - 1];
+      day = tripDays()[tripDays().length - 1];
     }
     const lead = placeById(day.items[0].placeId);
     const rows = day.items.slice(0, 4).map((item) => {
@@ -765,6 +779,7 @@
       + "</div></div></article>"
       + '<nav class="quick" aria-label="바로 가기">'
       + '<a href="#/schedule/' + defaultDay() + '"><strong>일정</strong><span>날짜별 동선</span></a>'
+      + '<a href="#/timetable/' + defaultDay() + '"><strong>일정표</strong><span>끌어 옮겨 시간 수정</span></a>'
       + '<a href="#/map"><strong>사전답사</strong><span>장소마다 지도 이동</span></a>'
       + '<a href="#/transit"><strong>교통</strong><span>지하철 · 트램</span></a>'
       + '<a href="#/docs"><strong>문서함</strong><span>바우처 · 기차표</span></a>'
@@ -776,8 +791,23 @@
     return day.city || "";
   }
 
+  function whenHtml(item) {
+    if (!item.time) return "";
+    let html = '<p class="when">' + esc(item.time) + "</p>";
+    if (item._personal) html += '<p class="fine">이 브라우저에서 바꾼 시각</p>';
+    if (item._bookingText) html += '<p class="fine">예약 ' + esc(item._bookingText) + " · 실제 예약은 바뀌지 않음</p>";
+    return html;
+  }
+
+  function overlapBanner(date) {
+    if (!window.TripSchedule || !TripSchedule.overlaps) return "";
+    const rows = TripSchedule.overlaps(date);
+    if (!rows.length) return "";
+    return '<div class="warn-banner" role="status">' + rows.map((row) => "<p>" + esc(row.message) + "</p>").join("") + "</div>";
+  }
+
   function scheduleHtml(day) {
-    const chips = TRIP.days.map((item) => {
+    const chips = tripDays().map((item) => {
       const on = item.date === day.date ? " is-on" : "";
       const current = item.date === day.date ? ' aria-current="true"' : "";
       return '<a class="chip' + on + '" href="#/schedule/' + item.date + '"' + current + ">" + esc(ko(item.date).chip) + "</a>";
@@ -788,13 +818,13 @@
       const next = nextPlace(day, index);
       const leg = guide && place && next ? guideLeg(guide, place.id, next.id) : null;
       const hasGuide = guide && place && guide.stops && guide.stops[place.id];
-      const href = "#/place/" + day.date + "/" + item.placeId;
+      const href = "#/place/" + day.date + "/" + item.placeId + (item._eventId ? "/" + encodeURIComponent(item._eventId) : "");
       const nextLink = next && canDirect(item, place, next)
         ? extLink(dirUrl({ origin: place, destination: next, mode: state.travel }), "다음 장소", false)
         : "";
-      return '<article class="stop"><div class="rail" aria-hidden="true"></div>'
+      return '<article class="stop" data-event-id="' + esc(item._eventId || "") + '" data-time="' + esc(item.time || "") + '"><div class="rail" aria-hidden="true"></div>'
         + '<a class="stop-main" href="' + href + '">' + photoHtml(place, false)
-        + "<div>" + (item.time ? '<p class="when">' + esc(item.time) + "</p>" : "")
+        + "<div>" + whenHtml(item)
         + "<h3>" + esc(item.text) + (item.booked ? ' <span class="booked-pill">예약 완료</span>' : "") + "</h3>"
         + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
         + (item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
@@ -817,9 +847,11 @@
     const docs = docLinksHtml(day.date);
     return '<div class="sticky-tools">' + modeSwitch() + '<div class="chips">' + chips + "</div></div>"
       + '<div class="day-head"><div><p>' + esc(day.city || "") + "</p><h2>" + esc(ko(day.date).long)
-      + " · " + esc(day.title) + '</h2></div><a class="btn" href="#/route/' + day.date + '">오늘 동선</a></div>'
+      + " · " + esc(day.title) + '</h2></div><div class="day-actions"><a class="btn" href="#/timetable/' + day.date + '">일정표</a>'
+      + '<a class="btn" href="#/route/' + day.date + '">오늘 동선</a></div></div>'
       + tourCtaHtml(guide)
       + (day.blurb ? '<p class="blurb">' + esc(day.blurb) + "</p>" : "")
+      + overlapBanner(day.date)
       + (guide && guide.intro ? '<div class="guide-intro"><p data-guide-id="' + esc(guide.intro.id) + '">' + esc(guide.intro.text) + "</p>"
         + '<a class="btn" href="#/map/' + day.date + "/" + esc((dayStops(day)[0] || { place: { id: "" } }).place.id) + '">지도에서 경로 보기</a></div>' : "")
       + (docs ? '<div class="doc-row">' + docs + "</div>" : "")
@@ -827,17 +859,19 @@
   }
 
   function renderSchedule(route) {
-    const day = dayByDate(route.day) || dayByDate(defaultDay()) || TRIP.days[0];
-    if (!route.day && !route.sheet && !route.routeSheet) {
+    const day = dayByDate(route.day) || dayByDate(defaultDay()) || tripDays()[0];
+    if (route.view === "schedule" && !route.day && !route.sheet && !route.routeSheet) {
       history.replaceState(null, "", "#/schedule/" + day.date);
     }
-    const key = day.date + "|" + state.travel + "|" + (window.TRIP_VAULT ? "vault" : "");
+    const rev = window.TripSchedule && TripSchedule.revision ? String(TripSchedule.revision()) : "0";
+    const key = day.date + "|" + state.travel + "|" + (window.TRIP_VAULT ? "vault" : "") + "|" + rev;
     if (key === state.scheduleKey) return;
     const y = document.scrollingElement.scrollTop;
     const sameDay = state.lastScheduleDay === day.date;
     state.scheduleKey = key;
     state.lastScheduleDay = day.date;
     $("view-schedule").innerHTML = scheduleHtml(day);
+    if ($("view-schedule").hidden) return;
     if (sameDay) document.scrollingElement.scrollTop = y;
     else window.scrollTo(0, 0);
     const chip = document.querySelector("#view-schedule .chip.is-on");
@@ -894,6 +928,8 @@
       + '<p><a href="https://www.wienerlinien.at/web/wl-en/network-maps" target="_blank" rel="noopener noreferrer">Wiener Linien 노선도</a><br>'
       + '<a href="https://bkk.hu/en/journey-planning/maps/" target="_blank" rel="noopener noreferrer">BKK 노선도</a></p>'
       + '<p class="fine">노선 데이터 © OpenStreetMap contributors, ODbL. 가까운 역은 장소 좌표로 고른 안내이며, 실제 경로는 길찾기에서 확인합니다. 시각은 그 장소의 현지 시각입니다. 출국 전 D-day는 서울 날짜이고, 여행 중 오늘은 비엔나(중부유럽) 날짜입니다.</p></section>'
+      + '<section class="group"><h2>일정표</h2><p>하단의 일정표에서 일정을 끌어 시각이나 날짜를 바꿀 수 있습니다. 바꾼 내용은 이 브라우저에만 저장되고, 다른 기기와 자동으로 동기화되지 않습니다. 예약된 항공·기차·입장 시각은 확인 없이 움직이지 않으며, 여기서 옮겨도 실제 예약은 바뀌지 않습니다. 일정표는 이동 시간을 다시 계산하지 않습니다.</p>'
+      + '<p><a class="btn" href="#/timetable/' + defaultDay() + '">일정표 열기</a></p></section>'
       + '<section class="group"><h2>사진</h2><p class="fine">Wikimedia Commons. 압축해 이 저장소에 두었습니다. 목록 썸네일은 240px입니다.</p>' + creditHtml + "</section>";
   }
 
@@ -972,10 +1008,24 @@
     refocusSheet(fresh);
   }
 
-  function renderPlaceSheet(route) {
-    const day = dayByDate(route.day) || TRIP.days.find((item) => item.items.some((it) => it.placeId === route.sheet)) || TRIP.days[0];
+  function locateItem(route) {
+    const days = tripDays();
+    if (route.eventId) {
+      for (let i = 0; i < days.length; i += 1) {
+        const index = days[i].items.findIndex((item) => item._eventId === route.eventId);
+        if (index >= 0) return { day: days[i], index: index, item: days[i].items[index] };
+      }
+    }
+    const day = dayByDate(route.day) || days.find((item) => item.items.some((it) => it.placeId === route.sheet)) || days[0];
     const index = day.items.findIndex((item) => item.placeId === route.sheet);
-    const item = index >= 0 ? day.items[index] : null;
+    return { day: day, index: index, item: index >= 0 ? day.items[index] : null };
+  }
+
+  function renderPlaceSheet(route) {
+    const located = locateItem(route);
+    const day = located.day;
+    const index = located.index;
+    const item = located.item;
     const place = placeById(route.sheet);
     const body = $("sheet-body");
     if (!place) {
@@ -994,6 +1044,9 @@
       + "<h2 id=\"sheet-title\" tabindex=\"-1\">" + esc(item ? item.text : place.name) + "</h2>"
       + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
       + (place.address ? '<p class="station">' + esc(place.address) + "</p>" : "")
+      + (item && item.time ? '<p class="when">' + esc(item.time) + "</p>" : "")
+      + (item && item._personal ? '<p class="fine">이 브라우저에서 바꾼 시각</p>' : "")
+      + (item && item._bookingText ? '<p class="fine">예약 ' + esc(item._bookingText) + " · 실제 예약은 바뀌지 않음</p>" : "")
       + (item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
       + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId, item.docLabel) + "</div>" : "")
       + (place.lines === "100E · 200E" ? '<p class="fine">터미널 안에 지하철역은 없습니다. 100E는 도심, 200E는 M3 Kőbánya-Kispest로 갑니다.</p>' : "")
@@ -1209,10 +1262,11 @@
   }
 
   function showTour(route) {
+    const days = tripDays();
     const day = dayByDate(route.day)
-      || TRIP.days.find((item) => item.items.some((it) => it.placeId === route.placeId))
+      || days.find((item) => item.items.some((it) => it.placeId === route.placeId))
       || dayByDate(state.tourDay)
-      || TRIP.days[0];
+      || days[0];
     state.tourDay = day.date;
     const stops = dayStops(day);
     let index = stops.findIndex((stop) => stop.place.id === route.placeId);
@@ -1228,7 +1282,7 @@
     $("map-mode").innerHTML = '<div class="seg" role="group" aria-label="지도 모드">'
       + '<button type="button" data-action="go" data-hash="#/map/' + day.date + "/" + (place ? place.id : "") + '" aria-pressed="true">답사</button>'
       + '<button type="button" data-action="go" data-hash="#/transit" aria-pressed="false">교통</button></div>';
-    $("map-chips").innerHTML = TRIP.days.map((item) => {
+    $("map-chips").innerHTML = tripDays().map((item) => {
       const first = dayStops(item)[0];
       const id = first ? first.place.id : "";
       return '<button type="button" class="chip' + (item.date === day.date ? " is-on" : "")
@@ -1366,15 +1420,25 @@
     state.view = route.view;
     $("view-home").hidden = route.view !== "home";
     $("view-schedule").hidden = route.view !== "schedule";
+    const timetable = $("view-timetable");
+    if (timetable) timetable.hidden = route.view !== "timetable";
     $("view-map").hidden = route.view !== "map";
     $("view-info").hidden = route.view !== "info";
     $("view-docs").hidden = route.view !== "docs";
     $("view-tour").hidden = route.view !== "tour";
     if (route.view !== "tour" && window.TripTour) window.TripTour.hide();
-    const titles = { home: "홈", schedule: "일정", map: "지도", info: "정보", docs: "문서함", tour: "투어 모드" };
+    const titles = { home: "홈", schedule: "일정", timetable: "일정표", map: "지도", info: "정보", docs: "문서함", tour: "투어 모드" };
     document.title = (titles[route.view] || "여행") + " · 비엔나 & 부다페스트";
-    if (route.view === "home") renderHome();
-    if (route.view === "schedule") renderSchedule(route);
+    renderHome();
+    renderSchedule(route.view === "schedule" ? route : {
+      view: route.view,
+      day: route.view === "timetable" ? route.day : (state.lastScheduleDay || null)
+    });
+    if (route.view === "timetable" && window.TripTimetable) {
+      const day = route.day || defaultDay();
+      if (!route.day) history.replaceState(null, "", "#/timetable/" + day);
+      window.TripTimetable.render({ day: day });
+    }
     if (route.view === "info") renderInfo();
     if (route.view === "map") showMap(route);
     if (route.view === "docs") ensureDocs(route);
@@ -1567,6 +1631,13 @@
   if (location.protocol === "https:" && navigator.serviceWorker) {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+
+  if (window.TripSchedule && TripSchedule.subscribe) {
+    TripSchedule.subscribe(() => {
+      state.scheduleKey = "";
+      render();
     });
   }
 
