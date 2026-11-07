@@ -98,7 +98,7 @@ window.TRIP_GUIDE = {
       stephansdom: {
         paras: [
           { id: "g-stephansdom-1", text: "슈테판 대성당 자리에는 1147년에 첫 성당이 봉헌됐고, 높이 136 m 남탑은 1433년에 완성됐어요. 지붕은 유약 바른 기와 약 23만 장으로 덮여 있고, 남쪽 면에 쌍두독수리 무늬가 있어요." },
-          { id: "g-stephansdom-2", text: "모차르트는 1782년 8월 4일 이곳에서 콘스탄체와 결혼했어요. 일요일 관광 관람은 13:00–16:30이에요." }
+          { id: "g-stephansdom-2", text: "모차르트는 1782년 8월 4일 이곳에서 콘스탄체와 결혼했어요. 일요일 관광 관람은 13:00–16:30이지만, 오늘은 13:00에 짧게 보고 13:15에 나옵니다. 줄이 길면 외관만 봐요." }
         ],
         sources: [
           { title: "St. Stephen's Cathedral, Vienna (Wikipedia)", url: "https://en.wikipedia.org/wiki/St._Stephen%27s_Cathedral,_Vienna" },
@@ -131,6 +131,35 @@ window.TRIP_GUIDE = {
           { id: "g-plachutta-1", text: "타펠슈피츠는 소고기를 채소와 함께 푹 삶은 비엔나 전통 요리예요. 국물을 수프로 먼저 마시고, 골수를 빵에 바른 뒤, 고기를 사과홀스래디시와 차이브 소스에 곁들여 먹어요." }
         ],
         sources: []
+      },
+      "stephansplatz-market": {
+        paras: [
+          { id: "g-stephansplatz-market-1", text: "슈테판 광장 크리스마스 마켓에서 가볍게 점심을 먹어요. 식당과 메뉴는 정하지 않았고, 굴라시도 랑고시도 아니에요. 13:00 전에 성당 쪽으로 넘어가 13:15에는 나옵니다." }
+        ],
+        sources: [{ title: "비엔나 크리스마스 마켓", url: "https://www.wien.gv.at/freizeit/weihnachtsmaerkte" }]
+      },
+      "prater-riesenrad": {
+        paras: [
+          { id: "g-prater-riesenrad-1", text: "프라터의 대관람차와 겨울 마켓입니다. 표는 사지 않았고, 17:15에는 다음 이동을 위해 나옵니다. 줄이 길면 마켓만 봅니다." }
+        ],
+        sources: [{ title: "Wiener Riesenrad opening times", url: "https://wienerriesenrad.com/en/opening-times/" }]
+      },
+      "concert-dinner": {
+        paras: [
+          { id: "g-concert-dinner-1", text: "공연 전 저녁은 식당과 메뉴가 정해져 있지 않습니다. 플라후타가 아니고, 예약해 둔 테이블도 없습니다." }
+        ],
+        sources: []
+      },
+      musikverein: {
+        paras: [
+          { id: "g-musikverein-1", text: "골든홀(Großer Saal) 입석입니다. 좌석이 아니고, 예약·결제가 끝났는지는 확인되지 않았습니다. 공연장 월간 안내는 21:30 종료, 시 안내는 21:45 종료라 일정은 21:45까지 막아 둡니다. 21:45가 확정된 종료 시각은 아니에요." }
+        ],
+        sources: [
+          { title: "Bruckner Orchester Linz", url: "https://www.bruckner-orchester.at/kalender/der-bol-zyklus-in-wien/zwei-alondra-2" },
+          { title: "Musikverein November 2026 (PDF)", url: "https://musikverein.at/wp-content/uploads/2026/09/8_MVZ_November-2026_Kalendarium.pdf" },
+          { title: "Musikverein Spielplan", url: "https://spielplan.musikverein.at/spielplan?month=2026-11" },
+          { title: "Wien.gv.at event", url: "https://www.wien.gv.at/veranstaltungen/bruckner-orchester-linz-und-alondra-de-la-parra" }
+        ]
       }
     },
     artworksFor: "belvedere",
@@ -347,6 +376,74 @@ window.TRIP_GUIDE = {
           [48.20876, 16.36986],
           [48.20916, 16.37041],
           [48.20932, 16.37017]
+        ]
+      },
+      {
+        "id": "l-peterskirche-stephansplatz-market",
+        "from": "peterskirche",
+        "to": "stephansplatz-market",
+        "mode": "walk",
+        "min": 3,
+        "text": "Goldschmiedgasse를 따라 Stephansplatz 크리스마스 마켓으로 가요. 점심은 여기고, 성당 안은 13:00에 짧게 봅니다.",
+        "m": 180,
+        "path": [
+          [48.20932, 16.37017],
+          [48.20899, 16.37073],
+          [48.20898, 16.37083],
+          [48.20889, 16.37088],
+          [48.20844, 16.37181],
+          [48.20838, 16.37208],
+          [48.20835, 16.37315]
+        ]
+      },
+      {
+        "id": "l-stephansplatz-market-stephansdom",
+        "from": "stephansplatz-market",
+        "to": "stephansdom",
+        "mode": "walk",
+        "min": 1,
+        "text": "광장에서 성당 서쪽 정문, 거인의 문으로 들어가요. 13:15에는 나옵니다.",
+        "m": 70,
+        "path": [
+          [48.20835, 16.37315],
+          [48.20838, 16.37208],
+          [48.20862, 16.37227]
+        ]
+      },
+      {
+        "id": "l-stephansdom-tram-oper",
+        "from": "stephansdom",
+        "to": "tram-oper",
+        "mode": "walk",
+        "min": 14,
+        "text": "Kärntner Straße를 따라 오페라 뒤 트램 정류장으로 가요. 소시지 가판에는 들르지 않습니다. 트램 D로 14:00 입장에 맞춥니다.",
+        "m": 960,
+        "path": [
+          [48.20862, 16.37227],
+          [48.20838, 16.37208],
+          [48.20836, 16.37215],
+          [48.20795, 16.37185],
+          [48.20674, 16.37155],
+          [48.20679, 16.37092],
+          [48.2063, 16.37075],
+          [48.20628, 16.37063],
+          [48.20621, 16.37054],
+          [48.20595, 16.37051],
+          [48.20576, 16.37042],
+          [48.20528, 16.3698],
+          [48.20447, 16.36913],
+          [48.20414, 16.36885],
+          [48.20405, 16.36885],
+          [48.20385, 16.36932],
+          [48.20364, 16.3702],
+          [48.2036, 16.37009],
+          [48.2026, 16.36955],
+          [48.20246, 16.36985],
+          [48.20217, 16.36968],
+          [48.2021, 16.36972],
+          [48.20207, 16.36994],
+          [48.20211, 16.36996],
+          [48.20213, 16.36988]
         ]
       },
       {
