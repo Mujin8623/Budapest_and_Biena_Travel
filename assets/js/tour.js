@@ -272,14 +272,21 @@
       + bar(c.j === n - 1 ? "작품 투어 마치기" : "다음 작품", { secondary: c.j === n - 1 ? "" : '<button type="button" class="tm-btn tm-ghost tm-wide" data-tm="last">끝내기</button>' }) + "</section>";
   }
   function bEnd() {
-    var hotel = all[bIdx + 1], dinner = all[bIdx + 2], l = hotel ? legBetween(belvedere.placeId, hotel.placeId) : null;
+    var next = all[bIdx + 1];
+    var backToHotel = next && next.placeId === "adina-vie";
+    var l = backToHotel ? legBetween(belvedere.placeId, next.placeId) : null;
+    var concert = null;
+    for (var i = bIdx + 1; i < all.length; i += 1) {
+      if (all[i].placeId === "musikverein" && String(all[i].time || "").indexOf("19:30") === 0) concert = all[i];
+    }
     return '<section class="tm-screen tm-end">'
       + '<div class="tm-legtop">' + top(G.artworks.length, G.artworks.length, "완료", true)
       + '<p class="tm-kicker">작품 ' + G.artworks.length + "점 · 완료</p><h1>작품 투어 끝!</h1></div>"
-      + '<div class="tm-body">' + relayBlock(tour.deck[pos])
+      + '<div class="tm-body">'
+      + (backToHotel ? relayBlock(tour.deck[pos]) : '<p class="tm-lead">상궁 작품은 여기까지예요. 오늘은 숙소로 돌아가 쉬지 않고, 프라터를 거쳐 골든홀 입석으로 갑니다.</p>')
       + '<div class="tm-strip tm-strip-done">' + G.artworks.map(function (a) { return '<img src="' + esc(thumb(a.photo)) + '" alt="" loading="lazy">'; }).join("") + "</div>"
-      + (hotel ? '<h2 class="tm-h2">숙소까지 · ' + esc(hotel.time) + "</h2>" + legCard(l, belvedere, hotel) : "")
-      + (dinner ? '<p class="tm-hint">그다음 ' + esc(dinner.time) + " · " + esc(dinner.text) + "</p>" : "")
+      + (next ? '<h2 class="tm-h2">' + (backToHotel ? "숙소까지 · " : "다음 · ") + esc(next.time) + "</h2>" + (backToHotel ? legCard(l, belvedere, next) : '<p class="tm-hint">' + esc(next.text) + "</p>") : "")
+      + (concert ? '<p class="tm-hint">' + esc(concert.time) + " · " + esc(concert.text) + "</p>" : "")
       + sources(G.artworkSources) + "</div>"
       + bar("일정으로 돌아가기", { href: BACK }) + "</section>";
   }
