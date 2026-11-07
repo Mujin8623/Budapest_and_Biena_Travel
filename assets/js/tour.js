@@ -23,6 +23,13 @@
   var BACK = "#/schedule/" + DATE;
 
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function when(it) {
+    if (it && window.TripSchedule && it._eventId && typeof TripSchedule.display === "function") {
+      var live = TripSchedule.display(it._eventId);
+      if (live && live.time) return live.time;
+    }
+    return it && it.time ? it.time : "";
+  }
   function legBetween(a, b) { return G.legs.find(function (l) { return l.from === a && l.to === b; }) || null; }
   function km(m) { return m >= 1000 ? (m / 1000).toFixed(1) + " km" : Math.round(m / 10) * 10 + " m"; }
   /* Line icons (SVG, so they look the same on every OS instead of emoji / text glyphs). */
@@ -66,7 +73,7 @@
     }
   };
 
-  var el = null, tourId = null, tour = null, pos = 0, auto = false, autoTimer = null, io = null, listOpen = false;
+  var el = null, tourId = null, tour = null, pos = 0, auto = false, autoTimer = null, io = null, listOpen = false, scheduleSeen = -1;
 
   function key() { return "tourMode:" + tourId; }
   function load() { try { return JSON.parse(localStorage.getItem(key()) || "{}"); } catch (e) { return {}; } }
@@ -201,10 +208,10 @@
       + top(0, -1, "투어 모드")
       + '<div class="tm-hero-txt"><p class="tm-kicker">11월 29일 (일) · 투어 모드</p><h1>' + esc(tour.title) + "</h1></div></div>"
       + '<div class="tm-body">'
-      + '<ul class="tm-stats"><li><b>' + city.length + '</b><span>곳</span></li><li><b>' + km(tour.walk) + '</b><span>걷기 · 트램</span></li><li><b>' + esc(city[0].time) + '</b><span>출발</span></li><li><b>' + esc(belvedere.time.split("–")[0]) + '</b><span>벨베데레</span></li></ul>'
+      + '<ul class="tm-stats"><li><b>' + city.length + '</b><span>곳</span></li><li><b>' + km(tour.walk) + '</b><span>걷기 · 트램</span></li><li><b>' + esc(when(city[0]).split("–")[0]) + '</b><span>출발</span></li><li><b>' + esc(when(belvedere).split("–")[0]) + '</b><span>벨베데레</span></li></ul>'
       + (relaySegs(tour.deck[pos]) ? relayBlock(tour.deck[pos], true)
         : '<p class="tm-lead" data-guide-id="' + esc(G.intro.id) + '">' + esc(G.intro.text) + "</p>")
-      + '<p class="tm-hint">카를스플라츠에서 출발해 트램 D로 벨베데레에 도착하면 끝나요. 벨베데레 작품 투어는 따로 시작해요. 옆으로 넘기거나 아래 큰 버튼을 누르면 다음으로 가요.</p>'
+      + '<p class="tm-hint">카를스플라츠에서 출발해 트램 D로 벨베데레에 도착하면 끝나요. 벨베데레 작품 투어는 따로 시작해요. 옆으로 넘기거나 아래 큰 버튼을 누르면 다음으로 가요. 시각은 일정표의 개인 계획을 따르고, 해설 순서는 녹음된 걷기 순서 그대로입니다.</p>'
       + (resume ? '<button type="button" class="tm-resume" data-tm="go" data-to="' + st.pos + '"><span>이어서 하기</span><b>' + esc(city[resume.i].place.name) + " · " + (resume.i + 1) + "/" + city.length + "</b></button>" : "")
       + "</div>" + bar("투어 시작") + "</section>";
   }
@@ -213,7 +220,7 @@
     var rs = relaySegs(c), paras = rs ? relayParas(rs) : st ? st.paras : gs.paras;
     return '<section class="tm-screen">'
       + '<div class="tm-hero">' + heroImg(p) + '<div class="tm-shade"></div>' + top(city.length, c.i, (c.i + 1) + "/" + city.length)
-      + '<div class="tm-hero-txt"><p class="tm-kicker"><span class="tm-time">' + esc(it.time) + "</span>" + esc(p.name) + "</p><h1>" + esc(it.text) + "</h1></div></div>"
+      + '<div class="tm-hero-txt"><p class="tm-kicker"><span class="tm-time">' + esc(when(it)) + "</span>" + esc(p.name) + "</p><h1>" + esc(it.text) + "</h1></div></div>"
       + '<div class="tm-body">' + (rs ? relaySlot(rs) : audioSlot(paras[0] ? paras[0].id : "g-" + p.id))
       + (paras.length ? story(paras) : "")
       + (it.note ? '<details class="tm-tip"><summary>현장 메모</summary><p>' + esc(it.note) + "</p></details>" : "")
@@ -224,7 +231,7 @@
     var from = city[c.i], to = city[c.i + 1] || belvedere, l = legBetween(from.placeId, to.placeId);
     return '<section class="tm-screen">'
       + '<div class="tm-legtop">' + top(city.length, c.i, (c.i + 1) + "/" + city.length, true)
-      + '<p class="tm-kicker">다음 장소 · ' + esc(to.time) + "</p><h1>" + esc(to.place.name) + "</h1></div>"
+      + '<p class="tm-kicker">다음 장소 · ' + esc(when(to)) + "</p><h1>" + esc(to.place.name) + "</h1></div>"
       + '<div class="tm-body">' + legCard(l, from, to, { context: cityLegs() })
       + '<div class="tm-peek">' + (to.place.photo ? '<img src="' + esc(thumb(to.place.photo)) + '" alt="" loading="lazy">' : "") + '<div><p class="tm-kicker">도착하면</p><p>' + esc(to.text) + "</p>"
       + (HAS_RELAY ? '<p class="tm-peek-hint">아래 버튼을 누르면 다음 장소 해설이 이어서 나와요.</p>' : "") + "</div></div>"
@@ -233,10 +240,10 @@
   function cEnd() {
     return '<section class="tm-screen tm-end">'
       + '<div class="tm-hero">' + heroImg(belvedere.place) + '<div class="tm-shade"></div>' + top(city.length, city.length, "완료")
-      + '<div class="tm-hero-txt"><p class="tm-kicker">' + esc(belvedere.time) + " · " + esc(belvedere.place.name) + "</p><h1>벨베데레에 도착했어요</h1></div></div>"
+      + '<div class="tm-hero-txt"><p class="tm-kicker">' + esc(when(belvedere)) + " · " + esc(belvedere.place.name) + "</p><h1>벨베데레에 도착했어요</h1></div></div>"
       + '<div class="tm-body">' + (relaySegs(tour.deck[pos]) ? relayBlock(tour.deck[pos]) : '<p class="tm-lead">구시가지 ' + city.length + "곳을 지나 여기까지 왔어요. 시내 걷기는 여기서 끝이에요. 수고했어요!</p>")
       + '<a class="tm-handoff" href="#/tour/belvedere"><span class="tm-kicker">다음 투어</span><strong>벨베데레 작품 투어는 따로 시작</strong><span>상궁 작품 ' + G.artworks.length + "점 · 〈키스〉 · 〈죽음과 소녀〉</span></a>"
-      + '<ul class="tm-done">' + city.map(function (it) { return "<li><b>" + esc(it.time.split("–")[0]) + "</b>" + esc(it.place.name) + "</li>"; }).join("") + "</ul></div>"
+      + '<ul class="tm-done">' + city.map(function (it) { return "<li><b>" + esc(when(it).split("–")[0]) + "</b>" + esc(it.place.name) + "</li>"; }).join("") + "</ul></div>"
       + bar("벨베데레 작품 투어 시작", { href: "#/tour/belvedere", secondary: '<a class="tm-btn tm-ghost tm-wide" href="' + BACK + '">일정</a>' }) + "</section>";
   }
 
@@ -246,7 +253,7 @@
     var resume = st.pos > 0 && st.pos < tour.deck.length - 1 ? tour.deck[st.pos] : null;
     return '<section class="tm-screen tm-start">'
       + '<div class="tm-hero tm-hero-tall">' + heroImg(belvedere.place) + '<div class="tm-shade"></div>' + top(0, -1, "작품 투어")
-      + '<div class="tm-hero-txt"><p class="tm-kicker">11월 29일 (일) · ' + esc(belvedere.time) + "</p><h1>" + esc(tour.title) + "</h1></div></div>"
+      + '<div class="tm-hero-txt"><p class="tm-kicker">11월 29일 (일) · ' + esc(when(belvedere)) + "</p><h1>" + esc(tour.title) + "</h1></div></div>"
       + '<div class="tm-body">'
       + '<div class="tm-strip">' + G.artworks.map(function (a, j) { return '<button type="button" data-tm="go" data-to="' + (j + 1) + '" aria-label="' + esc(a.title) + '"><img src="' + esc(thumb(a.photo)) + '" alt="" loading="lazy"></button>'; }).join("") + "</div>"
       + (relaySegs(tour.deck[pos]) ? relayBlock(tour.deck[pos], true) : audioSlot(gs.paras[0] ? gs.paras[0].id : "g-belvedere") + story(gs.paras))
@@ -278,8 +285,8 @@
       + '<p class="tm-kicker">작품 ' + G.artworks.length + "점 · 완료</p><h1>작품 투어 끝!</h1></div>"
       + '<div class="tm-body">' + relayBlock(tour.deck[pos])
       + '<div class="tm-strip tm-strip-done">' + G.artworks.map(function (a) { return '<img src="' + esc(thumb(a.photo)) + '" alt="" loading="lazy">'; }).join("") + "</div>"
-      + (hotel ? '<h2 class="tm-h2">숙소까지 · ' + esc(hotel.time) + "</h2>" + legCard(l, belvedere, hotel) : "")
-      + (dinner ? '<p class="tm-hint">그다음 ' + esc(dinner.time) + " · " + esc(dinner.text) + "</p>" : "")
+      + (hotel ? '<h2 class="tm-h2">숙소까지 · ' + esc(when(hotel)) + "</h2>" + legCard(l, belvedere, hotel) : "")
+      + (dinner ? '<p class="tm-hint">그다음 ' + esc(when(dinner)) + " · " + esc(dinner.text) + "</p>" : "")
       + sources(G.artworkSources) + "</div>"
       + bar("일정으로 돌아가기", { href: BACK }) + "</section>";
   }
@@ -489,7 +496,7 @@
       var cur = c.i == null ? (c.t === "end" ? city.length : -1) : c.i;
       rows = city.map(function (it, k) {
         var to = tour.deck.findIndex(function (d) { return d.t === "stop" && d.i === k; });
-        return '<li><button type="button" data-tm="go" data-to="' + to + '" class="' + (k === cur ? "now" : k < cur ? "done" : "") + '"><b>' + esc(it.time.split("–")[0]) + "</b><span>" + esc(it.place.name) + "</span>" + (S.stops[it.placeId] ? "<em>긴 해설</em>" : "") + "</button></li>";
+        return '<li><button type="button" data-tm="go" data-to="' + to + '" class="' + (k === cur ? "now" : k < cur ? "done" : "") + '"><b>' + esc(when(it).split("–")[0]) + "</b><span>" + esc(it.place.name) + "</span>" + (S.stops[it.placeId] ? "<em>긴 해설</em>" : "") + "</button></li>";
       }).join("");
     } else {
       var cj = c.j == null ? (c.t === "bend" ? G.artworks.length : -1) : c.j;
@@ -556,7 +563,9 @@
       }
       var nid = TOURS[id] ? id : "vienna-city";
       var want = step != null && !isNaN(step) ? Math.max(0, Math.min(TOURS[nid].deck.length - 1, step)) : 0;
-      if (nid === tourId && want === pos && el.firstElementChild) return;
+      var rev = window.TripSchedule && TripSchedule.revision ? TripSchedule.revision() : 0;
+      if (nid === tourId && want === pos && el.firstElementChild && rev === scheduleSeen) return;
+      scheduleSeen = rev;
       tourId = nid; tour = TOURS[nid]; pos = want;
       draw(0);
     },
