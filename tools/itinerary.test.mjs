@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import vm from "node:vm";
 import { fileURLToPath } from "node:url";
@@ -55,15 +56,19 @@ assert.equal(nov29.items.some((item) => item.placeId === "plachutta" || item.pla
 assert.equal(nov29.items.some((item) => /휴식/.test(item.text)), false);
 const concert = nov29.items.find((item) => item.time === "19:30–21:45");
 assert.equal(concert.placeId, "musikverein");
-assert.equal(concert.booked, undefined);
+assert.equal(concert.booked, true);
 assert.equal(concert.docId, undefined);
 assert.match(concert.text + concert.note, /입석/);
+assert.match(concert.note, /오케스트라/);
 assert.match(concert.note, /€12/);
 assert.match(concert.note, /18,000/);
-assert.match(concert.note, /예약·결제 결과는 미확인입니다/);
+assert.match(concert.note, /발권되었고 예약은 확인/);
+assert.match(concert.note, /결제 수단과 은행 정산/);
+assert.match(concert.note, /A4/);
+assert.match(concert.note, /암호문이 아직 없습니다/);
 assert.match(concert.note, /21:30/);
 assert.match(concert.note, /21:45/);
-assert.doesNotMatch(concert.note, /결제가 끝났|표를 받았습니다|좌석 [A-Z0-9]/);
+assert.doesNotMatch(concert.note, /오페라 공연입니다|예약·결제 결과는 미확인|은행 정산이 끝났|실제 결제액은 18,000/);
 const wheel = nov29.items.find((item) => item.time === "16:15–17:15");
 assert.equal(wheel.placeId, "prater-riesenrad");
 assert.match(wheel.note, /€29/);
@@ -141,7 +146,7 @@ assert.match(budgetText, /확정 합계/);
 assert.match(budgetText, /적지 않습니다/);
 assert.match(budgetText, /61,500/);
 assert.doesNotMatch(budgetText, /약 1,768,900|새 총액 3,/);
-assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v23"'), true);
+assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v24"'), true);
 assert.equal(sw.includes("trip-audio-v1"), true);
 
 const bIdx = nov29.items.findIndex((item) => item.placeId === guide.artworksFor);
@@ -157,5 +162,18 @@ for (const id of ["g-staatsoper-1", "g-cafe-sacher-1", "g-stephansdom-1", "g-bel
   assert.ok(paras.includes(id), id);
 }
 assert.match(guide.stops.stephansdom.paras.map((para) => para.text).join(" "), /13:15/);
+assert.match(guide.stops.musikverein.paras.map((para) => para.text).join(" "), /발권되었고 예약은 확인/);
+
+const root = fileURLToPath(new URL("..", import.meta.url));
+const diffNames = execFileSync("git", ["diff", "--name-only", "origin/main"], { cwd: root, encoding: "utf8" });
+assert.equal(diffNames.includes("data/vault.js"), false);
+assert.equal(execFileSync("git", ["ls-files", "*.pdf"], { cwd: root, encoding: "utf8" }).trim(), "");
+const diffText = execFileSync("git", ["diff", "--unified=0", "origin/main"], { cwd: root, encoding: "utf8" });
+const added = diffText.split("\n").filter((line) => line.startsWith("+") && !line.startsWith("+++")).join("\n");
+assert.doesNotMatch(added, new RegExp("%" + "PDF-"));
+assert.doesNotMatch(added, /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+assert.doesNotMatch(added, /\b\d{4}-\d{4}-\d{4}-\d{4}\b/);
+assert.equal(concert.docId, undefined);
+assert.doesNotMatch(JSON.stringify(TRIP.docs), /musikverein|golden/);
 
 console.log("itinerary tests passed");
