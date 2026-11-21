@@ -152,7 +152,7 @@ window.TRIP_GUIDE = {
       },
       musikverein: {
         paras: [
-          { id: "g-musikverein-1", text: "골든홀(Großer Saal) 입석입니다. 좌석이 아니고, 예약·결제가 끝났는지는 확인되지 않았습니다. 공연장 월간 안내는 21:30 종료, 시 안내는 21:45 종료라 일정은 21:45까지 막아 둡니다. 21:45가 확정된 종료 시각은 아니에요." }
+          { id: "g-musikverein-1", text: "골든홀(Großer Saal)의 오케스트라 연주 입석입니다. 오페라 공연이 아닙니다. 성인 일반 입석 2매가 발권되었고 예약은 확인되었습니다. 좌석이 아니고, 입석 구역 안에서 자리는 자유입니다. 결제 수단과 은행 정산은 확인하지 않았습니다. 표에는 종료 시각이 없고, 월간 안내 21:30과 시 안내 21:45가 달라 21:45까지 막아 둡니다. 21:45가 확정된 종료 시각은 아니에요." }
         ],
         sources: [
           { title: "Bruckner Orchester Linz", url: "https://www.bruckner-orchester.at/kalender/der-bol-zyklus-in-wien/zwei-alondra-2" },
