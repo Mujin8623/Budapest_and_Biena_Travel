@@ -311,6 +311,9 @@
     "train-vie-sbg": "문서 · 기차",
     "flight-eticket": "문서 · 항공권",
     "belvedere-1129": "문서 · 벨베데레 티켓",
+    "golden-hall-1129": "문서 · 골든홀",
+    "salzburg-card-1130": "문서 · 잘츠부르크 카드",
+    "stiegl-1130": "문서 · 슈티글",
     "restaurant-stand25": "문서 · Stand25 예약"
   };
   const vaultState = {
@@ -337,6 +340,9 @@
 
   const VAULT_CTA = {
     "belvedere-1129": "티켓 · 예약번호 보기",
+    "golden-hall-1129": "공연 티켓 보기",
+    "salzburg-card-1130": "카드 보기",
+    "stiegl-1130": "투어 티켓 보기",
     "restaurant-stand25": "예약 확인 보기"
   };
 
@@ -497,6 +503,15 @@
     return '<p class="vault-status" role="status"><span class="spinner" aria-hidden="true"></span>' + esc(text) + "</p>";
   }
 
+  function lockedVaultList() {
+    const items = window.TRIP_VAULT && window.TRIP_VAULT.items;
+    if (!items || !items.length) return "";
+    return '<div class="vault-locked" aria-label="문서 목록">'
+      + items.map((item) => '<div class="vault-card"><strong>' + esc(item.title) + "</strong><span>"
+        + esc(item.subtitle || "") + "</span></div>").join("")
+      + "</div>";
+  }
+
   function paintDocs() {
     const root = $("view-docs");
     if (!root) return;
@@ -559,7 +574,8 @@
         + '<button id="vault-open" class="btn btn-primary btn-block" type="submit">열기</button>'
         + alert
         + (vaultState.remembered ? '<div class="vault-actions"><button type="button" class="btn btn-block" data-action="vault-forget">이 기기에서 잊기</button></div>' : "")
-        + "</form>";
+        + "</form>"
+        + lockedVaultList();
     }
     root.innerHTML = '<div class="pad">' + body + "</div>";
     if (vaultState.error) focusDocs("#vault-error");
