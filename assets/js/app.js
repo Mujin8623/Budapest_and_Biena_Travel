@@ -207,8 +207,12 @@
       const place = placeById(item.placeId);
       if (!place || place.lat == null) return;
       const prev = stops[stops.length - 1];
-      if (prev && prev.place.id === place.id) return;
-      stops.push({ item: item, place: place });
+      if (prev && prev.place.id === place.id) {
+        prev.items.push(item);
+        if (item.booked || !prev.item.booked) prev.item = item;
+        return;
+      }
+      stops.push({ item: item, place: place, items: [item] });
     });
     return stops;
   }
@@ -990,8 +994,13 @@
 
   function renderPlaceSheet(route) {
     const day = dayByDate(route.day) || TRIP.days.find((item) => item.items.some((it) => it.placeId === route.sheet)) || TRIP.days[0];
-    const index = day.items.findIndex((item) => item.placeId === route.sheet);
-    const item = index >= 0 ? day.items[index] : null;
+    const visits = [];
+    day.items.forEach((entry, entryIndex) => {
+      if (entry.placeId === route.sheet) visits.push({ item: entry, index: entryIndex });
+    });
+    const picked = visits.find((row) => row.item.booked) || visits[visits.length - 1];
+    const item = picked ? picked.item : null;
+    const index = picked ? picked.index : -1;
     const place = placeById(route.sheet);
     const body = $("sheet-body");
     if (!place) {
@@ -1006,12 +1015,19 @@
     $("sheet-photo-slot").innerHTML = place.photo
       ? '<img class="sheet-photo" src="' + esc(place.photo) + '" alt="' + esc(item ? item.text : place.name) + '">'
       : "";
+    const visitHtml = visits.length > 1 ? visits.map((row) => {
+      return '<section class="note"><h3>' + esc(row.item.time || "") + " " + esc(row.item.text)
+        + (row.item.booked ? ' <span class="booked-pill">예약 완료</span>' : "") + "</h3>"
+        + (row.item.note ? '<p class="fine">' + esc(row.item.note) + "</p>" : "")
+        + (row.item.docId ? '<div class="stop-vault">' + vaultSeatLink(row.item.docId, row.item.docLabel) + "</div>" : "")
+        + "</section>";
+    }).join("") : ((item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
+      + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId, item.docLabel) + "</div>" : ""));
     body.innerHTML = '<p class="kicker">' + esc(ko(day.date).long) + " · " + esc(day.title) + "</p>"
-      + "<h2 id=\"sheet-title\" tabindex=\"-1\">" + esc(item ? item.text : place.name) + "</h2>"
+      + "<h2 id=\"sheet-title\" tabindex=\"-1\">" + esc(visits.length > 1 ? place.name : (item ? item.text : place.name)) + "</h2>"
       + (stationText(place) ? '<p class="station">' + esc(stationText(place)) + "</p>" : "")
       + (place.address ? '<p class="station">' + esc(place.address) + "</p>" : "")
-      + (item && item.note ? '<p class="fine">' + esc(item.note) + "</p>" : "")
-      + (item && item.docId ? '<div class="stop-vault">' + vaultSeatLink(item.docId, item.docLabel) + "</div>" : "")
+      + visitHtml
       + (place.lines === "100E · 200E" ? '<p class="fine">터미널 안에 지하철역은 없습니다. 100E는 도심, 200E는 M3 Kőbánya-Kispest로 갑니다.</p>' : "")
       + guideSheetHtml(day, place, next)
       + modeSwitch()
@@ -1256,8 +1272,14 @@
       return '<button type="button" class="' + (i === index ? "is-on" : "") + '" data-action="go" data-hash="#/map/'
         + day.date + "/" + stop.place.id + '" aria-label="' + esc(stop.place.name) + '"></button>';
     }).join("");
+    const samePlace = (stops[index] && stops[index].items) || [];
+    const otherVisits = samePlace.filter((entry) => entry !== stops[index].item).map((entry) => {
+      return "<li><b>" + esc(entry.time || "") + "</b> " + esc(entry.text) + "</li>";
+    }).join("");
     $("map-card").innerHTML = place ? '<p class="kicker">' + esc(ko(day.date).chip) + " · 사전답사</p><h2>"
       + esc(stops[index].item.text) + "</h2><p class=\"station\">" + esc(stationText(place)) + "</p>"
+      + (otherVisits ? '<ul class="hero-list">' + otherVisits + "</ul>" : "")
+      + (stops[index].item.docId ? '<div class="stop-vault">' + vaultSeatLink(stops[index].item.docId, stops[index].item.docLabel) + "</div>" : "")
       + (tourLeg ? legHtml(tourLeg, "leg leg-map") : "")
       + '<div class="dots">' + dots + "</div>"
       + '<div class="map-nav"><button type="button" class="btn" data-action="step" data-delta="-1">이전</button>'
