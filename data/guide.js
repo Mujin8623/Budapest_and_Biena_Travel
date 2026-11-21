@@ -144,11 +144,11 @@ window.TRIP_GUIDE = {
         ],
         sources: [{ title: "Wiener Riesenrad opening times", url: "https://wienerriesenrad.com/en/opening-times/" }]
       },
-      "concert-dinner": {
+      "cafe-schwarzenberg": {
         paras: [
-          { id: "g-concert-dinner-1", text: "공연 전 저녁은 식당과 메뉴가 정해져 있지 않습니다. 플라후타가 아니고, 예약해 둔 테이블도 없습니다." }
+          { id: "g-concert-dinner-1", text: "공연 전 저녁은 Café Schwarzenberg입니다. Kärntner Ring 17, 골든홀에서 걸어서 약 3–5분. 아직 예약하지 않았습니다. 플라후타가 아니고, 잡아 둔 테이블도 없습니다. 슈니첼 또는 버터슈니첼과 커피·디저트이고, 굴라시는 먹지 않습니다." }
         ],
-        sources: []
+        sources: [{ title: "Café Schwarzenberg", url: "https://www.cafe-schwarzenberg.at/" }]
       },
       musikverein: {
         paras: [
