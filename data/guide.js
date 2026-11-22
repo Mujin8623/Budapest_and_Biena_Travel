@@ -411,6 +411,24 @@ window.TRIP_GUIDE = {
         ]
       },
       {
+        "id": "l-stephansdom-manner",
+        "from": "stephansdom",
+        "to": "manner-stephansplatz",
+        "mode": "walk",
+        "min": 1,
+        "text": "성당에서 광장 쪽으로 1분입니다. Manner는 Stephansplatz 7이고, 일요일에도 열립니다.",
+        "m": 80
+      },
+      {
+        "id": "l-manner-tram-oper",
+        "from": "manner-stephansplatz",
+        "to": "tram-oper",
+        "mode": "walk",
+        "min": 14,
+        "text": "13:25에 광장을 나와 Kärntner Straße를 따라 오페라 뒤 트램 정류장으로 갑니다. 트램 D로 14:00 입장에 맞춥니다.",
+        "m": 960
+      },
+      {
         "id": "l-stephansdom-tram-oper",
         "from": "stephansdom",
         "to": "tram-oper",
