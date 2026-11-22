@@ -397,6 +397,24 @@ window.TRIP_GUIDE = {
         ]
       },
       {
+        "id": "l-stephansplatz-market-laederach",
+        "from": "stephansplatz-market",
+        "to": "laederach-graben",
+        "mode": "walk",
+        "min": 3,
+        "text": "광장에서 그라벤으로 2–3분입니다. Läderach는 Graben 7이고, 일요일 12:45에도 열립니다.",
+        "m": 250
+      },
+      {
+        "id": "l-laederach-stephansdom",
+        "from": "laederach-graben",
+        "to": "stephansdom",
+        "mode": "walk",
+        "min": 3,
+        "text": "그라벤에서 성당으로 돌아옵니다. 13:00에 짧게 보고 13:15에는 나옵니다.",
+        "m": 250
+      },
+      {
         "id": "l-stephansplatz-market-stephansdom",
         "from": "stephansplatz-market",
         "to": "stephansdom",
