@@ -98,6 +98,15 @@ window.TRIP = {
         title: "Wien Hauptbahnhof with ÖBB train"
       }
     },
+    "interspar-wien-hbf": {
+      name: "INTERSPAR Wien Hauptbahnhof",
+      city: "비엔나",
+      address: "Am Hauptbahnhof 1, UG1, 1100 Wien",
+      lat: 48.18512,
+      lng: 16.37755,
+      station: "Wien Hauptbahnhof · UG1",
+      lines: "역 안"
+    },
     belvedere: {
       name: "Belvedere Palace",
       city: "비엔나",
@@ -334,6 +343,15 @@ window.TRIP = {
         url: "https://commons.wikimedia.org/wiki/File:Wien,_Stephansdom_--_2018_--_3301.jpg",
         title: "Stephansdom, Wien"
       }
+    },
+    "manner-stephansplatz": {
+      name: "Manner Stephansplatz",
+      city: "비엔나",
+      address: "Stephansplatz 7, 1010 Wien",
+      lat: 48.20872,
+      lng: 16.37255,
+      station: "Stephansplatz",
+      lines: "U1 · U3"
     },
     hofburg: {
       name: "Hofburg Palace",
@@ -1227,7 +1245,7 @@ window.TRIP = {
       date: "2026-11-29",
       title: "구시가지 · 벨베데레 · 골든홀 입석",
       city: "비엔나",
-      blurb: "일요일. 구시가지를 걷고 카페 자허를 들른 뒤 12:00 슈테판 광장에서 가볍게 점심, 13:15에 성당을 나와 14:00 벨베데레에 입장합니다. 15:30 프라터, 17:50 Café Schwarzenberg 저녁(미예약), 19:30 무직페라인 골든홀 입석 2명. 숙소에서 쉬는 시간은 없고, 베르무다 삼각지대도 오늘은 가지 않습니다. 상점은 쉽니다. 시각은 빈 현지 시각입니다. 오전 11:00–12:00은 승인된 한 창이고, 해설 투어가 그 창 안의 장소를 순서대로 읽습니다.",
+      blurb: "일요일. 구시가지를 걷고 카페 자허를 들른 뒤 12:00 슈테판 광장에서 가볍게 점심, 13:15에 성당을 나와 Manner를 들르고 13:25에 벨베데레로 이동해 14:00에 입장합니다. 15:30 프라터, 17:50 Café Schwarzenberg 저녁(미예약), 19:30 무직페라인 골든홀 입석 2명. 숙소에서 쉬는 시간은 없고, 베르무다 삼각지대도 오늘은 가지 않습니다. 일반 상점은 쉽고, Manner 슈테판 광장 매장은 일요일에도 엽니다. 시각은 빈 현지 시각입니다. 오전 11:00–12:00은 승인된 한 창이고, 해설 투어가 그 창 안의 장소를 순서대로 읽습니다.",
       guide: true,
       items: [
         {
@@ -1303,10 +1321,16 @@ window.TRIP = {
           note: "13:15에 나옵니다. 일요일 관광 관람은 13:00–16:30. 줄이 길면 안으로 들어가지 않고 외관만 봅니다. 입구 쪽은 무료, 본당 안쪽은 유료일 수 있어 현장 확인입니다. 그 요금은 미정이고 0원이 아닙니다."
         },
         {
-          time: "13:15–13:50",
+          time: "13:15–13:25",
+          placeId: "manner-stephansplatz",
+          text: "Manner 슈테판 광장 매장",
+          note: "Stephansplatz 7. 성당에서 걸어서 1분. 공식 관광청 안내로 매일 10:00–21:00이라 11/29 일요일 13:15에도 영업합니다. 마너 웨이퍼와 선물. 예약은 필요 없습니다. 가격미정이며 0원으로 두지 않습니다. 출처 https://www.wien.info/de/sehen-erleben/shopping/altstadt/manner-351534"
+        },
+        {
+          time: "13:25–13:50",
           placeId: "tram-oper",
           text: "벨베데레로 이동 · 입장 준비",
-          note: "소시지 가판에는 들르지 않습니다. 트램 D(Absberggasse) 4정거장, 시간표상 약 9분 뒤 입구까지 걸음. 14:00 결제 완료 입장을 위한 버퍼입니다."
+          note: "13:25에 광장에서 나옵니다. 소시지 가판에는 들르지 않습니다. 트램 D(Absberggasse) 4정거장, 시간표상 약 9분 뒤 입구까지 걸음. 14:00 결제 완료 입장은 그대로입니다."
         },
         {
           time: "14:00–15:30",
@@ -1403,6 +1427,7 @@ window.TRIP = {
             ["Café Schwarzenberg", "약 110,000–195,000원 · 추정 · 미예약"],
             ["골든홀 입석", "€12 액면 · 약 18,000원 추정(€1=1,500원) · 발권됨 · 실제 결제수단·원화 청구액은 적지 않음"],
             ["광장 점심 · 성당 유료 구간", "가격 미정. 0원으로 계산하지 않음"],
+            ["Manner 슈테판 광장", "13:15 쇼핑 · 마너 웨이퍼·선물 · 가격미정. 0원으로 두지 않음"],
             ["오디오 가이드", "선택 €5. 오늘 합계에 넣지 않음"]
           ],
           foot: "새 유로 계획액만 1 EUR = 1,500원. 자허와 오디오 가이드의 기존 원화는 1 EUR ≈ 1,484원. 벨베데레는 재환산하지 않습니다. 입석과 대관람차 61,500원은 이 날의 새 계획 한 쌍이지, 여행 총액에 자동으로 더하는 값이 아닙니다."
@@ -1620,7 +1645,7 @@ window.TRIP = {
       date: "2026-12-01",
       title: "쇼핑 · 부다페스트",
       city: "기차",
-      blurb: "화요일. 체크아웃 뒤 아침(장소 미정), 10:00–11:30 도심 쇼핑, 12:00 Gasthaus Reinthaler(예약 진행 중), 13:15 선물 또는 디저트(미정), 15:40 빈→부다페스트 기차는 예매된 그대로. 저녁은 성 이슈트반 대성당 마켓의 뱅쇼·라이트 쇼와 따뜻한 저녁이고 랑고시와 굴라시는 없습니다. 디비노는 선택입니다. 시각은 현지 시각입니다.",
+      blurb: "화요일. 체크아웃 뒤 아침(장소 미정), 10:00–11:30 도심 쇼핑, 12:00 Gasthaus Reinthaler(예약 진행 중), 13:15 선물 또는 디저트(미정), 15:10 Wien Hbf INTERSPAR에서 Wiener Zuckerl, 15:40 빈→부다페스트 기차는 예매된 그대로. 저녁은 성 이슈트반 대성당 마켓의 뱅쇼·라이트 쇼와 따뜻한 저녁이고 랑고시와 굴라시는 없습니다. 디비노는 선택입니다. 시각은 현지 시각입니다.",
       items: [
         {
           time: "08:30–09:00",
@@ -1671,10 +1696,22 @@ window.TRIP = {
           note: "휴식 블록이 아닙니다. U1으로 Hauptbahnhof."
         },
         {
-          time: "14:40–15:15",
+          time: "14:40–15:10",
           placeId: "wien-hbf",
-          text: "Wien Hbf · 승강장",
-          note: "15:40 출발 전 버퍼."
+          text: "Wien Hbf로 이동",
+          note: "15:40 기차를 지키려고 역에 먼저 갑니다."
+        },
+        {
+          time: "15:10–15:25",
+          placeId: "interspar-wien-hbf",
+          text: "INTERSPAR · Wiener Zuckerl 구매",
+          note: "역 지하 UG1, Am Hauptbahnhof 1, UG1.121. 역 안 대형 마트는 BILLA가 아니라 INTERSPAR입니다. 공식 월–금 08:30–21:00, 토 08:30–18:00, 일요일은 쉽습니다. 12/1 화요일 15:10에는 영업합니다. 예약은 필요 없습니다. Wiener Zuckerl(Englhofer) 약 3,400–14,800원 · 추정(작은 봉지 €2.29 후기 할인가에서 큰 봉지 약 €9.99, 1 EUR=1,476.13). 현장 가격은 달라질 수 있습니다. 0원으로 두지 않습니다. 출처 https://hauptbahnhofcity.oebb.at/de/shops/interspar · https://www.interspar.at/standorte/8400"
+        },
+        {
+          time: "15:25–15:40",
+          placeId: "wien-hbf",
+          text: "승강장 확인 · 여유",
+          note: "15:40 출발 전 버퍼입니다."
         },
         {
           time: "15:40–18:29",
@@ -1733,6 +1770,7 @@ window.TRIP = {
           rows: [
             ["기차 (결제 완료)", "€35.80 (약 53,100원) · 좌석 예약 €6 포함"],
             ["Gasthaus Reinthaler 점심", "약 72,600–99,200원 · 추정 · 예약 진행 중"],
+            ["Wiener Zuckerl", "15:10 Wien Hbf INTERSPAR UG1 · 약 3,400–14,800원 · 추정 · 현장 가격은 달라질 수 있음"],
             ["아침 · 유동 디저트 · 마켓 저녁", "가격 미정. 랑고시 없음. 0원으로 두지 않음"],
             ["(선택) DiVino 와인", "약 4,000–5,000 HUF (1.6–2만 원, 추정 · 가격 미확인)"],
             ["M3 단일권", "왕복이면 4장 2,000 HUF (약 8,100원). 선택 일정을 빼면 줄어듦"],

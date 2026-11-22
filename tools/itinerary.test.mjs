@@ -29,9 +29,9 @@ function blob(item) {
 
 const windows = {
   "2026-11-28": ["06:00–08:00", "08:00–09:00", "09:00–10:15", "10:15–11:00", "11:00–12:00", "12:00–13:00", "13:00–13:30", "13:30–14:15", "14:15–14:50", "15:00–15:20", "15:20–16:00", "16:00–17:15", "17:15–18:00", "18:15–19:30", "19:30–20:00", "20:00–21:00", "21:00–21:30", "21:30–22:15", "22:15–23:15"],
-  "2026-11-29": ["09:15–09:50", "10:00–10:50", "11:00–12:00", "12:00–12:45", "13:00–13:15", "13:15–13:50", "14:00–15:30", "15:30–16:15", "16:15–17:15", "17:15–17:50", "17:50–18:45", "18:45–19:00", "19:00–19:30", "19:30–21:45", "21:45–22:30"],
+  "2026-11-29": ["09:15–09:50", "10:00–10:50", "11:00–12:00", "12:00–12:45", "13:00–13:15", "13:15–13:25", "13:25–13:50", "14:00–15:30", "15:30–16:15", "16:15–17:15", "17:15–17:50", "17:50–18:45", "18:45–19:00", "19:00–19:30", "19:30–21:45", "21:45–22:30"],
   "2026-11-30": ["07:40–08:15", "08:28–10:53", "10:53–11:15", "11:15–11:25", "11:25–12:05", "12:05–12:25", "12:25–13:00", "13:00–15:00", "15:00–15:40", "15:40–16:35", "16:35–16:50", "16:50–17:25", "17:25–17:37", "17:37–17:48", "17:48–18:00", "18:00–19:00", "19:00–20:10", "20:10–20:40", "20:40–21:07", "21:07–23:32", "23:32"],
-  "2026-12-01": ["08:30–09:00", "09:00–09:40", "09:40–10:00", "10:00–11:30", "11:30–12:00", "12:00–13:15", "13:15–14:00", "14:00–14:40", "14:40–15:15", "15:40–18:29", "18:29–19:15", "19:15–19:45", "19:45–20:45", "20:45–21:30", "21:40–22:20"]
+  "2026-12-01": ["08:30–09:00", "09:00–09:40", "09:40–10:00", "10:00–11:30", "11:30–12:00", "12:00–13:15", "13:15–14:00", "14:00–14:40", "14:40–15:10", "15:10–15:25", "15:25–15:40", "15:40–18:29", "18:29–19:15", "19:15–19:45", "19:45–20:45", "20:45–21:30", "21:40–22:20"]
 };
 
 for (const [date, times] of Object.entries(windows)) {
@@ -52,6 +52,12 @@ assert.equal(belvedere.booked, true);
 assert.equal(belvedere.docId, "belvedere-1129");
 assert.match(belvedere.note, /69,692/);
 assert.doesNotMatch(belvedere.note, /68,264|14:15/);
+const manner = nov29.items.find((item) => item.time === "13:15–13:25");
+assert.equal(manner.placeId, "manner-stephansplatz");
+assert.equal(manner.booked, undefined);
+assert.match(manner.note, /가격미정/);
+assert.match(manner.note, /Stephansplatz 7/);
+assert.equal(nov29.items.find((item) => item.placeId === "tram-oper").time, "13:25–13:50");
 assert.equal(nov29.items.some((item) => item.placeId === "plachutta" || item.placeId === "philosoph" || item.placeId === "bitzinger"), false);
 assert.equal(nov29.items.some((item) => /휴식/.test(item.text)), false);
 const concert = nov29.items.find((item) => item.time === "19:30–21:45");
@@ -160,6 +166,14 @@ const dec1 = day("2026-12-01");
 const toBud = dec1.items.find((item) => item.time === "15:40–18:29");
 assert.equal(toBud.booked, true);
 assert.equal(toBud.docId, "train-vie-bud");
+const zuckerl = dec1.items.find((item) => item.time === "15:10–15:25");
+assert.equal(zuckerl.placeId, "interspar-wien-hbf");
+assert.equal(zuckerl.booked, undefined);
+assert.match(zuckerl.note, /INTERSPAR/);
+assert.match(zuckerl.note, /BILLA가 아니라/);
+assert.match(zuckerl.note, /3,400–14,800원/);
+assert.equal(dec1.items.find((item) => item.time === "14:40–15:10").placeId, "wien-hbf");
+assert.equal(dec1.items.find((item) => item.time === "15:25–15:40").placeId, "wien-hbf");
 const lunch = dec1.items.find((item) => item.time === "12:00–13:15");
 assert.equal(lunch.placeId, "gasthaus-reinthaler");
 assert.equal(lunch.booked, undefined);
@@ -212,11 +226,11 @@ assert.match(budgetText, /확정 합계/);
 assert.match(budgetText, /적지 않습니다/);
 assert.match(budgetText, /61,500/);
 assert.doesNotMatch(budgetText, /약 1,768,900|새 총액 3,/);
-assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v28"'), true);
+assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v29"'), true);
 assert.equal(sw.includes("trip-audio-v1"), true);
 
 const bIdx = nov29.items.findIndex((item) => item.placeId === guide.artworksFor);
-assert.equal(bIdx, 13);
+assert.equal(bIdx, 14);
 for (let i = 0; i < bIdx; i += 1) {
   const from = nov29.items[i].placeId;
   const to = nov29.items[i + 1].placeId;
