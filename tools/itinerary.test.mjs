@@ -29,8 +29,8 @@ function blob(item) {
 
 const windows = {
   "2026-11-28": ["06:00–08:00", "08:00–09:00", "09:00–10:15", "10:15–11:00", "11:00–12:00", "12:00–13:00", "13:00–13:30", "13:30–14:15", "14:15–14:50", "15:00–15:20", "15:20–16:00", "16:00–17:15", "17:15–18:00", "18:15–19:30", "19:30–20:00", "20:00–21:00", "21:00–21:30", "21:30–22:15", "22:15–23:15"],
-  "2026-11-29": ["09:15–09:50", "10:00–10:50", "11:00–12:00", "12:00–12:45", "13:00–13:15", "13:15–13:25", "13:25–13:50", "14:00–15:30", "15:30–16:15", "16:15–17:15", "17:15–17:50", "17:50–18:45", "18:45–19:00", "19:00–19:30", "19:30–21:45", "21:45–22:30"],
-  "2026-11-30": ["07:40–08:15", "08:28–10:53", "10:53–11:15", "11:15–11:25", "11:25–12:05", "12:05–12:25", "12:25–13:00", "13:00–15:00", "15:00–15:40", "15:40–16:35", "16:35–16:50", "16:50–17:25", "17:25–17:37", "17:37–17:48", "17:48–18:00", "18:00–19:00", "19:00–20:10", "20:10–20:40", "20:40–21:07", "21:07–23:32", "23:32"],
+  "2026-11-29": ["09:15–09:50", "10:00–10:50", "11:00–12:00", "12:00–12:45", "12:45–13:00", "13:00–13:15", "13:15–13:25", "13:25–13:50", "14:00–15:30", "15:30–16:15", "16:15–17:15", "17:15–17:50", "17:50–18:45", "18:45–19:00", "19:00–19:30", "19:30–21:45", "21:45–22:30"],
+  "2026-11-30": ["07:40–08:15", "08:28–10:53", "10:53–11:15", "11:15–11:25", "11:25–12:05", "12:05–12:25", "12:25–13:00", "13:00–15:00", "15:00–15:40", "15:40–16:35", "16:35–16:50", "16:50–17:25", "17:25–17:37", "17:37–17:55", "17:55–19:00", "19:00–20:10", "20:10–20:40", "20:40–21:07", "21:07–23:32", "23:32"],
   "2026-12-01": ["08:30–09:00", "09:00–09:40", "09:40–10:00", "10:00–11:30", "11:30–12:00", "12:00–13:15", "13:15–14:00", "14:00–14:40", "14:40–15:10", "15:10–15:25", "15:25–15:40", "15:40–18:29", "18:29–19:15", "19:15–19:45", "19:45–20:45", "20:45–21:30", "21:40–22:20"]
 };
 
@@ -57,6 +57,12 @@ assert.equal(manner.placeId, "manner-stephansplatz");
 assert.equal(manner.booked, undefined);
 assert.match(manner.note, /가격미정/);
 assert.match(manner.note, /Stephansplatz 7/);
+const dip = nov29.items.find((item) => item.time === "12:45–13:00");
+assert.equal(dip.placeId, "laederach-graben");
+assert.equal(dip.booked, undefined);
+assert.match(dip.text, /Snacking Couverture/);
+assert.match(dip.note, /19,000–38,100원/);
+assert.match(dip.note, /재고는 미확인/);
 assert.equal(nov29.items.find((item) => item.placeId === "tram-oper").time, "13:25–13:50");
 assert.equal(nov29.items.some((item) => item.placeId === "plachutta" || item.placeId === "philosoph" || item.placeId === "bitzinger"), false);
 assert.equal(nov29.items.some((item) => /휴식/.test(item.text)), false);
@@ -128,15 +134,14 @@ assert.equal(salt.booked, undefined);
 assert.match(salt.note, /가격미정/);
 assert.match(salt.note, /0원으로 두지 않습니다/);
 assert.match(salt.note, /Wiener-Philharmoniker-Gasse 3/);
-const laderach = nov30.items.find((item) => item.time === "17:37–17:48");
-assert.equal(laderach.placeId, "laderach-salzburg");
-assert.match(laderach.note, /20,400–59,000원/);
-const fuerst = nov30.items.find((item) => item.time === "17:48–18:00");
+const fuerst = nov30.items.find((item) => item.time === "17:37–17:55");
 assert.equal(fuerst.placeId, "fuerst-salzburg");
 assert.equal(fuerst.booked, undefined);
 assert.match(fuerst.note, /13,600–35,700원/);
 assert.match(fuerst.note, /Brodgasse 13/);
-const market = nov30.items.find((item) => item.time === "18:00–19:00");
+assert.equal(nov30.items.some((item) => item.placeId === "laderach-salzburg"), false);
+assert.doesNotMatch(JSON.stringify(nov30), /20,400–59,000원/);
+const market = nov30.items.find((item) => item.time === "17:55–19:00");
 assert.match(market.text, /크람푸스/);
 const supper = nov30.items.find((item) => item.time === "19:00–20:10");
 assert.match(supper.text, /미예약/);
@@ -226,11 +231,11 @@ assert.match(budgetText, /확정 합계/);
 assert.match(budgetText, /적지 않습니다/);
 assert.match(budgetText, /61,500/);
 assert.doesNotMatch(budgetText, /약 1,768,900|새 총액 3,/);
-assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v29"'), true);
+assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v30"'), true);
 assert.equal(sw.includes("trip-audio-v1"), true);
 
 const bIdx = nov29.items.findIndex((item) => item.placeId === guide.artworksFor);
-assert.equal(bIdx, 14);
+assert.equal(bIdx, 15);
 for (let i = 0; i < bIdx; i += 1) {
   const from = nov29.items[i].placeId;
   const to = nov29.items[i + 1].placeId;
