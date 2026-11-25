@@ -181,9 +181,12 @@ assert.equal(dec1.items.find((item) => item.time === "14:40–15:10").placeId, "
 assert.equal(dec1.items.find((item) => item.time === "15:25–15:40").placeId, "wien-hbf");
 const lunch = dec1.items.find((item) => item.time === "12:00–13:15");
 assert.equal(lunch.placeId, "gasthaus-reinthaler");
-assert.equal(lunch.booked, undefined);
-assert.match(lunch.text, /예약 진행 중/);
+assert.equal(lunch.booked, true);
+assert.equal(lunch.docId, "restaurant-reinthaler");
+assert.match(lunch.text, /이메일 예약 확정/);
+assert.match(lunch.note, /이메일 예약 확정/);
 assert.match(lunch.note, /72,600–99,200원/);
+assert.doesNotMatch(JSON.stringify(TRIP), /예약 진행 중|완료가 아니고|완료된 것처럼 적지|완료된 예약으로 적지/);
 assert.equal(dec1.items.some((item) => item.placeId === "figlmueller"), false);
 assert.equal(dec1.items.some((item) => /랑고시|굴라시|구야시/.test(item.text)), false);
 assert.match(dec1.items.map(blob).join("\n"), /랑고시와 굴라시는 먹지 않습니다/);
@@ -198,13 +201,13 @@ for (const date of Object.keys(windows)) {
 }
 
 assert.equal(JSON.stringify(TRIP.docs), JSON.stringify({
-  "2026-11-27": ["flight-eticket"],
+  "2026-11-27": ["flight-eticket", "flight-special-meal"],
   "2026-11-28": ["vienna-hotel"],
-  "2026-11-29": ["belvedere-1129", "golden-hall-1129"],
-  "2026-11-30": ["train-vie-sbg", "salzburg-card-1130", "stiegl-1130"],
-  "2026-12-01": ["train-vie-bud", "budapest-hotel"],
+  "2026-11-29": ["belvedere-1129", "golden-hall-1129", "belvedere-invoice-1129", "golden-hall-invoice-1129"],
+  "2026-11-30": ["train-vie-sbg", "salzburg-card-1130", "stiegl-1130", "stiegl-invoice-1130"],
+  "2026-12-01": ["train-vie-bud", "budapest-hotel", "restaurant-reinthaler"],
   "2026-12-02": ["restaurant-stand25"],
-  "2026-12-05": ["flight-eticket", "budapest-hotel"]
+  "2026-12-05": ["flight-eticket", "budapest-hotel", "flight-special-meal"]
 }));
 
 const dec2 = day("2026-12-02");
@@ -231,7 +234,7 @@ assert.match(budgetText, /확정 합계/);
 assert.match(budgetText, /적지 않습니다/);
 assert.match(budgetText, /61,500/);
 assert.doesNotMatch(budgetText, /약 1,768,900|새 총액 3,/);
-assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v30"'), true);
+assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v31"'), true);
 assert.equal(sw.includes("trip-audio-v1"), true);
 
 const bIdx = nov29.items.findIndex((item) => item.placeId === guide.artworksFor);
@@ -265,12 +268,22 @@ assert.equal(JSON.stringify(vault.items.map((item) => item.id)), JSON.stringify(
   "restaurant-stand25",
   "golden-hall-1129",
   "stiegl-1130",
-  "salzburg-card-1130"
+  "salzburg-card-1130",
+  "belvedere-invoice-1129",
+  "golden-hall-invoice-1129",
+  "stiegl-invoice-1130",
+  "restaurant-reinthaler",
+  "flight-special-meal"
 ]));
 const expectedVault = {
   "golden-hall-1129": ["골든홀 공연 티켓", "11월 29일 19:30 · 입석 2장"],
   "stiegl-1130": ["슈티글 생산 투어 티켓", "11월 30일 13:00 · 영어 · 카드 추가요금 2장"],
-  "salzburg-card-1130": ["잘츠부르크 카드", "11월 30일 · 24시간 · 성인 2장"]
+  "salzburg-card-1130": ["잘츠부르크 카드", "11월 30일 · 24시간 · 성인 2장"],
+  "belvedere-invoice-1129": ["벨베데레 입장권 영수증", "11/29 14:00 · Oberes Belvedere · 2명"],
+  "golden-hall-invoice-1129": ["골든홀 공연 영수증", "11월 29일 19:30 · 입석 2장"],
+  "stiegl-invoice-1130": ["슈티글 투어 영수증", "11월 30일 13:00 · 카드 추가요금 2장"],
+  "restaurant-reinthaler": ["Gasthaus Reinthaler 점심 예약", "12/1 12:00 · 2명 · 이메일 확정"],
+  "flight-special-meal": ["중국동방항공 특별기내식", "MU5063·MU8640·MU5041 반영 · MU854 실패"]
 };
 for (const item of vault.items) {
   assert.equal(JSON.stringify(Object.keys(item)), JSON.stringify(["id", "title", "subtitle", "type", "iv", "ct"]));

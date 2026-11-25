@@ -318,7 +318,12 @@
     "golden-hall-1129": "문서 · 골든홀",
     "salzburg-card-1130": "문서 · 잘츠부르크 카드",
     "stiegl-1130": "문서 · 슈티글",
-    "restaurant-stand25": "문서 · Stand25 예약"
+    "restaurant-stand25": "문서 · Stand25 예약",
+    "belvedere-invoice-1129": "문서 · 벨베데레 영수증",
+    "golden-hall-invoice-1129": "문서 · 골든홀 영수증",
+    "stiegl-invoice-1130": "문서 · 슈티글 영수증",
+    "restaurant-reinthaler": "문서 · Reinthaler 예약",
+    "flight-special-meal": "문서 · 기내식"
   };
   const vaultState = {
     booted: false,
@@ -347,7 +352,12 @@
     "golden-hall-1129": "공연 티켓 보기",
     "salzburg-card-1130": "카드 보기",
     "stiegl-1130": "투어 티켓 보기",
-    "restaurant-stand25": "예약 확인 보기"
+    "restaurant-stand25": "예약 확인 보기",
+    "belvedere-invoice-1129": "영수증 보기",
+    "golden-hall-invoice-1129": "영수증 보기",
+    "stiegl-invoice-1130": "영수증 보기",
+    "restaurant-reinthaler": "예약 확인 보기",
+    "flight-special-meal": "기내식 확인 보기"
   };
 
   function vaultSeatLink(id, labelOverride) {
