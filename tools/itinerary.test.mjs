@@ -28,8 +28,8 @@ function blob(item) {
 }
 
 const windows = {
-  "2026-11-28": ["06:00–08:00", "08:00–08:20", "08:20–09:15", "09:15–12:00", "13:00–13:30", "13:30–14:15", "14:15–15:20", "16:00–17:15", "18:15–19:30", "20:00–21:00", "21:30–22:15", "22:15–23:15"],
-  "2026-11-29": ["08:00–09:20", "09:20–09:40", "09:40–10:30", "10:30–11:20", "11:30–12:35", "12:45–13:00", "13:00–13:15", "13:15–13:25", "13:25–13:50", "14:00–15:30", "15:30–16:15", "16:15–17:20", "17:20–17:50", "17:50–18:45", "18:45–19:00", "19:00–19:30", "19:30–21:45", "21:45–22:30"],
+  "2026-11-28": ["06:00–08:00", "08:00–08:20", "08:20–09:15", "09:15–09:30", "09:30–10:00", "10:00–10:50", "10:50–11:40", "11:40–12:00", "12:00–13:45", "13:45–14:15", "14:15–15:20", "15:20–16:00", "16:00–17:15", "17:15–17:45", "17:45–18:30", "18:30–18:50", "18:50–20:05", "20:05–20:30", "20:30–21:30", "21:30–23:00"],
+  "2026-11-29": ["08:00–09:20", "09:20–09:30", "09:30–10:20", "10:20–11:00", "11:00–11:15", "11:15–11:25", "11:25–11:35", "11:35–11:40", "11:40–12:50", "12:50–13:35", "13:35–14:00", "14:00–15:30", "15:30–15:55", "15:55–17:35", "17:35–17:45", "17:45–18:45", "18:45–19:30", "19:30–21:45", "21:45–22:30"],
   "2026-11-30": ["07:40–08:15", "08:28–10:53", "10:53–11:15", "11:15–11:25", "11:25–12:05", "12:05–12:25", "12:25–13:00", "13:00–15:00", "15:00–15:25", "15:25–16:35", "16:35–16:50", "16:50–17:25", "17:25–17:37", "17:37–17:55", "17:55–19:00", "19:00–20:10", "20:10–20:40", "20:40–21:07", "21:07–23:32", "23:32"],
   "2026-12-01": ["08:30–09:00", "09:00–10:30", "10:30–11:40", "12:00–13:15", "13:15–14:00", "14:00–14:40", "14:40–15:10", "15:10–15:25", "15:25–15:40", "15:40–18:29", "18:29–19:15", "19:15–19:40", "19:40–20:20", "20:20–20:50", "20:50–21:35", "21:40–22:30"]
 };
@@ -40,8 +40,13 @@ for (const [date, times] of Object.entries(windows)) {
 }
 
 const nov28 = day("2026-11-28");
-const schnitzel = nov28.items.find((item) => item.placeId === "figlmueller-wollzeile");
-assert.equal(schnitzel.time, "18:15–19:30");
+const schnitzel = nov28.items.find((item) => item.placeId === "figlmueller-wollzeile" && item.time === "18:50–20:05");
+assert.equal(schnitzel.time, "18:50–20:05");
+assert.match(schnitzel.note, /18:45–19:00/);
+const nasch = nov28.items.filter((item) => item.placeId === "naschmarkt");
+assert.equal(nasch.length, 1);
+assert.equal(nasch[0].time, "12:00–13:45");
+assert.ok(nov28.items.findIndex((item) => item.placeId === "rathaus" && item.time === "17:45–18:30") < nov28.items.findIndex((item) => item.placeId === "figlmueller-wollzeile" && item.time === "18:50–20:05"));
 assert.equal(schnitzel.booked, undefined);
 assert.match(schnitzel.text, /미예약/);
 assert.match(schnitzel.text, /예약 필요/);
@@ -55,26 +60,25 @@ assert.ok(nov28.items.some((item) => item.placeId === "schonbrunn-market" && ite
 assert.match(nov28.items.map(blob).join("\n"), /미예약/);
 
 const nov29 = day("2026-11-29");
-const belvedere = nov29.items.find((item) => item.placeId === "belvedere");
+const belvedere = nov29.items.find((item) => item.placeId === "belvedere" && item.booked);
 assert.equal(belvedere.time, "14:00–15:30");
 assert.equal(belvedere.booked, true);
 assert.equal(belvedere.docId, "belvedere-1129");
 assert.match(belvedere.note, /69,692/);
 assert.doesNotMatch(belvedere.note, /68,264|14:15/);
-const manner = nov29.items.find((item) => item.time === "13:15–13:25");
+const manner = nov29.items.find((item) => item.time === "11:25–11:35");
 assert.equal(manner.placeId, "manner-stephansplatz");
 assert.equal(manner.booked, undefined);
 assert.match(manner.note, /가격미정/);
 assert.match(manner.note, /Stephansplatz 7/);
-const dip = nov29.items.find((item) => item.time === "12:45–13:00");
+const dip = nov29.items.find((item) => item.time === "11:00–11:15");
 assert.equal(dip.placeId, "laederach-graben");
 assert.equal(dip.booked, undefined);
 assert.match(dip.text, /Snacking Couverture/);
 assert.match(dip.note, /19,000–38,100원/);
 assert.match(dip.note, /재고는 미확인/);
-assert.equal(nov29.items.find((item) => item.placeId === "tram-oper").time, "13:25–13:50");
-const plachutta = nov29.items.find((item) => item.placeId === "plachutta");
-assert.equal(plachutta.time, "11:30–12:35");
+assert.equal(nov29.items.some((item) => item.placeId === "tram-oper"), false);
+const plachutta = nov29.items.find((item) => item.time === "11:40–12:50" && item.placeId === "plachutta");
 assert.equal(plachutta.booked, undefined);
 assert.match(plachutta.note, /108,900원/);
 assert.match(plachutta.text, /예약 필요/);
@@ -99,13 +103,16 @@ assert.doesNotMatch(concert.note, /오페라 공연입니다|예약·결제 결�
 const goldenNote = nov29.notes.find((note) => note.docId === "golden-hall-1129");
 assert.ok(goldenNote);
 assert.match(JSON.stringify(goldenNote), /발권/);
-const wheel = nov29.items.find((item) => item.time === "16:15–17:20");
-assert.equal(wheel.placeId, "prater-riesenrad");
-assert.match(wheel.note, /€29/);
-assert.match(wheel.note, /43,500/);
-assert.match(wheel.note, /미예매/);
+assert.equal(nov29.items.some((item) => item.placeId === "prater-riesenrad"), false);
+const karl = nov29.items.find((item) => item.placeId === "karlsplatz-market" && item.time === "15:55–17:35");
+assert.ok(karl);
+assert.match(karl.note, /€29/);
+assert.match(karl.note, /43,500/);
+assert.match(karl.note, /미구매/);
+assert.match(karl.note, /선택/);
+assert.ok(nov29.items.findIndex((item) => item.placeId === "laederach-graben") < nov29.items.findIndex((item) => item.time === "11:40–12:50"));
 assert.match(nov29.items.map(blob).join("\n"), /플라후타 테이블을 잡아 둔 적이 없고/);
-const dinner = nov29.items.find((item) => item.time === "17:50–18:45");
+const dinner = nov29.items.find((item) => item.time === "17:45–18:45");
 assert.equal(dinner.placeId, "cafe-schwarzenberg");
 assert.equal(dinner.booked, undefined);
 assert.match(dinner.text, /미예약/);
@@ -237,16 +244,28 @@ assert.equal(JSON.stringify(TRIP.docs), JSON.stringify({
 const dec2 = day("2026-12-02");
 assert.equal(JSON.stringify(dec2.items.map((item) => [item.time, item.placeId, !!item.booked])), JSON.stringify([
   ["08:30–09:30", "lehel-market", false],
-  ["09:30–11:00", "margit-pest", false],
-  ["11:00–12:15", "ujlipotvaros", false],
+  ["09:30–09:45", "ujlipotvaros", false],
+  ["09:45–11:00", "ujlipotvaros", false],
+  ["11:00–11:15", "margit-pest", false],
+  ["11:15–12:00", "parliament", false],
+  ["12:00–12:30", "shoes", false],
+  ["12:30–12:50", "lanchid", false],
   ["13:00–15:00", "stand25", true],
-  ["15:00–15:25", "varkert-bazar", false],
+  ["15:00–15:20", "bastion", false],
+  ["15:20–15:25", "bastion", false],
   ["15:25–16:10", "bastion", false],
   ["16:10–16:50", "matthias", false],
   ["17:20–18:00", "danube", false],
   ["18:00–19:05", "vorosmarty", false],
   ["19:15–21:00", "eleszto", false]
 ]));
+const bus16 = dec2.items.find((item) => /버스 16/.test(item.text));
+assert.ok(bus16);
+assert.equal(bus16.time, "15:00–15:20");
+assert.match(bus16.note, /미정/);
+assert.doesNotMatch(bus16.note, /교통비 0|요금 0원|^0원/);
+assert.ok(dec2.items.findIndex((item) => item.time === "09:45–11:00") < dec2.items.findIndex((item) => item.time === "11:00–11:15"));
+assert.ok(dec2.items.findIndex((item) => item.placeId === "lanchid") < dec2.items.findIndex((item) => item.placeId === "stand25"));
 assert.match(dec2.items.find((item) => item.placeId === "stand25").note, /81,800원/);
 assert.match(dec2.items.find((item) => item.placeId === "matthias").note, /16:45/);
 assert.match(dec2.items.find((item) => item.placeId === "matthias").note, /10:45 입장이 아닙니다/);
@@ -259,13 +278,25 @@ assert.match(comme.text, /가장 급함/);
 assert.match(comme.note, /86,000원/);
 assert.equal(dec3.items.some((item) => item.placeId === "judapest"), false);
 assert.match(dec3.items.find((item) => item.placeId === "frohlich").text, /플로드니/);
+assert.ok(dec3.items.findIndex((item) => item.placeId === "printa") < dec3.items.findIndex((item) => item.placeId === "frohlich"));
+assert.ok(dec3.items.findIndex((item) => item.placeId === "frohlich") < dec3.items.findIndex((item) => item.placeId === "massolit"));
+assert.equal(dec3.items.find((item) => item.placeId === "printa").time, "15:50–16:10");
+assert.equal(dec3.items.find((item) => item.placeId === "frohlich").time, "16:10–16:35");
+assert.equal(dec3.items.find((item) => item.placeId === "massolit").time, "16:35–17:05");
 assert.match(dec3.items.find((item) => item.placeId === "szechenyi").note, /83,000원/);
-assert.match(dec3.items.find((item) => item.placeId === "negromangalica").note, /53,000원/);
+assert.match(dec3.items.find((item) => item.placeId === "negromangalica" && item.time === "17:30–19:15").note, /53,000원/);
 
 const dec4 = day("2026-12-04");
 assert.match(dec4.items.find((item) => item.placeId === "great-market").text, /랑고시/);
 assert.equal(dec4.items.some((item) => item.placeId === "if-jazz"), false);
-assert.equal(dec4.items.some((item) => item.time === "14:15–14:35" && item.placeId === "gelarto-rosa"), true);
+assert.equal(dec4.items.some((item) => item.time === "14:05–14:25" && item.placeId === "gelarto-rosa"), true);
+const parliaments = dec4.items.filter((item) => item.placeId === "parliament");
+assert.equal(parliaments.length, 1);
+assert.equal(parliaments[0].time, "18:35–19:15");
+assert.equal(dec4.items.find((item) => item.placeId === "bortarsasag").time, "19:15–19:35");
+assert.equal(dec4.items.find((item) => item.placeId === "parasztkonyha").time, "19:45–21:15");
+assert.equal(dec4.items.find((item) => item.placeId === "basilica" && /라이트쇼/.test(item.text)).time, "17:30–18:20");
+assert.equal(day("2026-12-01").items.find((item) => /라이트쇼/.test(item.text)).time, "20:20–20:50");
 assert.equal(dec4.items.some((item) => item.placeId === "gerbeaud"), true);
 assert.equal(dec4.items.some((item) => item.placeId === "cave-church"), true);
 const paraszt = dec4.items.find((item) => item.placeId === "parasztkonyha");
@@ -292,7 +323,7 @@ assert.match(budgetText, /확정 합계/);
 assert.match(budgetText, /적지 않습니다/);
 assert.match(budgetText, /전체 합계는 미정/);
 assert.doesNotMatch(budgetText, /1,779,500|61,500|약 1,768,900|새 총액 3,|1,798,550|3,688,550/);
-assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v31"'), true);
+assert.equal(sw.includes('const CACHE_VERSION = "trip-docs-v32"'), true);
 assert.equal(sw.includes("trip-audio-v1"), true);
 
 const morning = ["cafe-sacher", "staatsoper", "hofburg", "graben", "plachutta", "belvedere"];
@@ -309,7 +340,9 @@ for (const id of ["g-staatsoper-1", "g-cafe-sacher-1", "g-stephansdom-1", "g-bel
   const paras = JSON.stringify(guide);
   assert.ok(paras.includes(id), id);
 }
-assert.match(guide.stops.stephansdom.paras.map((para) => para.text).join(" "), /13:15/);
+assert.match(guide.stops.stephansdom.paras.map((para) => para.text).join(" "), /11:15/);
+assert.match(guide.intro.text, /11:00/);
+assert.match(guide.intro.text, /11:40/);
 assert.match(guide.stops.musikverein.paras.map((para) => para.text).join(" "), /발권되었고 예약은 확인/);
 assert.match(guide.stops.musikverein.paras.map((para) => para.text).join(" "), /오페라 공연이 아닙니다/);
 
