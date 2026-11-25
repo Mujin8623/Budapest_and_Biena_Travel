@@ -7,7 +7,7 @@
 window.TRIP_GUIDE = {
   "2026-11-29": {
     title: "셀프 가이드 · 비엔나 구시가지와 벨베데레",
-    intro: { id: "g-intro-1", text: "오늘은 08:00 카페 자허에서 시작해요. 오페라 외관을 짧게 본 뒤 호프부르크와 그라벤 카페를 지나 11:30 플라후타로 갑니다. 장소마다 짧은 이야기를 적어 두었어요." },
+    intro: { id: "g-intro-1", text: "오늘은 08:00 카페 자허에서 시작해요. 오페라 외관을 짧게 본 뒤 호프부르크와 10:20 그라벤 카페, 11:00 Läderach, 슈테판·Manner를 지나 11:40 플라후타로 갑니다. 장소마다 짧은 이야기를 적어 두었어요." },
     stops: {
       opernpassage: {
         paras: [
@@ -98,7 +98,7 @@ window.TRIP_GUIDE = {
       stephansdom: {
         paras: [
           { id: "g-stephansdom-1", text: "슈테판 대성당 자리에는 1147년에 첫 성당이 봉헌됐고, 높이 136 m 남탑은 1433년에 완성됐어요. 지붕은 유약 바른 기와 약 23만 장으로 덮여 있고, 남쪽 면에 쌍두독수리 무늬가 있어요." },
-          { id: "g-stephansdom-2", text: "모차르트는 1782년 8월 4일 이곳에서 콘스탄체와 결혼했어요. 일요일 관광 관람은 13:00–16:30이지만, 오늘은 13:00에 짧게 보고 13:15에 나옵니다. 줄이 길면 외관만 봐요." }
+          { id: "g-stephansdom-2", text: "모차르트는 1782년 8월 4일 이곳에서 콘스탄체와 결혼했어요. 일요일 관광 관람은 13:00–16:30이지만, 오늘은 11:15에 무료 구역만 짧게 보고 11:25에 나옵니다. 줄이 길면 외관만 봐요." }
         ],
         sources: [
           { title: "St. Stephen's Cathedral, Vienna (Wikipedia)", url: "https://en.wikipedia.org/wiki/St._Stephen%27s_Cathedral,_Vienna" },
@@ -134,13 +134,13 @@ window.TRIP_GUIDE = {
       },
       "stephansplatz-market": {
         paras: [
-          { id: "g-stephansplatz-market-1", text: "슈테판 광장 크리스마스 마켓은 오늘 점심이 아니에요. 점심은 11:30 플라후타입니다. 성당은 13:00에 짧게 보고 13:15에는 나옵니다." }
+          { id: "g-stephansplatz-market-1", text: "슈테판 광장 크리스마스 마켓은 오늘 점심이 아니에요. 점심은 11:40 플라후타입니다. 성당은 11:15에 짧게 보고 11:25에는 나옵니다." }
         ],
         sources: [{ title: "비엔나 크리스마스 마켓", url: "https://www.wien.gv.at/freizeit/weihnachtsmaerkte" }]
       },
       "prater-riesenrad": {
         paras: [
-          { id: "g-prater-riesenrad-1", text: "프라터의 대관람차와 겨울 마켓입니다. 표는 사지 않았고, 17:20에는 다음 이동을 위해 나옵니다. 줄이 길면 마켓만 봅니다." }
+          { id: "g-prater-riesenrad-1", text: "프라터는 오늘 기본 일정이 아니에요. 타려면 15:30–17:20이고, 갈 때는 트램 O, 올 때는 U1입니다. 표는 사지 않았어요." }
         ],
         sources: [{ title: "Wiener Riesenrad opening times", url: "https://wienerriesenrad.com/en/opening-times/" }]
       },
@@ -402,7 +402,7 @@ window.TRIP_GUIDE = {
         "to": "laederach-graben",
         "mode": "walk",
         "min": 3,
-        "text": "광장에서 그라벤으로 2–3분입니다. Läderach는 Graben 7이고, 일요일 12:45에도 열립니다.",
+        "text": "광장에서 그라벤으로 2–3분입니다. Läderach는 Graben 7이고, 일요일 11:00에 엽니다.",
         "m": 250
       },
       {
