@@ -7,7 +7,7 @@
 window.TRIP_GUIDE = {
   "2026-11-29": {
     title: "셀프 가이드 · 비엔나 구시가지와 벨베데레",
-    intro: { id: "g-intro-1", text: "오늘은 가이드 없이 우리끼리 천천히 걸어요. 장소마다 짧은 이야기와 다음 장소 가는 길을 적어 두었어요. 걷는 거리는 모두 합쳐 약 4 km예요." },
+    intro: { id: "g-intro-1", text: "오늘은 08:00 카페 자허에서 시작해요. 오페라 외관을 짧게 본 뒤 호프부르크와 그라벤 카페를 지나 11:30 플라후타로 갑니다. 장소마다 짧은 이야기를 적어 두었어요." },
     stops: {
       opernpassage: {
         paras: [
@@ -134,19 +134,19 @@ window.TRIP_GUIDE = {
       },
       "stephansplatz-market": {
         paras: [
-          { id: "g-stephansplatz-market-1", text: "슈테판 광장 크리스마스 마켓에서 가볍게 점심을 먹어요. 식당과 메뉴는 정하지 않았고, 굴라시도 랑고시도 아니에요. 13:00 전에 성당 쪽으로 넘어가 13:15에는 나옵니다." }
+          { id: "g-stephansplatz-market-1", text: "슈테판 광장 크리스마스 마켓은 오늘 점심이 아니에요. 점심은 11:30 플라후타입니다. 성당은 13:00에 짧게 보고 13:15에는 나옵니다." }
         ],
         sources: [{ title: "비엔나 크리스마스 마켓", url: "https://www.wien.gv.at/freizeit/weihnachtsmaerkte" }]
       },
       "prater-riesenrad": {
         paras: [
-          { id: "g-prater-riesenrad-1", text: "프라터의 대관람차와 겨울 마켓입니다. 표는 사지 않았고, 17:15에는 다음 이동을 위해 나옵니다. 줄이 길면 마켓만 봅니다." }
+          { id: "g-prater-riesenrad-1", text: "프라터의 대관람차와 겨울 마켓입니다. 표는 사지 않았고, 17:20에는 다음 이동을 위해 나옵니다. 줄이 길면 마켓만 봅니다." }
         ],
         sources: [{ title: "Wiener Riesenrad opening times", url: "https://wienerriesenrad.com/en/opening-times/" }]
       },
       "cafe-schwarzenberg": {
         paras: [
-          { id: "g-concert-dinner-1", text: "공연 전 저녁은 Café Schwarzenberg입니다. Kärntner Ring 17, 골든홀에서 걸어서 약 3–5분. 아직 예약하지 않았습니다. 플라후타가 아니고, 잡아 둔 테이블도 없습니다. 슈니첼 또는 버터슈니첼과 커피·디저트이고, 굴라시는 먹지 않습니다." }
+          { id: "g-concert-dinner-1", text: "공연 전 저녁은 Café Schwarzenberg입니다. Kärntner Ring 17, 골든홀에서 걸어서 약 3–5분. 아직 예약하지 않았습니다. 플라후타가 아니고, 잡아 둔 테이블도 없습니다. 파프리카훈·멜랑주·사과슈트루델이고, 슈니첼은 11/28에 먹습니다. 굴라시는 먹지 않습니다." }
         ],
         sources: [{ title: "Café Schwarzenberg", url: "https://www.cafe-schwarzenberg.at/" }]
       },
